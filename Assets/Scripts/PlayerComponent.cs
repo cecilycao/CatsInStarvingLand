@@ -10,6 +10,12 @@ public class PlayerComponent : MonoBehaviour
     public int m_temperature;
     public int m_tiredness;
 
+    public PickedUpItems currentHolded;
+
+
+    public Transform HoldedPosition;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +26,13 @@ public class PlayerComponent : MonoBehaviour
 
         //temp
         PlayerInitialize();
+
+        //temporary for testing use
+        if (currentHolded != null)
+        {
+            currentHolded.transform.SetParent(transform);
+            currentHolded.transform.position = HoldedPosition.position;
+        }
     }
 
     // Update is called once per frame
@@ -28,6 +41,8 @@ public class PlayerComponent : MonoBehaviour
         //health -1 / 3s
 
         //tiredness -10 / 27s
+
+
     }
 
     public void PlayerInitialize()
@@ -62,5 +77,27 @@ public class PlayerComponent : MonoBehaviour
         }
     }
 
+    public void PickedUp(PickedUpItems item)
+    {
+        //put in bag
+        //destroy item
+    }
 
+    public void HoldItemInHand(PickedUpItems item)
+    {
+        if(item.m_State == PickedUpItems.ItemState.IN_BAG)
+        {
+            //hold in hand(change UI?)
+            item.m_State = PickedUpItems.ItemState.IN_HAND;
+            currentHolded = item;
+            item.transform.SetParent(transform);
+            item.transform.position = HoldedPosition.position;
+        }
+    }
+
+    //Use this function to get whats in hand
+    public PickedUpItems GetWhatsInHand()
+    {
+        return currentHolded;
+    }
 }
