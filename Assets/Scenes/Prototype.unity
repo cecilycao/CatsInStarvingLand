@@ -1147,17 +1147,21 @@ MonoBehaviour:
     type: 3}
   LandTile_STONE: {fileID: 7974642404763275073, guid: fa9e98ef9d34cbf4f993e331547385c9,
     type: 3}
-  LandTile_SAND: {fileID: 0}
-  LandTile_IRON: {fileID: 0}
-  LandTile_SPARE: {fileID: 0}
+  LandTile_SAND: {fileID: 4087680798341235691, guid: 4a59c1355c867ec4b85e8da320c3c1ab,
+    type: 3}
+  LandTile_IRON: {fileID: 9222703472087182398, guid: 844cc60199fc3384fb7a755fd6f4c962,
+    type: 3}
+  LandTile_SPARE: {fileID: 3632928174480780927, guid: 9227368b1f2467b469b4011bc47ad116,
+    type: 3}
   tileSize: 0
-  width: 80
-  height: 60
+  width: 50
+  height: 50
+  finalMapWidthCount: 3
   seed: 
   useRandomSeed: 1
   smoothRatio: 4
-  randomFillPercent1: 40
-  randomFillPercent2: 23
+  randomFillPercent1: 50
+  randomFillPercent2: 32
 --- !u!1001 &905359236221445553
 PrefabInstance:
   m_ObjectHideFlags: 0
