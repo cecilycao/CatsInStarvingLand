@@ -12,4 +12,10 @@ public class Resources : MonoBehaviour
         IRON,
         SPARE
     }
+
+    public enum PickedUpItemName
+    {
+        DEFAULT,
+        POOPOO
+    }
 }
