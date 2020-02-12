@@ -8,6 +8,7 @@ Items That can be picked up
 public class PickedUpItems : MonoBehaviour
 {
     public ItemState m_State;
+    //add public ItemName
     
     public enum ItemState
     {
@@ -20,5 +21,10 @@ public class PickedUpItems : MonoBehaviour
     {
         m_State = ItemState.DEFAULT;
     }
-    
+
+    public virtual Resources.PickedUpItemName getItemName()
+    {
+        return Resources.PickedUpItemName.DEFAULT;
+    }
+
 }
