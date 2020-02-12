@@ -15,4 +15,9 @@ public class Poopoo : PickedUpItems
     {
         
     }
+
+    public override Resources.PickedUpItemName getItemName()
+    {
+        return Resources.PickedUpItemName.POOPOO;
+    }
 }
