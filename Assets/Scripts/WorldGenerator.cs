@@ -99,7 +99,7 @@ public class WorldGenerator : MonoBehaviour
 
     void FillWith(GameObject obj, int x, int y)
     {
-        Vector2 pos = new Vector3(-width / 2 + x + tileSize, -height / 2 + y + tileSize);
+        Vector2 pos = new Vector3(-width * finalMapWidthCount / 2 + x + tileSize, -height * finalMapWidthCount / 2 + y + tileSize);
         GameObject newTile = Instantiate(obj);
         newTile.transform.SetParent(transform);
         newTile.transform.position = pos;

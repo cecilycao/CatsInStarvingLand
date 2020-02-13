@@ -58,13 +58,15 @@ public class MapGenerator : MonoBehaviour
         this.randomFillPercent1 = randomFillPercent1;
         this.randomFillPercent2 = randomFillPercent2;
 
-        this.resource1 = (int)resource1;
-        this.resource2 = (int)resource2;
-        //FillWithMesh();
     }
 
     public int[,] GenerateCombinedMaps(int widthCount, int centerIndex)
     {
+        if (useRandomSeed)
+        {
+            float seed = Time.time;
+        }
+
         //Generate 9 maps , with 1 is Center
         int[,] finalMap = new int[widthCount * this.width, widthCount * this.height];
 
@@ -75,10 +77,12 @@ public class MapGenerator : MonoBehaviour
                 int[,] newMap;
                 if (i == j && i == centerIndex - 1)
                 {
-                    newMap = GenerateMap(true);
+                    seed = seed + i * 10 + j;
+                    newMap = GenerateMap(true, seed.ToString());
                 } else
                 {
-                    newMap = GenerateMap(false);
+                    seed = seed + i * 10 + j;
+                    newMap = GenerateMap(false, seed.ToString());
                 }
                 for(int x = 0; x < width; x++)
                 {
@@ -92,42 +96,43 @@ public class MapGenerator : MonoBehaviour
             }
             
         }
-
+        for (int i = 0; i < 5; i++)
+        {
+            SmoothMap(finalMap);
+        }
         return finalMap;
     }
 
 
 
-    public int[,] GenerateMap(bool isCenter)
+    public int[,] GenerateMap(bool isCenter, string seed)
     {
         int randInt = Random.Range(1, 4);
         if (isCenter)
         {
-            return GenerateMapHelper(true, (int)TileType.DIRT, (int)TileType.STONE);
+            return GenerateMapHelper(true, (int)TileType.DIRT, (int)TileType.STONE, seed);
         }
         else
         {
             //1,2,3
-            
             if(randInt == 1)
             {
-                return GenerateMapHelper(true, (int)TileType.SAND, (int)TileType.IRON);
+                return GenerateMapHelper(false, (int)TileType.SAND, (int)TileType.IRON, seed);
             } else if(randInt == 2)
             {
-                return GenerateMapHelper(true, (int)TileType.STONE, (int)TileType.SPARE);
+                return GenerateMapHelper(false, (int)TileType.STONE, (int)TileType.SPARE, seed);
             } else
             {
-                return GenerateMapHelper(true, (int)TileType.DIRT, (int)TileType.STONE);
+                return GenerateMapHelper(false, (int)TileType.DIRT, (int)TileType.STONE, seed);
             }
-
         }
     }
 
-    private int[,] GenerateMapHelper(bool isCenter, int resource1, int resource2)
+    private int[,] GenerateMapHelper(bool isCenter, int resource1, int resource2, string seed)
     {
         int[,] map = new int[width, height];
         //random fill map with three ints
-        RandomFillMap(map, resource1, resource2);
+        RandomFillMap(map, resource1, resource2, seed);
 
         //if this map piece is the center piece, make a cave in the center
         if (isCenter)
@@ -149,13 +154,8 @@ public class MapGenerator : MonoBehaviour
     }
 
     //random Fill map with 0, resource1, resource2
-    private void RandomFillMap(int[,] map, int resource1, int resource2)
+    private void RandomFillMap(int[,] map, int resource1, int resource2, string seed)
     {
-        if (useRandomSeed)
-        {
-            seed = Time.time.ToString();
-        }
-
         System.Random pseudoRandom = new System.Random(seed.GetHashCode());
 
         for (int x = 0; x < width; x++)
