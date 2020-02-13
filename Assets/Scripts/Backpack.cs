@@ -9,7 +9,7 @@ public class Backpack
 
     int currentWeight = 0;
 
-    private List<Resources.PickedUpItemName> inventory;
+    private List<Resources.PickedUpItemName> inventory = new List<Resources.PickedUpItemName>();
     public Backpack()
     {
         inventory.Clear();
