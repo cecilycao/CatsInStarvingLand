@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 
-public class Backpack : MonoBehaviour
+public class Backpack
 {
     public GameObject m_player;
     public int maxCapacity = 100;
@@ -13,7 +10,7 @@ public class Backpack : MonoBehaviour
     int currentWeight = 0;
 
     private List<Resources.PickedUpItemName> inventory;
-    void Start()
+    public Backpack()
     {
         inventory.Clear();
     }
@@ -89,5 +86,4 @@ public class Backpack : MonoBehaviour
         }
         return sum;
     }
-
 }
