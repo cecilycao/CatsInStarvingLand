@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class PlayerComponent : MonoBehaviour
 {
+    //health component
+    public int m_health;//current health
+    private int maxHealth =100;
+    public int myMaxHealth{
+        get{return maxHealth;}
+    }
+    public int myCurrentHealth{
+        get{return m_health;}
+    }
+     private float invincibleTime = 2f; //无敌时间
+    private float invincibleTimer;  
+    private bool isInvincible; //是否无敌
 
-    public int m_health;
     public int m_hunger;
     public int m_temperature;
     public int m_tiredness;
@@ -20,6 +31,8 @@ public class PlayerComponent : MonoBehaviour
     void Start()
     {
         m_health = 100;
+        invincibleTimer = 0;
+
         m_hunger = 100;
         m_temperature = 38;
         m_tiredness = 100;
@@ -41,7 +54,12 @@ public class PlayerComponent : MonoBehaviour
         //health -1 / 3s
 
         //tiredness -10 / 27s
-
+     if(isInvincible){
+            invincibleTimer -= Time.deltaTime;
+            if(invincibleTimer<0){
+                isInvincible = false;
+            }
+        }
 
     }
 
@@ -100,4 +118,19 @@ public class PlayerComponent : MonoBehaviour
     {
         return currentHolded;
     }
+
+    public void ChangeHealth(int amount){
+        if(amount <0){
+            if(isInvincible==true){
+                return;
+            }
+            isInvincible = true;
+            invincibleTimer = invincibleTime;
+        }
+
+        Debug.Log(m_health+"/"+maxHealth);
+        m_health =Mathf.Clamp(m_health+amount,0,maxHealth);
+        Debug.Log(m_health+"/"+maxHealth);
+    }
+
 }
