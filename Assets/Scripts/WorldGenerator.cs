@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameResources;
 
 public class WorldGenerator : MonoBehaviour
 {
@@ -71,23 +72,23 @@ public class WorldGenerator : MonoBehaviour
                 {
                     //Gizmos.color = (map[x, y] == 1) ? Color.black : Color.white;
 
-                    if (m_map[x, y] == (int)Resources.TileType.DIRT)
+                    if (m_map[x, y] == (int)TileType.DIRT)
                     {
                         FillWith(LandTile_DIRT, x, y);
                     }
-                    else if(m_map[x, y] == (int)Resources.TileType.STONE)
+                    else if(m_map[x, y] == (int)TileType.STONE)
                     {
                         FillWith(LandTile_STONE, x, y);
                     }
-                    else if (m_map[x, y] == (int)Resources.TileType.SAND)
+                    else if (m_map[x, y] == (int)TileType.SAND)
                     {
                         FillWith(LandTile_SAND, x, y);
                     }
-                    else if (m_map[x, y] == (int)Resources.TileType.IRON)
+                    else if (m_map[x, y] == (int)TileType.IRON)
                     {
                         FillWith(LandTile_IRON, x, y);
                     }
-                    else if (m_map[x, y] == (int)Resources.TileType.SPARE)
+                    else if (m_map[x, y] == (int)TileType.SPARE)
                     {
                         FillWith(LandTile_SPARE, x, y);
                     }

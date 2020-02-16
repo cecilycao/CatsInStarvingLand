@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameResources;
 
 /*
 Items That can be picked up 
@@ -22,9 +23,9 @@ public class PickedUpItems : MonoBehaviour
         m_State = ItemState.DEFAULT;
     }
 
-    public virtual Resources.PickedUpItemName getItemName()
+    public virtual PickedUpItemName getItemName()
     {
-        return Resources.PickedUpItemName.DEFAULT;
+        return PickedUpItemName.DEFAULT;
     }
 
 }

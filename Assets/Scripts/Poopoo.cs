@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameResources;
 
 public class Poopoo : PickedUpItems
 {
@@ -16,8 +17,8 @@ public class Poopoo : PickedUpItems
         
     }
 
-    public override Resources.PickedUpItemName getItemName()
+    public override PickedUpItemName getItemName()
     {
-        return Resources.PickedUpItemName.POOPOO;
+        return PickedUpItemName.POOPOO;
     }
 }
