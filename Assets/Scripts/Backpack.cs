@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class Backpack
 {
-    public GameObject m_player;
-    public int maxCapacity = 100;
+    private int maxCapacity = 100;
+    private int maxItemSpace = 12;
+    private int currentWeight = 0;
 
-    int currentWeight = 0;
-
-    private List<Resources.PickedUpItemName> inventory = new List<Resources.PickedUpItemName>();
-    public Backpack()
+    private Dictionary<Resources.PickedUpItemName, int> inventory = new Dictionary<Resources.PickedUpItemName, int>();
+    public Backpack(Inventory ivControllor)
     {
         inventory.Clear();
     }
 
     public bool IsEmpty()
     {
-        return currentWeight == 0;
+        return inventory.Count == 0;
     }
 
     public int CapacityLeft()
@@ -25,14 +24,24 @@ public class Backpack
         return maxCapacity - currentWeight;
     }
 
-    public int CurrentOccupied()
+    public int ItemSpaceLeft()
+    {
+        return maxItemSpace - inventory.Count;
+    }
+
+    public int CurrentCapacityOccupied()
     {
         return currentWeight;
     }
 
+    public int CurrentItemSpaceOccupied()
+    {
+        return inventory.Count;
+    }
+
     public bool UpdateCapacity(int to)
     {
-        if (CurrentOccupied() > to)
+        if (CurrentCapacityOccupied() > to)
         {
             return false;
         }
@@ -40,14 +49,27 @@ public class Backpack
         return true;
     }
 
-    public bool AddNewItem(Resources.PickedUpItemName item)
+    public bool AddNewItem(Resources.PickedUpItemName newItem)
     {
         int weight = 1;
-        if (weight <= this.CapacityLeft())
+        if (weight > this.CapacityLeft())
         {
             return false;
         }
-        inventory.Add(item);
+
+        int tmpCount;
+        if (inventory.TryGetValue(newItem, out tmpCount))
+        {
+            inventory.Add(newItem, tmpCount + 1);
+        }
+        else
+        {
+            if (ItemSpaceLeft() == 0)
+            {
+                return false;
+            }
+            inventory.Add(newItem, 1);
+        }
         currentWeight += weight;
         return true;
     }
@@ -55,35 +77,33 @@ public class Backpack
     public bool PopItem(Resources.PickedUpItemName item)
     {
         int weight = 1;
-        bool prs = inventory.Remove(item);
-        if (prs)
+        int tmpCount;
+        if (inventory.TryGetValue(item, out tmpCount))
         {
-            currentWeight -= weight;
+            if (tmpCount - 1 > 0)
+            {
+                inventory.Add(item, tmpCount - 1);
+            }
+            else
+            {
+                inventory.Remove(item);
+            }
         }
-        return prs;
+        else
+        {
+            return false;
+        }
+        currentWeight -= weight;
+        return true;
     }
 
     public bool DoIHave(Resources.PickedUpItemName item)
     {
-        return inventory.Contains(item);
+        return inventory.ContainsKey(item);
     }
 
     public Dictionary<Resources.PickedUpItemName, int> WhatsInBackpack()
     {
-        var sum = new Dictionary<Resources.PickedUpItemName, int>();
-        int tmpCount;
-        foreach (var eachItem in inventory)
-        {
-            if (sum.TryGetValue(eachItem, out tmpCount))
-            {
-                sum.Add(eachItem, tmpCount + 1);
-            }
-            else
-            {
-                sum.Add(eachItem, 1);
-            }
-
-        }
-        return sum;
+        return inventory;
     }
 }

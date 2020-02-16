@@ -26,10 +26,15 @@ public class PlayerComponent : MonoBehaviour
 
     public Transform HoldedPosition;
 
+    private Backpack myBackpack;
 
     // Start is called before the first frame update
     void Start()
     {
+        Inventory iv = FindObjectOfType<Inventory>();
+        myBackpack = new Backpack(iv);
+
+
         m_health = 100;
         invincibleTimer = 0;
 

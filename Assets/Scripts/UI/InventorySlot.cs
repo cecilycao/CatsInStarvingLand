@@ -11,19 +11,20 @@ public class InventorySlot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    public void updateItem(Resources.PickedUpItemName ItemName, int count)
+    public bool updateItem(Resources.PickedUpItemName ItemName, int count)
     {
         ItemCountText.text = count.ToString();
+        Debug.Log(count.ToString());
         //find Image with ItemName
         ItemUIImage = findImageWithItemName(ItemName);
+        return true;
     }
 
     Image findImageWithItemName(Resources.PickedUpItemName ItemName)
     {
-        
         //Resources.load();
         return null;
     }
