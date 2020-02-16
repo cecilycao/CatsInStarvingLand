@@ -26,7 +26,7 @@ public class PlayerComponent : MonoBehaviour
 
     public Transform HoldedPosition;
 
-    private Backpack myBackpack;
+    public Backpack myBackpack;
 
     // Start is called before the first frame update
     void Start()
