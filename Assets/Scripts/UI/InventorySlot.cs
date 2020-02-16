@@ -14,7 +14,7 @@ public class InventorySlot : MonoBehaviour
 
     }
 
-    public bool updateItem(Resources.PickedUpItemName ItemName, int count)
+    public bool updateItem(GameResources.PickedUpItemName ItemName, int count)
     {
         ItemCountText.text = count.ToString();
         Debug.Log(count.ToString());
@@ -23,9 +23,12 @@ public class InventorySlot : MonoBehaviour
         return true;
     }
 
-    Image findImageWithItemName(Resources.PickedUpItemName ItemName)
+    Image findImageWithItemName(GameResources.PickedUpItemName ItemName)
     {
         //Resources.load();
+        //Load Sprite From The Resources Folder and use
+        var sp = GameResources.Load("SpriteFolder/abc") as Sprite;
+        Sprite sp  = GameResources.Load("path") as Sprite;
         return null;
     }
 }
