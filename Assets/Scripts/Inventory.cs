@@ -23,7 +23,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public bool UpdateOne(int slotID, Resources.PickedUpItemName item, int count)
+    public bool UpdateOne(int slotID, GameResources.PickedUpItemName item, int count)
     {
         if (slotID >= 12)
         {

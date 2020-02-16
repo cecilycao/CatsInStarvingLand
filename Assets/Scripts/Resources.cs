@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Resources : MonoBehaviour
+public class GameResources : MonoBehaviour
 {
+
+
     public enum TileType{
         EMPTY,
         DIRT,

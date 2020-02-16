@@ -8,7 +8,7 @@ public class Backpack
     private int maxItemSpace = 12;
     private int currentWeight = 0;
 
-    private Dictionary<Resources.PickedUpItemName, int> inventory = new Dictionary<Resources.PickedUpItemName, int>();
+    private Dictionary<GameResources.PickedUpItemName, int> inventory = new Dictionary<GameResources.PickedUpItemName, int>();
     public Backpack(Inventory ivControllor)
     {
         inventory.Clear();
@@ -49,7 +49,7 @@ public class Backpack
         return true;
     }
 
-    public bool AddNewItem(Resources.PickedUpItemName newItem)
+    public bool AddNewItem(GameResources.PickedUpItemName newItem)
     {
         int weight = 1;
         if (weight > this.CapacityLeft())
@@ -74,7 +74,7 @@ public class Backpack
         return true;
     }
 
-    public bool PopItem(Resources.PickedUpItemName item)
+    public bool PopItem(GameResources.PickedUpItemName item)
     {
         int weight = 1;
         int tmpCount;
@@ -97,12 +97,12 @@ public class Backpack
         return true;
     }
 
-    public bool DoIHave(Resources.PickedUpItemName item)
+    public bool DoIHave(GameResources.PickedUpItemName item)
     {
         return inventory.ContainsKey(item);
     }
 
-    public Dictionary<Resources.PickedUpItemName, int> WhatsInBackpack()
+    public Dictionary<GameResources.PickedUpItemName, int> WhatsInBackpack()
     {
         return inventory;
     }
