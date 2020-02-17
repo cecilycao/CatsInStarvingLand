@@ -2518,7 +2518,7 @@ MonoBehaviour:
   width: 50
   height: 50
   finalMapWidthCount: 3
-  seed: 
+  seed: 1111
   useRandomSeed: 1
   smoothRatio: 4
   randomFillPercent1: 30
