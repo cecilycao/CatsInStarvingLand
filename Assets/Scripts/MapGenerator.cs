@@ -248,7 +248,9 @@ public class MapGenerator : MonoBehaviour
                     //{
                     //    map[x, y] = list[3];
                     //}
-                    map[x, y] = findMaxIndex(list) + 1;
+                    int maxIndex = findMaxIndex(list);
+                    if (map[x,y] == 0 || list[maxIndex] - list[map[x,y]-1] >= 1)
+                        map[x, y] = maxIndex + 1;
                 }
                 else if (neighbourWallTiles < 4)
                 {
