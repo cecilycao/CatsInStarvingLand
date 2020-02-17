@@ -26,7 +26,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 2157240733274199957, guid: 6f636d06ccd7dac48844fd6c67300982,
+        type: 3}
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -86,6 +87,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ground_Stone Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8217847396420373514, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
+        type: 3}
+      propertyPath: myType
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab93203dd6dddfa4482c17dda9aa5e0f, type: 3}

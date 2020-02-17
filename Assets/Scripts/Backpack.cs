@@ -8,9 +8,12 @@ public class Backpack
     private int maxItemSpace = 12;
     private int currentWeight = 0;
 
+    private Inventory inventoryUI;
+
     private Dictionary<GameResources.PickedUpItemName, int> inventory = new Dictionary<GameResources.PickedUpItemName, int>();
     public Backpack(Inventory ivControllor)
     {
+        inventoryUI = ivControllor;
         inventory.Clear();
     }
 
@@ -61,6 +64,7 @@ public class Backpack
         if (inventory.TryGetValue(newItem, out tmpCount))
         {
             inventory.Add(newItem, tmpCount + 1);
+            //inventoryUI.UpdateOne()
         }
         else
         {

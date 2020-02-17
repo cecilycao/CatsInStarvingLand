@@ -100,10 +100,11 @@ public class PlayerComponent : MonoBehaviour
         }
     }
 
-    public void PickedUp(PickedUpItems item)
+    public bool PickedUp(PickedUpItems item)
     {
+        GameResources.PickedUpItemName name = item.getItemName();
         //put in bag
-        //destroy item
+        return myBackpack.AddNewItem(name);
     }
 
     public void HoldItemInHand(PickedUpItems item)
