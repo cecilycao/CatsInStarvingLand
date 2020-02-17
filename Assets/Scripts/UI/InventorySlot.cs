@@ -28,7 +28,7 @@ public class InventorySlot : MonoBehaviour
         //Resources.load();
         //Load Sprite From The Resources Folder and use
         var sp = Resources.Load("SpriteFolder/abc") as Sprite;
-        Sprite sp  = Resources.Load("path") as Sprite;
+        Sprite spSprite  = Resources.Load("path") as Sprite;
         return null;
     }
 }
