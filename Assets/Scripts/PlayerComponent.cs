@@ -103,8 +103,20 @@ public class PlayerComponent : MonoBehaviour
     public bool PickedUp(PickedUpItems item)
     {
         GameResources.PickedUpItemName name = item.getItemName();
+        if (currentHolded == null)
+        {
+            item.m_State = PickedUpItems.ItemState.IN_BAG;
+            HoldItemInHand(item);
+            return true;
+        }
         //put in bag
-        return myBackpack.AddNewItem(name);
+        if (myBackpack.AddNewItem(name))
+        {
+            item.m_State = PickedUpItems.ItemState.IN_BAG;
+            Destroy(item.gameObject);
+            return true;
+        }
+        return false;
     }
 
     public void HoldItemInHand(PickedUpItems item)

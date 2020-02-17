@@ -28,7 +28,7 @@ public class LandBrick : PickedUpItems
 
     void OnMouseDown()
     {
-        if (!isCracked && checkDistance())
+        if (!isCracked && checkDistance() && m_State == ItemState.DEFAULT)
         {
             if (true/*has pickaxe or nothing in hand */)
             {
@@ -63,14 +63,12 @@ public class LandBrick : PickedUpItems
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag == "Player")
+        if(other.gameObject.tag == "Player" && m_State == ItemState.DEFAULT)
         {
             Debug.Log("Pick me!");
-            if (m_player.PickedUp(this))
-            {
-                Destroy(gameObject);
-            }
+            m_player.PickedUp(this);
             
         }
     }
+
 }
