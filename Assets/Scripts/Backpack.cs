@@ -60,7 +60,7 @@ public class Backpack
         int tmpCount;
         if (inventory.TryGetValue(newItem, out tmpCount))
         {
-            inventory.Add(newItem, tmpCount + 1);
+            inventory[newItem] = tmpCount + 1;
         }
         else
         {
@@ -68,7 +68,7 @@ public class Backpack
             {
                 return false;
             }
-            inventory.Add(newItem, 1);
+            inventory[newItem] = 1;
         }
         currentWeight += weight;
         return true;
@@ -82,7 +82,7 @@ public class Backpack
         {
             if (tmpCount - 1 > 0)
             {
-                inventory.Add(item, tmpCount - 1);
+                inventory[item] = tmpCount - 1;
             }
             else
             {
