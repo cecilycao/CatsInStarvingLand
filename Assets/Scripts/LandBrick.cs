@@ -2,30 +2,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameResources;
 using UnityEngine.UI;
 
-public class LandBrick : MonoBehaviour
+public class LandBrick : PickedUpItems
 {
-    public GameObject m_player;
+    public PickedUpItemName myType;
+
+    public PlayerComponent m_player;
+    BoxCollider2D m_collider;
+
+    public float scaleChange = 0.5f;
+    public bool isCracked = false;
     public int maxDigDistance = 6;
     float m_Size;
     // Start is called before the first frame update
     void Start()
     {
-        m_Size = GetComponent<BoxCollider2D>().bounds.size.x;
+        
         //alterLand.onClick.AddListener(AlterLand);
-        m_player = GameObject.FindWithTag("Player");
+        m_player = GameObject.FindWithTag("Player").GetComponent<PlayerComponent>();
+        m_collider = GetComponent<BoxCollider2D>();
+        m_Size = m_collider.bounds.size.x;
     }
 
     void OnMouseDown()
     {
-        if (checkDistance())
+        if (!isCracked && checkDistance())
         {
             if (true/*has pickaxe or nothing in hand */)
             {
-                print("clicked a land brick");
+                print("cracked a land brick");
                 /*new a land fragment for pick up*/
-                Destroy(gameObject);
+
+                Vector3 newScale = gameObject.transform.localScale;
+                newScale *= scaleChange;
+                gameObject.transform.localScale = newScale;
+
+                m_collider.isTrigger = true;
+                isCracked = true;
             }
         }
 
@@ -39,5 +54,23 @@ public class LandBrick : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    public override PickedUpItemName getItemName()
+    {
+        return myType;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            Debug.Log("Pick me!");
+            if (m_player.PickedUp(this))
+            {
+                Destroy(gameObject);
+            }
+            
+        }
     }
 }

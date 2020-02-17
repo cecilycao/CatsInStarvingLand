@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 736207615632382085}
   - component: {fileID: 8217847396420373514}
   m_Layer: 9
-  m_Name: Ground
+  m_Name: Ground_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 736207615632382084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 24.14, y: 24.14, z: 0}
-  m_LocalScale: {x: 7.0437913, y: 7.164482, z: 1}
+  m_LocalPosition: {x: 23.766, y: 24.736, z: 0}
+  m_LocalScale: {x: 1.4776976, y: 1.4864566, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -69,10 +69,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1116021213
+  m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 6520231314094959504, guid: 6f636d06ccd7dac48844fd6c67300982,
+    type: 3}
   m_Color: {r: 0.8030041, g: 0.9811321, b: 0.8006408, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,18 +97,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0072301626, y: 0.0035553724}
   m_SpriteTilingProperty:
-    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.16, y: 0.16}
+    oldSize: {x: 1.01, y: 1.01}
     newSize: {x: 3, y: 3}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.14, y: 0.14}
+  m_Size: {x: 0.9931576, y: 0.9932569}
   m_EdgeRadius: 0
 --- !u!114 &8217847396420373514
 MonoBehaviour:
@@ -121,5 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b499319252f0214d87af57fe895d550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_State: 0
+  myType: 1
   m_player: {fileID: 0}
+  isCracked: 0
   maxDigDistance: 6

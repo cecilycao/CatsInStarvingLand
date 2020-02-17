@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Resources;
+using static GameResources;
 using Random = UnityEngine.Random;
 
 public class MapGenerator : MonoBehaviour
@@ -17,6 +17,10 @@ public class MapGenerator : MonoBehaviour
     int width;
     int height;
 
+    //final map size
+    int finalWidth;
+    int finalHeight;
+
     string seed;
     bool useRandomSeed;
     int smoothRatio;
@@ -27,9 +31,6 @@ public class MapGenerator : MonoBehaviour
 
     int centerEmptyWidth = 10;
     int centerEmptyHeight = 5;
-
-    int resource1;
-    int resource2;
 
 
     public static MapGenerator Instance
@@ -66,9 +67,10 @@ public class MapGenerator : MonoBehaviour
         {
             float seed = Time.time;
         }
-
+        finalWidth = widthCount * this.width;
+        finalHeight = widthCount * this.height;
         //Generate 9 maps , with 1 is Center
-        int[,] finalMap = new int[widthCount * this.width, widthCount * this.height];
+        int[,] finalMap = new int[finalWidth, finalHeight];
 
         for(int i = 0; i < widthCount; i++)
         {
@@ -146,10 +148,10 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < 5; i++)
-        {
-            SmoothMap(map);
-        }
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    SmoothMap(map, resource1, resource2);
+        //}
         return map;
     }
 
@@ -187,67 +189,222 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private void SmoothMap(int[,] map)
+    //private void SmoothMap(int[,] map, int resource1, int resource2)
+    //{
+    //    for(int x = 0; x < width; x++)
+    //    {
+    //        for(int y = 0; y < height; y++)
+    //        {
+    //            //int neighbourWallTilesR1 = GetSurroundingWallCount(map, x, y, resource1);
+    //            //int neighbourWallTilesR2 = GetSurroundingWallCount(map, x, y, resource2);
+    //            int neighbourWallTilesEmpty = GetSurroundingWallCount(map, x, y, 0);
+    //            //int totalWallCount = neighbourWallTilesR1 + neighbourWallTilesR2 + neighbourWallTilesEmpty;
+
+    //           // Debug.Log("Total: " + totalWallCount + "; Empty: " + neighbourWallTilesEmpty + "; R1: " + neighbourWallTilesR1 + "; R2: " + neighbourWallTilesR2);
+    //            Debug.Log("Empty:" + neighbourWallTilesEmpty);
+
+    //            if(neighbourWallTilesEmpty <= 4)
+    //            {
+    //                map[x, y] = resource1;
+    //            }
+    //            else if(neighbourWallTilesEmpty >= 5)
+    //            {
+    //                map[x, y] = 0;
+    //            }
+
+    //            //if (neighbourWallTilesR1 + neighbourWallTilesR2 >= smoothRatio / 8)
+    //            //{
+    //            //    map[x, y] = resource1;
+    //            //    //map[x, y] = resource2;
+    //            //}
+    //            //else if(neighbourWallTilesR1 + neighbourWallTilesR2 < smoothRatio / 8)
+    //            //{
+    //            //    map[x, y] = 0;
+    //            //}
+
+    //            //if (neighbourWallTilesR1 + neighbourWallTilesR2 < 2*smoothRatio)
+    //            //    map[x, y] = 0;
+    //        }
+    //    }
+    //}
+    void SmoothMap(int[,] map)
     {
-        for(int x = 0; x < width; x++)
+        SurroundingInfo[,] infoMap = GetSurroundingWallCount(map, (int)TileType.DIRT, (int)TileType.STONE, (int)TileType.SAND, (int)TileType.IRON, (int)TileType.SPARE);
+
+        for (int x = 0; x < finalWidth; x++)
         {
-            for(int y = 0; y < height; y++)
+            for (int y = 0; y < finalHeight; y++)
             {
-                int neighbourWallTilesR1 = GetSurroundingWallCount(map, x, y, resource1);
-                int neighbourWallTilesR2 = GetSurroundingWallCount(map, x, y, resource2);
-                int neighbourWallTilesEmpty = GetSurroundingWallCount(map, x, y, 0);
-                if (neighbourWallTilesR1 + neighbourWallTilesR2 + neighbourWallTilesEmpty != 8)
+                int neighbourWallTiles = infoMap[x,y].totalWallCount;
+                int[] list = { infoMap[x,y].R1Count, infoMap[x, y].R2Count, infoMap[x, y].R3Count, infoMap[x, y].R4Count, infoMap[x, y].R5Count };
+                
+                if (neighbourWallTiles > 4)
                 {
-                    Debug.Log("Neighbour Wall count is wrong!");
+                    //if (list[4] > 0 && list[4] >= list[3])
+                    //{
+                    //    map[x, y] = list[4];
+                    //}
+                    //else
+                    //{
+                    //    map[x, y] = list[3];
+                    //}
+                    int maxIndex = findMaxIndex(list);
+                    if (map[x,y] == 0 || list[maxIndex] - list[map[x,y]-1] >= 1)
+                        map[x, y] = maxIndex + 1;
                 }
-                if(neighbourWallTilesEmpty > smoothRatio)
+                else if (neighbourWallTiles < 4)
+                {
                     map[x, y] = 0;
-               
-                if (neighbourWallTilesR1 > smoothRatio)
-                    map[x, y] = resource1;
-                if (neighbourWallTilesR2 > smoothRatio)
-                    map[x, y] = resource2;
-                //if (neighbourWallTilesR1 + neighbourWallTilesR2 < 2*smoothRatio)
-                //    map[x, y] = 0;
+                }
+                   
+
             }
         }
     }
 
-    private int GetSurroundingWallCount(int[,] map, int gridX, int gridY, int resource)
+    int findMaxIndex(int[] list)
     {
-        int wallCount = 0;
-        for (int neighbourX = gridX - 1; neighbourX <= gridX + 1; neighbourX++)
+        int maxIndex = 0;
+        int maxVal = 0;
+        for(int i = 0; i < list.Length; i++)
         {
-            for(int neighbourY = gridY - 1; neighbourY <= gridY + 1; neighbourY++)
+            if(list[i] > maxVal)
             {
-                if(neighbourX >= 0 && neighbourX < width && neighbourY >= 0 && neighbourY < height)
+                maxVal = list[i];
+                maxIndex = i;
+            }
+        }
+        return maxIndex;
+    }
+
+    SurroundingInfo[,] GetSurroundingWallCount(int[,] map, int resource1, int resource2, int resource3, int resource4, int resource5)
+    {
+
+        int mapWidth = map.GetLength(0);
+        int mapHeight = map.GetLength(1);
+        SurroundingInfo[,] info = new SurroundingInfo[mapWidth, mapHeight];
+
+        for (int gridX = 0; gridX < mapWidth; gridX++)
+        {
+            for (int gridY = 0; gridY < mapHeight; gridY++)
+            {
+                for (int neighbourX = gridX - 1; neighbourX <= gridX + 1; neighbourX++)
                 {
-                    if (neighbourX != gridX || neighbourY != gridY)
+                    for (int neighbourY = gridY - 1; neighbourY <= gridY + 1; neighbourY++)
                     {
-                        //wallCount += map[neighbourX, neighbourY];
-                        if(map[neighbourX, neighbourY] == resource)
+                        if (neighbourX >= 0 && neighbourX < mapWidth && neighbourY >= 0 && neighbourY < mapHeight)
                         {
-                            wallCount++;
+                            if (neighbourX != gridX || neighbourY != gridY)
+                            {
+                                if (map[neighbourX, neighbourY] != 0)
+                                {
+                                    info[gridX, gridY].totalWallCount++;
+                                    if (map[neighbourX, neighbourY] == resource1)
+                                    {
+                                        info[gridX, gridY].R1Count++;
+                                    }
+                                    else if (map[neighbourX, neighbourY] == resource2)
+                                    {
+                                        info[gridX, gridY].R2Count++;
+                                    }
+                                    else if (map[neighbourX, neighbourY] == resource3)
+                                    {
+                                        info[gridX, gridY].R3Count++;
+                                    }
+                                    else if (map[neighbourX, neighbourY] == resource4)
+                                    {
+                                        info[gridX, gridY].R4Count++;
+                                    }
+                                    else if (map[neighbourX, neighbourY] == resource5)
+                                    {
+                                        info[gridX, gridY].R5Count++;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            info[gridX, gridY].totalWallCount++;
                         }
                     }
                 }
-                else
-                {
-                    //edges
-                    //wallCount++;
-                }
-
             }
         }
-        return wallCount;
+
+        return info;
     }
+    //int GetSurroundingWallCount(int[,] map, int gridX, int gridY)
+    //{
+    //    int wallCount = 0;
+    //    for (int neighbourX = gridX - 1; neighbourX <= gridX + 1; neighbourX++)
+    //    {
+    //        for (int neighbourY = gridY - 1; neighbourY <= gridY + 1; neighbourY++)
+    //        {
+    //            if (neighbourX >= 0 && neighbourX < width && neighbourY >= 0 && neighbourY < height)
+    //            {
+    //                if (neighbourX != gridX || neighbourY != gridY)
+    //                {
+    //                    if(map[neighbourX, neighbourY] != 0)
+    //                    {
+    //                        wallCount++;
+    //                    }
+    //                }
+    //            }
+    //            else
+    //            {
+    //                wallCount++;
+    //            }
+    //        }
+    //    }
+
+    //    return wallCount;
+    //}
+
+    struct SurroundingInfo
+    {
+        public int R1Count;
+        public int R2Count;
+        public int R3Count;
+        public int R4Count;
+        public int R5Count;
+        public int totalWallCount; 
+    }
+
+    //private int GetSurroundingWallCount(int[,] map, int gridX, int gridY, int resource)
+    //{
+    //    int wallCount = 0;
+    //    for (int neighbourX = gridX - 1; neighbourX <= gridX + 1; neighbourX++)
+    //    {
+    //        for(int neighbourY = gridY - 1; neighbourY <= gridY + 1; neighbourY++)
+    //        {
+    //            if(neighbourX >= 0 && neighbourX < width && neighbourY >= 0 && neighbourY < height)
+    //            {
+    //                if (neighbourX != gridX || neighbourY != gridY)
+    //                {
+    //                    //wallCount += map[neighbourX, neighbourY];
+    //                    if(map[neighbourX, neighbourY] == resource)
+    //                    {
+    //                        wallCount++;
+    //                    }
+    //                }
+    //            }
+    //            //else
+    //            //{
+    //            //    //edges
+    //            //    //wallCount++;
+    //            //}
+
+    //        }
+    //    }
+    //    return wallCount;
+    //}
 
     //public int[,] GetMap()
     //{
     //    return map;
     //}
 
-    
+
     //private void OnDrawGizmos()
     //{
     //    if(map != null)
@@ -281,5 +438,5 @@ public class MapGenerator : MonoBehaviour
     //    }
     //}
 
-    
+
 }

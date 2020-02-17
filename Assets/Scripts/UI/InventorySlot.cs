@@ -19,16 +19,17 @@ public class InventorySlot : MonoBehaviour
         ItemCountText.text = count.ToString();
         Debug.Log(count.ToString());
         //find Image with ItemName
-        ItemUIImage = findImageWithItemName(ItemName);
+        ItemUIImage.sprite = findImageWithItemName(ItemName);
         return true;
     }
 
-    Image findImageWithItemName(GameResources.PickedUpItemName ItemName)
+    Sprite findImageWithItemName(GameResources.PickedUpItemName ItemName)
     {
         //Resources.load();
         //Load Sprite From The Resources Folder and use
-        // var sp = Resources.Load("SpriteFolder/abc") as Sprite;
-        // Sprite sp  = Resources.Load("path") as Sprite;
-        return null;
+        string spriteName = "InventoryUIs/" + (int)ItemName;
+        Sprite sp = Resources.Load(spriteName) as Sprite;
+
+        return sp;
     }
 }

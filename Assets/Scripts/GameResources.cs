@@ -28,6 +28,7 @@ public class GameResources : MonoBehaviour
         POOPOO,
         FLOWER,
         BUTTERFLY,
+        PLANT,
         WOOL,
         SPARE,
         GAS_TANK,
