@@ -73,6 +73,7 @@ public class Backpack
             }
             inventory[newItem] = 1;
         }
+        inventoryUI.UpdateOne(1, newItem, 10);
         currentWeight += weight;
         return true;
     }
