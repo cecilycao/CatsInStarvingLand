@@ -11,6 +11,9 @@ public class Backpack
     private Inventory inventoryUI;
 
     private Dictionary<GameResources.PickedUpItemName, int> inventory = new Dictionary<GameResources.PickedUpItemName, int>();
+
+    //temp use for demo
+    private List<GameResources.PickedUpItemName> itemIndex = new List<GameResources.PickedUpItemName>();
     public Backpack(Inventory ivControllor)
     {
         inventoryUI = ivControllor;
@@ -72,6 +75,7 @@ public class Backpack
                 return false;
             }
             inventory[newItem] = 1;
+            itemIndex.Add(newItem);
         }
         updateAllSlot();
         currentWeight += weight;
