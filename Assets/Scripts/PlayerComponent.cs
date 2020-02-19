@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameResources;
 
 public class PlayerComponent : MonoBehaviour
 {
@@ -51,6 +52,8 @@ public class PlayerComponent : MonoBehaviour
             currentHolded.transform.SetParent(transform);
             currentHolded.transform.position = HoldedPosition.position;
         }
+
+        
     }
 
     // Update is called once per frame
@@ -66,6 +69,11 @@ public class PlayerComponent : MonoBehaviour
             }
         }
 
+    }
+
+    void OnMouseDown()
+    {
+        useItemInHand();
     }
 
     public void PlayerInitialize()
@@ -126,8 +134,12 @@ public class PlayerComponent : MonoBehaviour
             //hold in hand(change UI?)
             item.m_State = PickedUpItems.ItemState.IN_HAND;
             currentHolded = item;
+
+            Debug.Log("Hold Item: Item exist.");
             item.transform.SetParent(transform);
             item.transform.position = HoldedPosition.position;
+
+            
         }
     }
 
@@ -149,6 +161,16 @@ public class PlayerComponent : MonoBehaviour
         Debug.Log(m_health+"/"+maxHealth);
         m_health =Mathf.Clamp(m_health+amount,0,maxHealth);
         Debug.Log(m_health+"/"+maxHealth);
+    }
+
+    public void useItemInHand()
+    {
+        ////temporarily. Need to check is food
+        //if(currentHolded.getItemName() == PickedUpItemName.FRUIT)
+        //{
+        //    //ChangeHealth();
+            Destroy(currentHolded.gameObject);
+        //}
     }
 
 }
