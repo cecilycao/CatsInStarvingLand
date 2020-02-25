@@ -22,12 +22,19 @@ public class PlayerComponent : MonoBehaviour
     public int m_temperature;
     public int m_tiredness;
 
-    public PickedUpItems currentHolded;
+    public enum m_status {
+        DEFAULT,
+        ATTACK,
+        SLEEP
+    };
 
+    public PickedUpItems currentHolded;
 
     public Transform HoldedPosition;
 
     public Backpack myBackpack;
+
+    public UIManager myUIManager;
 
     // Start is called before the first frame update
     void Start()
@@ -165,12 +172,14 @@ public class PlayerComponent : MonoBehaviour
 
     public void useItemInHand()
     {
-        ////temporarily. Need to check is food
+        //if Food:
         //if(currentHolded.getItemName() == PickedUpItemName.FRUIT)
         //{
         //    //ChangeHealth();
             Destroy(currentHolded.gameObject);
         //}
+
+
     }
 
 }

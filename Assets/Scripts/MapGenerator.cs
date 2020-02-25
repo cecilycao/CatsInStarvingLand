@@ -29,6 +29,7 @@ public class MapGenerator : MonoBehaviour
     int randomFillPercent1;
     int randomFillPercent2;
 
+    //10, 5
     int centerEmptyWidth = 10;
     int centerEmptyHeight = 5;
 

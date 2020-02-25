@@ -15,6 +15,10 @@ public class LandBrick : PickedUpItems
     public float scaleChange = 0.5f;
     public bool isCracked = false;
     public int maxDigDistance = 6;
+    public WorldManager m_worldManager;
+
+    public Vector2Int index;
+
     float m_Size;
     // Start is called before the first frame update
     void Start()
@@ -24,10 +28,12 @@ public class LandBrick : PickedUpItems
         m_player = GameObject.FindWithTag("Player").GetComponent<PlayerComponent>();
         m_collider = GetComponent<BoxCollider2D>();
         m_Size = m_collider.bounds.size.x;
+        m_worldManager = GameObject.FindWithTag("WorldManager").GetComponent<WorldManager>();
     }
 
     void OnMouseDown()
     {
+        Debug.Log("index: " + index.x + ", " + index.y);
         if (!isCracked && checkDistance() && m_State == ItemState.DEFAULT)
         {
             if (true/*has pickaxe or nothing in hand */)
@@ -35,15 +41,22 @@ public class LandBrick : PickedUpItems
                 print("cracked a land brick");
                 /*new a land fragment for pick up*/
 
-                Vector3 newScale = gameObject.transform.localScale;
-                newScale *= scaleChange;
-                gameObject.transform.localScale = newScale;
-
-                m_collider.isTrigger = true;
+                crackALandTile();
                 isCracked = true;
+                m_worldManager.UpdateTileMap(index, 0);
+
             }
         }
 
+    }
+
+    private void crackALandTile()
+    {
+        Vector3 newScale = gameObject.transform.localScale;
+        newScale *= scaleChange;
+        gameObject.transform.localScale = newScale;
+
+        m_collider.isTrigger = true;
     }
 
     private bool checkDistance()
