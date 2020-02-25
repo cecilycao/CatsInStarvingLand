@@ -28,7 +28,8 @@ public class InventorySlot : MonoBehaviour
         //Resources.load();
         //Load Sprite From The Resources Folder and use
 
-        string spriteName = "InventoryUIs/" + ItemName.ToString();
+        // string spriteName = "InventoryUIs/" + ItemName.ToString();
+        string spriteName = "InventoryUIs/PLANT";
         return Resources.Load<Sprite>(spriteName);
     }
 }
