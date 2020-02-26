@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
@@ -26,6 +27,7 @@ public class WorldGenerator : MonoBehaviour
     float totalWidth;
     float totalHeight;
 
+    //for landtile
     public string seed;
     public bool useRandomSeed;
     [Range(1,8)]
@@ -35,51 +37,39 @@ public class WorldGenerator : MonoBehaviour
     [Range(0, 100)]
     public int randomFillPercent2;
 
+    //for plants and animals.etc
+    public int plantsFillPercent;
+    public int animalFillPercent;
+
     MapGenerator m_mapGenerator;
     [HideInInspector]
     public int[,] m_map;
 
     // Start is called before the first frame update
-    public void GenerateLands()
+    public void GenerateWorld()
     {
         BoxCollider2D LandTileCollider = LandTile_DIRT.GetComponent<BoxCollider2D>();
         tileSize = LandTileCollider.size.x;
         totalWidth = tileSize * (width * finalMapWidthCount);
         totalHeight = tileSize * (height * finalMapWidthCount);
+       
         initializeMap();
-    }
-
-    public void GenerateCreatures()
-    {
-        if (m_map != null)
-        {
-            for (int x = 0; x < width * finalMapWidthCount; x++)
-            {
-                //height* finalMapWidthCount
-                for (int y = 0; y < height * finalMapWidthCount; y++)
-                {
-                    //Gizmos.color = (map[x, y] == 1) ? Color.black : Color.white;
-
-                    FillWithTileType(m_map[x, y], x, y);
-
-                }
-            }
-        }
-    }
-
-    private void initializeMap()
-    {
-        m_mapGenerator = new MapGenerator(tileSize, width, height, seed, useRandomSeed, smoothRatio, randomFillPercent1, randomFillPercent2);
-        //m_mapGenerator.GenerateMap(true);
-        m_map = m_mapGenerator.GenerateCombinedMaps(finalMapWidthCount, finalMapWidthCount / 2 + 1);
-
-
         FillWithMesh();
     }
 
+    //generate a matrix of map, with val indicates what kind of ground tile it is
+    private void initializeMap()
+    {
+        m_mapGenerator = new MapGenerator(tileSize, width, height, seed, useRandomSeed, smoothRatio, randomFillPercent1, randomFillPercent2);
+        m_map = m_mapGenerator.GenerateCombinedMaps(finalMapWidthCount, finalMapWidthCount / 2 + 1);
+    }
 
+    //Fill the map with meshes: tiles, plants, animals.
+    //plants and animals only generates at empty tiles that (x, y-1) is a ground tile.
     public void FillWithMesh()
     {
+        System.Random pseudoRandom = new System.Random(seed.GetHashCode());
+
         if (m_map != null)
         {
             for (int x = 0; x < width * finalMapWidthCount; x++)
@@ -87,13 +77,80 @@ public class WorldGenerator : MonoBehaviour
                 //height* finalMapWidthCount
                 for (int y = 0; y < height * finalMapWidthCount; y++)
                 {
-                    //Gizmos.color = (map[x, y] == 1) ? Color.black : Color.white;
-
+                    //Fill with a tile, ground, stone .etc or emptyTile
                     FillWithTileType(m_map[x, y], x, y);
+
+                    //if the index id surface, try to fill with creature
+                    if (m_map[x, y] == 0)
+                    {
+                        if(PlantGenerationConditions(x, y))
+                        {
+                            int randIntPlant = pseudoRandom.Next(0, 100);
+                            Debug.Log("RandIntPlant: " + randIntPlant);
+                            if (randIntPlant < plantsFillPercent)
+                            {
+                                //genertae planet
+                                GenerateCreature(FruitPlant, x, y);
+                            }
+                        } 
+                        
+                        if(AnimalGenerationConditions(x, y))
+                        {
+                            int randIntAnimal = pseudoRandom.Next(0, 100);
+                            Debug.Log("RandIntAnimal: " + randIntAnimal);
+                            if (randIntAnimal < animalFillPercent)
+                            {
+                                //generate animal
+                                GenerateCreature(GrassAnimal, x, y);
+                            }
+                        }
+                       
+                    }
+                    
 
                 }
             }
         }
+    }
+
+    public void GenerateCreature(GameObject obj, int x, int y)
+    {
+        Vector2 pos = new Vector3((-totalWidth / 2.0f) + (tileSize / 2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y);
+        Debug.Log(pos);
+        GameObject newCreature = Instantiate(obj);
+        newCreature.transform.SetParent(transform);
+        newCreature.transform.position = pos;
+    }
+
+    private bool PlantGenerationConditions(int x, int y)
+    {
+        if(y >= height * finalMapWidthCount)
+        {
+            return false;
+        }
+        ////is not surface
+        //if(m_map[x, y - 1] == 0)
+        //{
+        //    return false;
+        //}
+        if(m_map[x, y + 1] == (int)TileType.DIRT)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool AnimalGenerationConditions(int x, int y)
+    {
+        if (y >= height * finalMapWidthCount)
+        {
+            return false;
+        }
+        if (m_map[x, y + 1] != 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void FillWithTileType(int TileTypeVal, int x, int y)
@@ -129,7 +186,7 @@ public class WorldGenerator : MonoBehaviour
         
         //bug here, wrong index at the top level: (0, 0) - (0, ...)
         Vector2 pos = new Vector3((-totalWidth/2.0f) + (tileSize/2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y);
-        Debug.Log(pos);
+        //Debug.Log(pos);
         GameObject newTile = Instantiate(obj);
         newTile.transform.SetParent(transform);
         newTile.transform.position = pos;
@@ -140,12 +197,12 @@ public class WorldGenerator : MonoBehaviour
         if (tile != null)
         {
             tile.index = new Vector2Int(x, y);
-            Debug.Log("index: " + x + ", " + y);
+            //Debug.Log("index: " + x + ", " + y);
         }
         else
         {
             EmptyTile.index = new Vector2Int(x, y);
-            Debug.Log("index: " + x + ", " + y);
+            //Debug.Log("index: " + x + ", " + y);
         }
 
     }

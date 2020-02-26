@@ -516,7 +516,7 @@ PrefabInstance:
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.6200004
+      value: 2.17
       objectReference: {fileID: 0}
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
@@ -1286,87 +1286,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2048010153, guid: c836a3b2f93e0894ea67969711e6b2e7, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.16525817
-      objectReference: {fileID: 0}
-    - target: {fileID: 2048010153, guid: c836a3b2f93e0894ea67969711e6b2e7, type: 3}
-      propertyPath: m_Size.x
-      value: 0.8947768
-      objectReference: {fileID: 0}
-    - target: {fileID: 2048010153, guid: c836a3b2f93e0894ea67969711e6b2e7, type: 3}
-      propertyPath: m_Size.y
-      value: 0.8947768
-      objectReference: {fileID: 0}
-    - target: {fileID: 2048010153, guid: c836a3b2f93e0894ea67969711e6b2e7, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.06849563
-      objectReference: {fileID: 0}
-    - target: {fileID: 3185188987307196723, guid: c836a3b2f93e0894ea67969711e6b2e7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3185188987307196724, guid: c836a3b2f93e0894ea67969711e6b2e7,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: f2b06aedf55a64436a31728bcee7f1d8, type: 2}
-    - target: {fileID: 3185188987307196725, guid: c836a3b2f93e0894ea67969711e6b2e7,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3185188987307196725, guid: c836a3b2f93e0894ea67969711e6b2e7,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3185188987859046771, guid: c836a3b2f93e0894ea67969711e6b2e7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3185188987859046772, guid: c836a3b2f93e0894ea67969711e6b2e7,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: a212ccd9d29ace24b9c596153915014d,
-        type: 3}
-    - target: {fileID: 3185188987859046772, guid: c836a3b2f93e0894ea67969711e6b2e7,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3185188987859046772, guid: c836a3b2f93e0894ea67969711e6b2e7,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: f2b06aedf55a64436a31728bcee7f1d8, type: 2}
-    - target: {fileID: 3185188987859046773, guid: c836a3b2f93e0894ea67969711e6b2e7,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3185188987859046773, guid: c836a3b2f93e0894ea67969711e6b2e7,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3334355724727302056, guid: c836a3b2f93e0894ea67969711e6b2e7,
         type: 3}
       propertyPath: m_Name
       value: Plant
       objectReference: {fileID: 0}
-    - target: {fileID: 3334355724727302056, guid: c836a3b2f93e0894ea67969711e6b2e7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5341932226366525000, guid: c836a3b2f93e0894ea67969711e6b2e7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.06
+      value: 2.49
       objectReference: {fileID: 0}
     - target: {fileID: 5341932226366525000, guid: c836a3b2f93e0894ea67969711e6b2e7,
         type: 3}
@@ -1726,7 +1654,7 @@ SpriteRenderer:
   m_SortingLayerID: 653642271
   m_SortingLayer: -2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d14e4a6899ecd4b4bba671e5190b9f97, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 315e65c8c22f5d7449ad5d579100e6c0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1746,7 +1674,7 @@ Transform:
   m_GameObject: {fileID: 677413185}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 10}
-  m_LocalScale: {x: 3.449192, y: 2.841526, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 519420032}
   m_RootOrder: 0
@@ -2589,7 +2517,7 @@ PrefabInstance:
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.63
+      value: 3.01
       objectReference: {fileID: 0}
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
@@ -2697,8 +2625,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ac819955f308b40bcc22bc4a483759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  day: 0
-  totalSeconds: 0
+  currentSecond: 0
+  currentDay: 0
   m_worldGenerator: {fileID: 2117873269}
 --- !u!1001 &1232786192
 PrefabInstance:
@@ -2710,7 +2638,7 @@ PrefabInstance:
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.39
+      value: -0.16
       objectReference: {fileID: 0}
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
@@ -3298,7 +3226,7 @@ PrefabInstance:
     - target: {fileID: 6868039978254860335, guid: b1c8a76065e0d9841845fe2281b27bfc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.12
+      value: 3.36
       objectReference: {fileID: 0}
     - target: {fileID: 6868039978254860335, guid: b1c8a76065e0d9841845fe2281b27bfc,
         type: 3}
@@ -3451,7 +3379,7 @@ PrefabInstance:
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.6
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
@@ -4433,7 +4361,7 @@ PrefabInstance:
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.61
+      value: 3.78
       objectReference: {fileID: 0}
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
@@ -4559,8 +4487,10 @@ MonoBehaviour:
     type: 3}
   LandTile_Empty: {fileID: 2138564080893431778, guid: 5407c32753a29de43883bf848c0d0209,
     type: 3}
-  FruitPlant: {fileID: 0}
-  GrassAnimal: {fileID: 0}
+  FruitPlant: {fileID: 3334355724727302056, guid: c836a3b2f93e0894ea67969711e6b2e7,
+    type: 3}
+  GrassAnimal: {fileID: 7761783708371312292, guid: 9256816374183df4e87fdbe23870f7dd,
+    type: 3}
   tileSize: 0
   width: 50
   height: 50
@@ -4570,6 +4500,8 @@ MonoBehaviour:
   smoothRatio: 4
   randomFillPercent1: 30
   randomFillPercent2: 20
+  plantsFillPercent: 20
+  animalFillPercent: 10
 --- !u!1 &2127437877
 GameObject:
   m_ObjectHideFlags: 0

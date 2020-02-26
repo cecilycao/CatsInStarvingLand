@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
-    public int day;
-    public int totalSeconds;
+    public static int LengthOfDayInSecond = 300;
+    public float currentSecond = 0;
+    public int currentDay = 0;
+
+    float startTime = -1f;
+
     public int[,] m_map;
 
     public WorldGenerator m_worldGenerator;
@@ -13,10 +17,30 @@ public class WorldManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_worldGenerator.GenerateLands();
+        m_worldGenerator.GenerateWorld();
 
         m_map = m_worldGenerator.getInitialMap();
 
+        beginWorldTime();
+    }
+
+    private void Update()
+    {
+        if(startTime != -1)
+        {
+            //in seconds
+            currentSecond = Time.time - startTime;
+            currentDay = ((int)currentSecond / 300) + 1;
+        }
+    }
+
+    void beginWorldTime()
+    {
+        startTime = Time.time;
+    }
+
+    void pauseWorldTime()
+    {
 
     }
 
