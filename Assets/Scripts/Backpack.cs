@@ -77,7 +77,7 @@ public class Backpack
             inventory[newItem] = 1;
             itemIndex.Add(newItem);
         }
-        inventoryUI.UpdateOne(itemIndex.IndexOf(newItem), newItem, inventory[newItem]);
+        updateAllSlot();
         currentWeight += weight;
         return true;
     }
@@ -102,6 +102,7 @@ public class Backpack
             return false;
         }
         currentWeight -= weight;
+        updateAllSlot();
         return true;
     }
 
@@ -113,5 +114,17 @@ public class Backpack
     public Dictionary<GameResources.PickedUpItemName, int> WhatsInBackpack()
     {
         return inventory;
+    }
+
+    void updateAllSlot()
+    {
+        int count = 0;
+        foreach (var item in inventory)
+        {
+            Debug.Log(item.Key);
+            Debug.Log(item.Value);
+            inventoryUI.UpdateOne(count, item.Key, item.Value);
+            count++;
+        }
     }
 }
