@@ -10,7 +10,14 @@ public class EnemyControler : MonoBehaviour
     private float changeTimer;
     private Rigidbody2D rbody;
     private Vector2 moveDirection;
-   
+
+    public PlayerComponent m_player;
+
+    public GameObject Fish;
+    public GameObject Dryfish;
+
+    public GameResources.PickedUpItemName tplant;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,12 +39,14 @@ public class EnemyControler : MonoBehaviour
         position.y += moveDirection.y *  speed * Time.deltaTime;
         rbody.MovePosition(position);
     }
+
     void OnCollisionEnter2D(Collision2D other){
         PlayerComponent pc = other.gameObject.GetComponent<PlayerComponent>();
         if(pc!= null){
              pc.ChangeHealth(-1);
-             
-             Debug.Log("扣血");
+            //Instantiate(Dryfish, other.transform.position, transform.rotation);
+            //Destroy(this);
+            Debug.Log("扣血");
         }
 
     }
