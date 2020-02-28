@@ -16,6 +16,11 @@ public class WorldGenerator : MonoBehaviour
     public GameObject FruitPlant;
     public GameObject GrassAnimal;
 
+    public GameObject GreenLandZone;
+    public GameObject SandLandZone;
+    public GameObject RuinLandZone;
+    public GameObject LandZoneType;
+
 
     //a tile is a square: x=y
     public float tileSize;
@@ -44,6 +49,7 @@ public class WorldGenerator : MonoBehaviour
     MapGenerator m_mapGenerator;
     [HideInInspector]
     public int[,] m_map;
+    public int[,] m_landTypeMap;
 
     // Start is called before the first frame update
     public void GenerateWorld()
@@ -55,6 +61,7 @@ public class WorldGenerator : MonoBehaviour
        
         initializeMap();
         FillWithMesh();
+        FillWithLandTypeZone();
     }
 
     //generate a matrix of map, with val indicates what kind of ground tile it is
@@ -62,7 +69,46 @@ public class WorldGenerator : MonoBehaviour
     {
         m_mapGenerator = new MapGenerator(tileSize, width, height, seed, useRandomSeed, smoothRatio, randomFillPercent1, randomFillPercent2);
         m_map = m_mapGenerator.GenerateCombinedMaps(finalMapWidthCount, finalMapWidthCount / 2 + 1);
+        //should get it after generate combine maps, null otw
+        m_landTypeMap = m_mapGenerator.getLandTypeMap();
     }
+
+    private void FillWithLandTypeZone()
+    {
+        for (int x = 0; x < m_landTypeMap.GetLength(0); x++)
+        {
+            for (int y = 0; y < m_landTypeMap.GetLength(1); y++)
+            {
+                Vector2 pos = new Vector3((-totalWidth / 2.0f) + (width * tileSize / 2.0f) + x * width * tileSize, (totalHeight / 2.0f) - (width * tileSize / 2.0f) - width * tileSize * y);
+
+                if (m_landTypeMap[x, y] == (int)LandType.GREENLAND)
+                {
+                    //Fill with GreenLandZone
+                    //Debug.Log(pos);
+                    GameObject newZone = Instantiate(GreenLandZone);
+                    newZone.transform.SetParent(LandZoneType.transform);
+                    newZone.transform.position = pos;
+                }
+                else if (m_landTypeMap[x, y] == (int)LandType.SANDLAND)
+                {
+                    //Fill with SandLandZone
+                    //Debug.Log(pos);
+                    GameObject newZone = Instantiate(SandLandZone);
+                    newZone.transform.SetParent(LandZoneType.transform);
+                    newZone.transform.position = pos;
+                }
+                else if (m_landTypeMap[x, y] == (int)LandType.RUINLAND)
+                {
+                    //Fill with RuinLandZone
+                    //Debug.Log(pos);
+                    GameObject newZone = Instantiate(RuinLandZone);
+                    newZone.transform.SetParent(LandZoneType.transform);
+                    newZone.transform.position = pos;
+                }
+            }
+        }
+    }
+
 
     //Fill the map with meshes: tiles, plants, animals.
     //plants and animals only generates at empty tiles that (x, y-1) is a ground tile.
@@ -86,7 +132,7 @@ public class WorldGenerator : MonoBehaviour
                         if(PlantGenerationConditions(x, y))
                         {
                             int randIntPlant = pseudoRandom.Next(0, 100);
-                            Debug.Log("RandIntPlant: " + randIntPlant);
+                           //Debug.Log("RandIntPlant: " + randIntPlant);
                             if (randIntPlant < plantsFillPercent)
                             {
                                 //genertae planet
@@ -97,7 +143,7 @@ public class WorldGenerator : MonoBehaviour
                         if(AnimalGenerationConditions(x, y))
                         {
                             int randIntAnimal = pseudoRandom.Next(0, 100);
-                            Debug.Log("RandIntAnimal: " + randIntAnimal);
+                            //Debug.Log("RandIntAnimal: " + randIntAnimal);
                             if (randIntAnimal < animalFillPercent)
                             {
                                 //generate animal
@@ -116,7 +162,7 @@ public class WorldGenerator : MonoBehaviour
     public void GenerateCreature(GameObject obj, int x, int y)
     {
         Vector2 pos = new Vector3((-totalWidth / 2.0f) + (tileSize / 2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y);
-        Debug.Log(pos);
+        //Debug.Log(pos);
         GameObject newCreature = Instantiate(obj);
         newCreature.transform.SetParent(transform);
         newCreature.transform.position = pos;
@@ -183,8 +229,7 @@ public class WorldGenerator : MonoBehaviour
 
     void FillWith(GameObject obj, int x, int y)
     {
-        
-        //bug here, wrong index at the top level: (0, 0) - (0, ...)
+       
         Vector2 pos = new Vector3((-totalWidth/2.0f) + (tileSize/2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y);
         //Debug.Log(pos);
         GameObject newTile = Instantiate(obj);
@@ -210,4 +255,6 @@ public class WorldGenerator : MonoBehaviour
     public int[,] getInitialMap() {
         return m_map;
     }
+
+
 }

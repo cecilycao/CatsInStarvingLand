@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 736207615632382082}
   - component: {fileID: 736207615632382085}
   - component: {fileID: 8217847396420373514}
+  - component: {fileID: 323017853091843125}
   m_Layer: 11
   m_Name: Ground_Dirt
   m_TagString: Untagged
@@ -129,3 +130,24 @@ MonoBehaviour:
   maxDigDistance: 6
   m_worldManager: {fileID: 0}
   index: {x: 0, y: 0}
+--- !u!50 &323017853091843125
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736207615632382084}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

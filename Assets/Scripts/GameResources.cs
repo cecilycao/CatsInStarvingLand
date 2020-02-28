@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class GameResources : MonoBehaviour
 {
-
+    public enum LandType
+    {
+        GREENLAND,
+        SANDLAND,
+        RUINLAND
+    }
 
     public enum TileType{
         EMPTY,

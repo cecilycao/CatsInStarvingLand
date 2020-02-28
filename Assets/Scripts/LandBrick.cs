@@ -56,7 +56,10 @@ public class LandBrick : PickedUpItems
         newScale *= scaleChange;
         gameObject.transform.localScale = newScale;
 
-        m_collider.isTrigger = true;
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.mass = 1;
+        //m_collider.isTrigger = true;
     }
 
     private bool checkDistance()
@@ -74,11 +77,13 @@ public class LandBrick : PickedUpItems
         return myType;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(other.gameObject.tag == "Player" && m_State == ItemState.DEFAULT)
+        if(collision.gameObject.tag == "Player" && m_State == ItemState.DEFAULT)
         {
             Debug.Log("Pick me!");
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            Destroy(rb);
             m_player.PickedUp(this);
             
         }

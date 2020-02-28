@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public class MapGenerator : MonoBehaviour
 {
     public static MapGenerator m_Instance;
+    int[,] m_landTypeMap;
     //int[,] map;
 
     //a tile is a square: x=y
@@ -73,21 +74,33 @@ public class MapGenerator : MonoBehaviour
         //Generate 9 maps , with 1 is Center
         int[,] finalMap = new int[finalWidth, finalHeight];
 
+        m_landTypeMap = CreateLandTypeMap(widthCount, centerIndex);
+
         for(int i = 0; i < widthCount; i++)
         {
             for(int j = 0; j < widthCount; j++)
             {
                 int[,] newMap;
+                //if (i == j && i == centerIndex - 1)
+                //{
+                //    seed = seed + i * 10 + j;
+                //    newMap = GenerateMap(true, seed.ToString());
+                //} else
+                //{
+                //    seed = seed + i * 10 + j;
+                //    newMap = GenerateMap(false, seed.ToString());
+                //}
+                seed = seed + i * 10 + j;
                 if (i == j && i == centerIndex - 1)
                 {
-                    seed = seed + i * 10 + j;
-                    newMap = GenerateMap(true, seed.ToString());
+                    newMap = GenerateMap(true, m_landTypeMap[i, j], seed.ToString());
                 } else
                 {
-                    seed = seed + i * 10 + j;
-                    newMap = GenerateMap(false, seed.ToString());
+                    newMap = GenerateMap(false, m_landTypeMap[i, j], seed.ToString());
                 }
-                for(int x = 0; x < width; x++)
+                
+                
+                for (int x = 0; x < width; x++)
                 {
                     for(int y = 0; y < height; y++)
                     {
@@ -106,29 +119,68 @@ public class MapGenerator : MonoBehaviour
         return finalMap;
     }
 
-
-
-    public int[,] GenerateMap(bool isCenter, string seed)
+    public int[,] CreateLandTypeMap(int widthCount, int centerIndex)
     {
-        int randInt = Random.Range(1, 4);
+        int[,] landTypeMap = new int[widthCount, widthCount];
+
+        int randInt = 0;
+
+        for (int i = 0; i < widthCount; i++)
+        {
+            for (int j = 0; j < widthCount; j++)
+            {
+                if(i == j && i == centerIndex - 1)
+                {
+                    landTypeMap[i, j] = (int)LandType.GREENLAND;
+                } else
+                {
+                    randInt = Random.Range(1, 4);
+                    if(randInt == 1)
+                    {
+                        landTypeMap[i, j] = (int)LandType.GREENLAND;
+                    } else if(randInt == 2)
+                    {
+                        landTypeMap[i, j] = (int)LandType.SANDLAND;
+                    } else
+                    {
+                        landTypeMap[i, j] = (int)LandType.RUINLAND;
+                    }
+                }
+
+            }
+        }
+                return landTypeMap;
+    }
+
+
+    public int[,] getLandTypeMap()
+    {
+        return m_landTypeMap;
+    }
+
+    public int[,] GenerateMap(bool isCenter, int landType, string seed)
+    {
         if (isCenter)
         {
             return GenerateMapHelper(true, (int)TileType.DIRT, (int)TileType.STONE, seed);
         }
         else
         {
-            //1,2,3
-            if(randInt == 1)
+            if (landType == (int)LandType.SANDLAND)
             {
                 return GenerateMapHelper(false, (int)TileType.SAND, (int)TileType.IRON, seed);
-            } else if(randInt == 2)
+            }
+            else if (landType == (int)LandType.RUINLAND)
             {
                 return GenerateMapHelper(false, (int)TileType.STONE, (int)TileType.SPARE, seed);
-            } else
+            }
+            else if (landType == (int)LandType.GREENLAND)
             {
                 return GenerateMapHelper(false, (int)TileType.DIRT, (int)TileType.STONE, seed);
             }
         }
+        Debug.Log("Wrong Land Type!!!!!!!");
+        return null;
     }
 
     private int[,] GenerateMapHelper(bool isCenter, int resource1, int resource2, string seed)

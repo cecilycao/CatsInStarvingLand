@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
@@ -21,6 +22,8 @@ public class PlayerComponent : MonoBehaviour
     public int m_hunger;
     public int m_temperature;
     public int m_tiredness;
+
+    public int surroundingTemperature;
 
     public enum m_status {
         DEFAULT,
@@ -69,6 +72,8 @@ public class PlayerComponent : MonoBehaviour
         //health -1 / 3s
 
         //tiredness -10 / 27s
+        
+
      if(isInvincible){
             invincibleTimer -= Time.deltaTime;
             if(invincibleTimer<0){
@@ -77,6 +82,8 @@ public class PlayerComponent : MonoBehaviour
         }
 
     }
+
+
 
     void OnMouseDown()
     {
@@ -180,6 +187,14 @@ public class PlayerComponent : MonoBehaviour
         //}
 
 
+    }
+
+    //Change player's temperature based on surrounding temperature.
+    //if surrounding temperature > 28, m_temperature +0.1/s
+    //if surrounding temperature < 10, m_temperature -0.1/s
+    public void changeZone(int surroundingTemperature)
+    {
+        this.surroundingTemperature = surroundingTemperature;
     }
 
 }

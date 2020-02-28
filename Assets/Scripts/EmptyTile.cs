@@ -26,10 +26,12 @@ public class EmptyTile : MonoBehaviour
         if(m_player.currentHolded.GetType() == typeof(LandBrick))
         {
             int landTileId = (int)m_player.currentHolded.getItemName();
-            m_worldManager.UpdateTileMap(index, landTileId);
-            m_player.useItemInHand();
-
+            if(m_worldManager.UpdateTileMap(index, landTileId))
+            {
+                m_player.useItemInHand();
+                Destroy(gameObject);
+            }
         }
-        Destroy(gameObject);
+        
     }
 }

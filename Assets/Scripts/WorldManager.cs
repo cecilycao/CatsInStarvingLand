@@ -44,10 +44,35 @@ public class WorldManager : MonoBehaviour
 
     }
 
-    public void UpdateTileMap(Vector2Int index, int val)
+    public bool UpdateTileMap(Vector2Int index, int val)
     {
-        m_map[index.x, index.y] = val;
-        m_worldGenerator.FillWithTileType(val, index.x, index.y);
+        if (!checkEmptyAround(index.x, index.y))
+        {
+            m_map[index.x, index.y] = val;
+            m_worldGenerator.FillWithTileType(val, index.x, index.y);
+            return true;
+        }
+        return false;
     }
 
+    //Buggy!!!!!
+    bool checkEmptyAround(int x, int y)
+    {
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                int checkX = x + i;
+                int checkY = y + j;
+                if ((i == 0 && j != 0) || (j == 0 && i != 0) && checkX > 0 && checkY > 0 && checkX < m_map.GetLength(0) && checkY < m_map.GetLength(1))
+                {
+                    if (m_map[checkX, checkY] != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
