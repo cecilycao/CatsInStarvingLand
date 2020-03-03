@@ -49,7 +49,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f2b06aedf55a64436a31728bcee7f1d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -130,7 +130,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f2b06aedf55a64436a31728bcee7f1d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -151,7 +151,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8f629954bb45aa74a8bf21f8e6b95975, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a212ccd9d29ace24b9c596153915014d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -171,6 +171,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5341932226366525000}
+  - component: {fileID: 2048010153}
+  - component: {fileID: 2048010154}
   m_Layer: 0
   m_Name: Plant
   m_TagString: Untagged
@@ -194,3 +196,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &2048010153
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3334355724727302056}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.14810294, y: -0.004163623}
+  m_Size: {x: 1.1006392, y: 1.1006392}
+  m_Direction: 0
+--- !u!114 &2048010154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3334355724727302056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9aa5f3c404e24c4587fdf2f0892a22a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_State: 0
+  fruityPlant: {fileID: 3185188987307196723}
+  initialPlant: {fileID: 3185188987859046771}
+  fruit: {fileID: 3836660957453848034, guid: 2a93105ca73b57146b76d92cd0591087, type: 3}
+  m_player: {fileID: 0}
+  tplant: 0
+  tfruit: 0
+  f_status: 1

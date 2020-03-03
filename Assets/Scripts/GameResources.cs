@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class GameResources : MonoBehaviour
 {
-
+    public enum LandType
+    {
+        GREENLAND,
+        SANDLAND,
+        RUINLAND
+    }
 
     public enum TileType{
         EMPTY,
@@ -23,14 +28,18 @@ public class GameResources : MonoBehaviour
         STONE,
         IRON,
         SAND,
+        SPARE,
         //RESOURCES
         WOOD,
         POOPOO,
         FLOWER,
         BUTTERFLY,
-        PLANT,
+        FRUIT_PLANT,
+        LIGHT_PLANT,
+        GRASS_ANIMAL,
+        SAND_ANIMAL,
+        RUINLAND_ANIMAL,
         WOOL,
-        SPARE,
         GAS_TANK,
         //EATABLE
         FRUIT,

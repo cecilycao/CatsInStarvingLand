@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 736207615632382082}
   - component: {fileID: 736207615632382085}
   - component: {fileID: 8217847396420373514}
-  m_Layer: 9
+  - component: {fileID: 323017853091843125}
+  m_Layer: 11
   m_Name: Ground_Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 736207615632382084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 23.766, y: 24.736, z: 0}
-  m_LocalScale: {x: 1.4776976, y: 1.4864566, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -51,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f2b06aedf55a64436a31728bcee7f1d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -70,10 +71,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1116021213
-  m_SortingLayer: 2
+  m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 6520231314094959504, guid: 6f636d06ccd7dac48844fd6c67300982,
-    type: 3}
+  m_Sprite: {fileID: 21300000, guid: 855e064a53e12bf4bbeb921ba548a212, type: 3}
   m_Color: {r: 0.8030041, g: 0.9811321, b: 0.8006408, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,18 +97,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0072301626, y: 0.0035553724}
+  m_Offset: {x: -0.12009305, y: -0.113386124}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.01, y: 1.01}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 3, y: 3}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9931576, y: 0.9932569}
+  m_Size: {x: 0.77427423, y: 0.76611704}
   m_EdgeRadius: 0
 --- !u!114 &8217847396420373514
 MonoBehaviour:
@@ -125,5 +125,29 @@ MonoBehaviour:
   m_State: 0
   myType: 1
   m_player: {fileID: 0}
+  scaleChange: 0.5
   isCracked: 0
   maxDigDistance: 6
+  m_worldManager: {fileID: 0}
+  index: {x: 0, y: 0}
+--- !u!50 &323017853091843125
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736207615632382084}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

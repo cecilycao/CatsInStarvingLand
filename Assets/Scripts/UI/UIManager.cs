@@ -12,22 +12,22 @@ public class UIManager : MonoBehaviour
     public GameObject Temperature;
     public GameObject Tiredness;
 
-    void UpdateHealth(int healthValue)
+    public void UpdateHealth(int healthValue)
     {
         Text HealthText = Health.GetComponentInChildren<Text>();
         HealthText.text = "Health: " + healthValue;
     }
-    void UpdateHunger(int hungerValue)
+    public void UpdateHunger(int hungerValue)
     {
         Text HungerText = Hunger.GetComponentInChildren<Text>();
         HungerText.text = "Hunger: " + hungerValue;
     }
-    void UpdateTemperature(int temperatureValue)
+    public void UpdateTemperature(int temperatureValue)
     {
         Text TemperatureText = Temperature.GetComponentInChildren<Text>();
         TemperatureText.text = "Temperature: " + temperatureValue;
     }
-    void UpdateTiredness(int tirednessValue)
+    public void UpdateTiredness(int tirednessValue)
     {
         Text TirednessText = Tiredness.GetComponentInChildren<Text>();
         TirednessText.text = "Tiredness: " + TirednessText;

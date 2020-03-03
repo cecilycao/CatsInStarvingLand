@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 400000}
+  - component: {fileID: 11400000}
+  m_Layer: 11
+  m_Name: EdgeGrabLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: -771928, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.8182526, y: -8.649965, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b920162d41a8490448218c76034c2711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_direction: 1
+  m_grabInAir:
+    m_enabled: 1
+    m_handle: {x: 0.3, y: -0.76, z: 0}
+    m_handleRadius: 0.1
+    m_anim:
+      m_name: WallGrab
+      m_layer: 0
+  m_grabFromTop:
+    m_enabled: 1
+    m_handle: {x: -0.41111755, y: 1.074233, z: 0}
+    m_handleRadius: 0.44
+    m_button:
+      m_name: Down
+      m_plugin: {fileID: 0}
+      m_holders: []
+      m_releasers: []
+      m_axis: []
+    m_anim:
+      m_name: WallGrabUnclimb
+      m_layer: 0
+  m_exitClimbUp:
+    m_enabled: 1
+    m_button:
+      m_name: Vertical
+      m_plugin: {fileID: 0}
+      m_holders: []
+      m_releasers: []
+      m_axis: []
+    m_anim:
+      m_name: WallGrabClimbExit
+      m_layer: 0
+    m_maxExitInput: 1
+    m_maxExitPower: 100
+    m_maxExitPowerAnimTime: 0.5
+  m_inputExitFront: 1
+  m_inputExitBack: 1
+  m_inputExitDown: 0.5
+  m_jumpExit: 1
+  m_jumpExitPower: {x: 4, y: 15}
+  m_minGrabTime: 0.1
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 100000}
+  m_IsPrefabParent: 1

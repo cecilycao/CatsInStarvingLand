@@ -6,6 +6,8 @@ public class Plant : PickedUpItems
 {
 	public GameObject fruityPlant;
 	public GameObject initialPlant;
+    public GameObject fruit;
+
 	public PlayerComponent m_player;
 	public GameResources.PickedUpItemName tplant;
 	public GameResources.PickedUpItemName tfruit;
@@ -51,7 +53,8 @@ public class Plant : PickedUpItems
 		{
 
 			fertilize();
-            
+            //destroy poo
+            Destroy(holdedItem.gameObject);
 
 		}
 		
@@ -70,15 +73,8 @@ private void pickUpFruit()
 	initialPlant.SetActive(true);
 
 	f_status = FruitStatus.noFruit;
-
-	//if (m_player.myBackpack.AddNewItem(GameResources.PickedUpItemName.FRUIT))
-	//{
-	//	Destroy(fruityPlant);
-	//}
-	//else
-	//{
-	//	Debug.Log("Add item fail!");
-	//}
+    GameObject newFruit = Instantiate(fruit.gameObject);
+    m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
 
 
 }
@@ -88,16 +84,7 @@ private void pickUpPlant()
 	//disable 图标
 	initialPlant.SetActive(false);
 	Debug.Log("wwwwww");
-
-	//if (m_player.myBackpack.AddNewItem(GameResources.PickedUpItemName.PLANT))
-	//{
-	//	Destroy(initialPlant);
-	//}
-	//else
-	//{
-	//	Debug.Log("Add item fail!");
-
-	//}
+    m_player.PickedUp(this);
 
 }
 

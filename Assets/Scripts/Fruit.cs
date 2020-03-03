@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameResources;
 
-public class Fruit : MonoBehaviour
+public class Fruit : PickedUpItems
 {
     // Start is called before the first frame update
     void Start()
@@ -14,5 +15,10 @@ public class Fruit : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public override PickedUpItemName getItemName()
+    {
+        return PickedUpItemName.FRUIT;
     }
 }

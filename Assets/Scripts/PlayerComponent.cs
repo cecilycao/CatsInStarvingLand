@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameResources;
 
 public class PlayerComponent : MonoBehaviour
 {
@@ -21,12 +23,21 @@ public class PlayerComponent : MonoBehaviour
     public int m_temperature;
     public int m_tiredness;
 
-    public PickedUpItems currentHolded;
+    public int surroundingTemperature;
 
+    public enum m_status {
+        DEFAULT,
+        ATTACK,
+        SLEEP
+    };
+
+    public PickedUpItems currentHolded;
 
     public Transform HoldedPosition;
 
     public Backpack myBackpack;
+
+    public UIManager myUIManager;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +62,8 @@ public class PlayerComponent : MonoBehaviour
             currentHolded.transform.SetParent(transform);
             currentHolded.transform.position = HoldedPosition.position;
         }
+
+        
     }
 
     // Update is called once per frame
@@ -59,6 +72,8 @@ public class PlayerComponent : MonoBehaviour
         //health -1 / 3s
 
         //tiredness -10 / 27s
+        
+
      if(isInvincible){
             invincibleTimer -= Time.deltaTime;
             if(invincibleTimer<0){
@@ -66,6 +81,13 @@ public class PlayerComponent : MonoBehaviour
             }
         }
 
+    }
+
+
+
+    void OnMouseDown()
+    {
+        useItemInHand();
     }
 
     public void PlayerInitialize()
@@ -126,8 +148,12 @@ public class PlayerComponent : MonoBehaviour
             //hold in hand(change UI?)
             item.m_State = PickedUpItems.ItemState.IN_HAND;
             currentHolded = item;
+
+            Debug.Log("Hold Item: Item exist.");
             item.transform.SetParent(transform);
             item.transform.position = HoldedPosition.position;
+
+            
         }
     }
 
@@ -149,6 +175,26 @@ public class PlayerComponent : MonoBehaviour
         Debug.Log(m_health+"/"+maxHealth);
         m_health =Mathf.Clamp(m_health+amount,0,maxHealth);
         Debug.Log(m_health+"/"+maxHealth);
+    }
+
+    public void useItemInHand()
+    {
+        //if Food:
+        //if(currentHolded.getItemName() == PickedUpItemName.FRUIT)
+        //{
+        //    //ChangeHealth();
+            Destroy(currentHolded.gameObject);
+        //}
+
+
+    }
+
+    //Change player's temperature based on surrounding temperature.
+    //if surrounding temperature > 28, m_temperature +0.1/s
+    //if surrounding temperature < 10, m_temperature -0.1/s
+    public void changeZone(int surroundingTemperature)
+    {
+        this.surroundingTemperature = surroundingTemperature;
     }
 
 }
