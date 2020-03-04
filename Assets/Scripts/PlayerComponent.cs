@@ -9,6 +9,7 @@ public class PlayerComponent : MonoBehaviour
     //health component
     public int m_health;//current health
     private int maxHealth =100;
+    
     public int myMaxHealth{
         get{return maxHealth;}
     }
@@ -20,7 +21,7 @@ public class PlayerComponent : MonoBehaviour
     private bool isInvincible; //是否无敌
 
     public int m_hunger;
-    public int m_temperature;
+    public double m_temperature;
     public int m_tiredness;
 
     public int surroundingTemperature;
@@ -39,9 +40,15 @@ public class PlayerComponent : MonoBehaviour
 
     public UIManager myUIManager;
 
+
+    private float lastTempCheck;
+
+    
     // Start is called before the first frame update
     void Start()
     {
+
+        
         Inventory iv = FindObjectOfType<Inventory>();
         myBackpack = new Backpack(iv);
 
@@ -63,13 +70,14 @@ public class PlayerComponent : MonoBehaviour
             currentHolded.transform.position = HoldedPosition.position;
         }
 
-        
+        lastTempCheck = Time.time;     
     }
 
     // Update is called once per frame
     void Update()
     {
         //health -1 / 3s
+        //m_health
 
         //tiredness -10 / 27s
         
@@ -81,9 +89,31 @@ public class PlayerComponent : MonoBehaviour
             }
         }
 
+        
+        BodyTempCheckBasedOnTemp();
     }
 
+    void BodyTempCheckBasedOnTemp() {
+        if (Time.time - lastTempCheck >= 1) {
+            if (this.surroundingTemperature > 28) {
+                m_temperature += 0.1;
+            } else if (this.surroundingTemperature < 10) {
+                m_temperature -= 0.1;
+            }
+            lastTempCheck = Time.time;
+            Debug.Log("当前环境温度:"+surroundingTemperature + "   当前体温: "+m_temperature);
+        }
+    }
 
+    //改变饥饿值
+        
+    void ChangeHungry(){
+        //吃果子，+10；
+        //吃小鱼干，+20；
+        //吃屎，+20
+    }
+
+    
 
     void OnMouseDown()
     {
@@ -118,9 +148,11 @@ public class PlayerComponent : MonoBehaviour
         }
         else
         {
-            //decrease health
+            //increase health
         }
     }
+    
+    
 
     public bool PickedUp(PickedUpItems item)
     {
@@ -176,6 +208,8 @@ public class PlayerComponent : MonoBehaviour
         m_health =Mathf.Clamp(m_health+amount,0,maxHealth);
         Debug.Log(m_health+"/"+maxHealth);
     }
+
+
 
     public void useItemInHand()
     {
