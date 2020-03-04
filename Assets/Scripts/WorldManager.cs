@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
+
     public static int LengthOfDayInSecond = 300;
+
+    private static WorldManager instance = null;
+    public static WorldManager Instance { get { return instance; } }
+    
+
     public float currentSecond = 0;
     public int currentDay = 0;
 
@@ -15,6 +21,21 @@ public class WorldManager : MonoBehaviour
     public WorldGenerator m_worldGenerator;
 
     // Start is called before the first frame update
+
+    void Awake()
+    {
+        // Singleton
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
         m_worldGenerator.GenerateWorld();
@@ -32,6 +53,16 @@ public class WorldManager : MonoBehaviour
             currentSecond = Time.time - startTime;
             currentDay = ((int)currentSecond / 300) + 1;
         }
+    }
+
+    public int getCurrentDay()
+    {
+        return currentDay;
+    }
+
+    public float getCurrentSecond()
+    {
+        return currentSecond;
     }
 
     void beginWorldTime()
