@@ -34,9 +34,8 @@ public class InventorySlot : MonoBehaviour
         return Resources.Load<Sprite>(spriteName);
     }
 
-    public void OnMouseDown()
+    public void clickItem()
     {
         Debug.Log("call your function here");
     }
-    
 }
