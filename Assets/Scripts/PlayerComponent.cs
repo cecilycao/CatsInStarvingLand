@@ -20,7 +20,7 @@ public class PlayerComponent : MonoBehaviour
     private bool isInvincible; //是否无敌
 
     public int m_hunger;
-    public int m_temperature;
+    public double m_temperature;
     public int m_tiredness;
 
     public GameObject bulletObj;
@@ -43,6 +43,8 @@ public class PlayerComponent : MonoBehaviour
     public Backpack myBackpack;
 
     public UIManager myUIManager;
+
+    private float lastTempCheck;
 
     private APCharacterController APcontroller;
     // Start is called before the first frame update
@@ -72,6 +74,7 @@ public class PlayerComponent : MonoBehaviour
             currentHolded.transform.position = HoldedPosition.position;
         }
 
+        lastTempCheck = Time.time;    
         
     }
 
@@ -83,7 +86,7 @@ public class PlayerComponent : MonoBehaviour
         //tiredness -10 / 27s
         
 
-     if(isInvincible){
+        if(isInvincible){
             invincibleTimer -= Time.deltaTime;
             if(invincibleTimer<0){
                 isInvincible = false;
@@ -98,6 +101,27 @@ public class PlayerComponent : MonoBehaviour
                 Bc.BulletMove(lookDeriction, 300);
             }
         }
+        BodyTempCheckBasedOnTemp();
+    }
+
+    void BodyTempCheckBasedOnTemp() {
+        if (Time.time - lastTempCheck >= 1) {
+            if (this.surroundingTemperature > 28) {
+                m_temperature += 0.1;
+            } else if (this.surroundingTemperature < 10) {
+                m_temperature -= 0.1;
+            }
+            lastTempCheck = Time.time;
+            Debug.Log("当前环境温度:"+surroundingTemperature + "   当前体温: "+m_temperature);
+        }
+    }
+
+    //改变饥饿值
+        
+    void ChangeHungry(){
+        //吃果子，+10；
+        //吃小鱼干，+20；
+        //吃屎，+20
     }
 
 
