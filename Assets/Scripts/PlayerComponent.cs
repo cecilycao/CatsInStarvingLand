@@ -1,11 +1,15 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
 
-public class PlayerComponent : MonoBehaviour
+public class PlayerComponent : MonoBehaviourPun
 {
+    APCharacterController m_player;
+    Animator m_anim;
+
     //health component
     public int m_health;//current health
     private int maxHealth =100;
@@ -39,6 +43,18 @@ public class PlayerComponent : MonoBehaviour
 
     public UIManager myUIManager;
 
+
+    private void Awake()
+    {
+        m_player = GetComponent<APCharacterController>();
+        m_anim = GetComponent<Animator>();
+
+        if(!photonView.IsMine && GetComponent<APCharacterController>() != null)
+        {
+            Destroy(GetComponent<APCharacterController>());
+            //Destroy Motor????
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -183,7 +199,11 @@ public class PlayerComponent : MonoBehaviour
         //if(currentHolded.getItemName() == PickedUpItemName.FRUIT)
         //{
         //    //ChangeHealth();
+        if(currentHolded.gameObject != null)
+        {
             Destroy(currentHolded.gameObject);
+        }
+            
         //}
 
 
@@ -197,4 +217,19 @@ public class PlayerComponent : MonoBehaviour
         this.surroundingTemperature = surroundingTemperature;
     }
 
+
+    public static void RefreshInstance(ref PlayerComponent player, PlayerComponent Prefab)
+    {
+        var position = Vector3.zero;
+        var rotation = Quaternion.identity;
+
+        if(player != null)
+        {
+            position = player.transform.position;
+            rotation = player.transform.rotation;
+            PhotonNetwork.Destroy(player.gameObject);
+        }
+        player = PhotonNetwork.Instantiate(Prefab.gameObject.name, position, rotation).GetComponent<PlayerComponent>();
+
+    }
 }
