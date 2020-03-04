@@ -95,3 +95,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_State: 0
+  fruit: {fileID: 0}
+  m_player: {fileID: 0}
+  start_time: 0
