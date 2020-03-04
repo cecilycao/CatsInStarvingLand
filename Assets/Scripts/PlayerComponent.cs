@@ -24,6 +24,7 @@ public class PlayerComponent : MonoBehaviour
     public int m_tiredness;
 
     public GameObject bulletObj;
+
     private Vector2 lookDeriction = new Vector2(1, 0);
 
 
@@ -43,9 +44,13 @@ public class PlayerComponent : MonoBehaviour
 
     public UIManager myUIManager;
 
+    private APCharacterController APcontroller;
     // Start is called before the first frame update
     void Start()
     {
+        APcontroller = GetComponent<APCharacterController>();
+
+
         Inventory iv = FindObjectOfType<Inventory>();
         myBackpack = new Backpack(iv);
 
@@ -86,7 +91,7 @@ public class PlayerComponent : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
-            GameObject bullet = Instantiate(bulletObj, transform.position, Quaternion.identity);
+            GameObject bullet = Instantiate(bulletObj, APcontroller.GetRigidBody().position, Quaternion.identity);
             Bullet Bc = bullet.GetComponent<Bullet>();
             if (Bc != null)
             {
@@ -184,9 +189,9 @@ public class PlayerComponent : MonoBehaviour
             invincibleTimer = invincibleTime;
         }
 
-        Debug.Log(m_health+"/"+maxHealth);
+        Debug.Log("player" + m_health +"/"+maxHealth);
         m_health =Mathf.Clamp(m_health+amount,0,maxHealth);
-        Debug.Log(m_health+"/"+maxHealth);
+        Debug.Log("player" + m_health +"/"+maxHealth);
     }
 
     public void useItemInHand()

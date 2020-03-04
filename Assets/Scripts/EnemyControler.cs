@@ -54,7 +54,7 @@ public class EnemyControler : MonoBehaviour
 
             
                 pc.ChangeHealth(-1);
-                GameObject xiaoDryfish = Instantiate(wuping, transform.position, transform.rotation);
+               
                 //Destroy(this);
                 Debug.Log("扣血");
             
@@ -65,13 +65,14 @@ public class EnemyControler : MonoBehaviour
     {
         if (amount < 0)
         {
-            Debug.Log(aniCurHealth + "/" + animalHealth);
+            Debug.Log("animal" + aniCurHealth + "/" + animalHealth);
             aniCurHealth = Mathf.Clamp(aniCurHealth + amount, 0, animalHealth);
             //UiManager.instance.UpdateHealthbar(currentHealth, maxHealth);
-            Debug.Log(aniCurHealth + "/" + animalHealth);
+            Debug.Log("animal" +aniCurHealth + "/" + animalHealth);
             if (aniCurHealth == 0)
             {
                 Destroy(this.gameObject);
+                GameObject xiaoDryfish = Instantiate(wuping, transform.position, transform.rotation);
             }
         }
     }
