@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Plant : PickedUpItems
 {
 	public GameObject fruityPlant;
 	public GameObject initialPlant;
     public GameObject fruit;
+	public GameObject plant;
+
 
 	public PlayerComponent m_player;
 	public GameResources.PickedUpItemName tplant;
@@ -74,19 +77,32 @@ private void pickUpFruit()
 
 	f_status = FruitStatus.noFruit;
     GameObject newFruit = Instantiate(fruit.gameObject);
-    m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
 
+	m_player.PickedUp(this);
 
-}
+        //m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
+     //destroy(fruit);
 
-private void pickUpPlant()
+    }
+
+	private void pickUpPlant()
 {
 	//disable 图标
 	initialPlant.SetActive(false);
 	Debug.Log("wwwwww");
-    m_player.PickedUp(this);
+    //m_player.PickedUp(this);
 
-}
+	GameObject newPlant = Instantiate(plant.gameObject);
+
+	m_player.PickedUp(this);
+
+
+	//m_player.PickedUp(newPlant.GetComponent<PickedUpItems>());
+	//Debug.Log(newPlant.GetComponent<PickedUpItems>());
+    //destroy(plant);
+
+
+	}
 
 private void fertilize()
 {
