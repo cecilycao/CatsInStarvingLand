@@ -10,11 +10,13 @@ public class EnemyControler : MonoBehaviour
     private float changeTimer;
     private Rigidbody2D rbody;
     private Vector2 moveDirection;
+    private int lastpop;
+    
 
     public PlayerComponent m_player;
 
     public GameObject Fish;
-    public GameObject Dryfish;
+    public GameObject wuping;
 
     public GameResources.PickedUpItemName tplant;
 
@@ -24,6 +26,7 @@ public class EnemyControler : MonoBehaviour
         rbody = GetComponent<Rigidbody2D>(); 
         moveDirection = isVertical? Vector2.up: Vector2.right;
         changeTimer = changeDirectionTime;
+       
     }
 
     // Update is called once per frame
@@ -41,10 +44,12 @@ public class EnemyControler : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D other){
+
         PlayerComponent pc = other.gameObject.GetComponent<PlayerComponent>();
+        
         if(pc!= null){
              pc.ChangeHealth(-1);
-            //Instantiate(Dryfish, other.transform.position, transform.rotation);
+           GameObject xiaoDryfish=Instantiate(wuping, other.transform.position, transform.rotation);
             //Destroy(this);
             Debug.Log("扣血");
         }
