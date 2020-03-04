@@ -8,29 +8,34 @@ public class PlayerComponent : MonoBehaviour
 {
     //health component
     public int m_health;//current health
-    private int maxHealth =100;
-    public int myMaxHealth{
-        get{return maxHealth;}
+    public int m_hunger;
+    private int maxHealth = 100;
+    public int myMaxHealth
+    {
+        get { return maxHealth; }
     }
-    public int myCurrentHealth{
-        get{return m_health;}
+
+    private int maxHunger = 100;
+
+    public int myCurrentHealth
+    {
+        get { return m_health; }
     }
-     private float invincibleTime = 2f; //无敌时间
-    private float invincibleTimer;  
+    public int myCurrentHunger
+    {
+        get { return maxHunger; }
+    }
+    private float invincibleTime = 2f; //无敌时间
+    private float invincibleTimer;
     private bool isInvincible; //是否无敌
 
-    public int m_hunger;
     public int m_temperature;
     public int m_tiredness;
 
-    public GameObject bulletObj;
-
-    private Vector2 lookDeriction = new Vector2(1, 0);
-
-
     public int surroundingTemperature;
 
-    public enum m_status {
+    public enum m_status
+    {
         DEFAULT,
         ATTACK,
         SLEEP
@@ -44,18 +49,15 @@ public class PlayerComponent : MonoBehaviour
 
     public UIManager myUIManager;
 
-    private APCharacterController APcontroller;
     // Start is called before the first frame update
     void Start()
     {
-        APcontroller = GetComponent<APCharacterController>();
-
-
         Inventory iv = FindObjectOfType<Inventory>();
         myBackpack = new Backpack(iv);
 
 
         m_health = 100;
+        m_hunger = 0;
         invincibleTimer = 0;
 
         m_hunger = 100;
@@ -72,7 +74,7 @@ public class PlayerComponent : MonoBehaviour
             currentHolded.transform.position = HoldedPosition.position;
         }
 
-        
+
     }
 
     // Update is called once per frame
@@ -81,23 +83,17 @@ public class PlayerComponent : MonoBehaviour
         //health -1 / 3s
 
         //tiredness -10 / 27s
-        
 
-     if(isInvincible){
+
+        if (isInvincible)
+        {
             invincibleTimer -= Time.deltaTime;
-            if(invincibleTimer<0){
+            if (invincibleTimer < 0)
+            {
                 isInvincible = false;
             }
         }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            GameObject bullet = Instantiate(bulletObj, APcontroller.GetRigidBody().position, Quaternion.identity);
-            Bullet Bc = bullet.GetComponent<Bullet>();
-            if (Bc != null)
-            {
-                Bc.BulletMove(lookDeriction, 300);
-            }
-        }
+
     }
 
 
@@ -115,12 +111,13 @@ public class PlayerComponent : MonoBehaviour
 
     IEnumerator Digest()
     {
-        if(m_hunger > 0)
+        if (m_hunger > 0)
         {
             m_hunger--;
-            
+
             yield return new WaitForSeconds(3);
-        } else
+        }
+        else
         {
             //decrease health
         }
@@ -142,6 +139,9 @@ public class PlayerComponent : MonoBehaviour
     public bool PickedUp(PickedUpItems item)
     {
         GameResources.PickedUpItemName name = item.getItemName();
+
+        Debug.Log(name);
+
         if (currentHolded == null)
         {
             item.m_State = PickedUpItems.ItemState.IN_BAG;
@@ -160,7 +160,7 @@ public class PlayerComponent : MonoBehaviour
 
     public void HoldItemInHand(PickedUpItems item)
     {
-        if(item.m_State == PickedUpItems.ItemState.IN_BAG)
+        if (item.m_State == PickedUpItems.ItemState.IN_BAG)
         {
             //hold in hand(change UI?)
             item.m_State = PickedUpItems.ItemState.IN_HAND;
@@ -170,7 +170,7 @@ public class PlayerComponent : MonoBehaviour
             item.transform.SetParent(transform);
             item.transform.position = HoldedPosition.position;
 
-            
+
         }
     }
 
@@ -180,19 +180,32 @@ public class PlayerComponent : MonoBehaviour
         return currentHolded;
     }
 
-    public void ChangeHealth(int amount){
-        if(amount <0){
-            if(isInvincible==true){
+    public void ChangeHealth(int amount)
+    {
+        if (amount < 0)
+        {
+            if (isInvincible == true)
+            {
                 return;
             }
             isInvincible = true;
             invincibleTimer = invincibleTime;
         }
 
-        Debug.Log("player" + m_health +"/"+maxHealth);
-        m_health =Mathf.Clamp(m_health+amount,0,maxHealth);
-        Debug.Log("player" + m_health +"/"+maxHealth);
+        Debug.Log(m_health + "/" + maxHealth);
+        m_health = Mathf.Clamp(m_health + amount, 0, maxHealth);
+        Debug.Log(m_health + "/" + maxHealth);
     }
+
+
+    public void changeHunger(int amount)
+    {
+        Debug.Log(m_hunger + "/" + maxHunger);
+        m_hunger = Mathf.Clamp(m_hunger + amount, 0, maxHunger);
+        Debug.Log(m_hunger + "/" + maxHunger);
+    }
+
+
 
     public void useItemInHand()
     {
@@ -200,8 +213,13 @@ public class PlayerComponent : MonoBehaviour
         //if(currentHolded.getItemName() == PickedUpItemName.FRUIT)
         //{
         //    //ChangeHealth();
-            Destroy(currentHolded.gameObject);
+        //Destroy(currentHolded.gameObject);
         //}
+
+        if (currentHolded.gameObject != null)
+        {
+            Destroy(currentHolded.gameObject);
+        }
 
 
     }
