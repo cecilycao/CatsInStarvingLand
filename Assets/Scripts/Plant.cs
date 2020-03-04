@@ -78,10 +78,10 @@ private void pickUpFruit()
 	f_status = FruitStatus.noFruit;
     GameObject newFruit = Instantiate(fruit.gameObject);
 
-	m_player.PickedUp(this);
+	m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
 
         //m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
-     //destroy(fruit);
+     //Destroy(newFruit);
 
     }
 

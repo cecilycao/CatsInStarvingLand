@@ -31,12 +31,12 @@ PrefabInstance:
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 24.14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 736207615632382083, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}
@@ -87,6 +87,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ground_Stone Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 736207615632382085, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 736207615632382085, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.01
       objectReference: {fileID: 0}
     - target: {fileID: 8217847396420373514, guid: ab93203dd6dddfa4482c17dda9aa5e0f,
         type: 3}

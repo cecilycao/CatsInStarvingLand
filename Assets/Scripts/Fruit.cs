@@ -19,6 +19,7 @@ public class Fruit : PickedUpItems
     void Start()
     {
         start_time = WorldManager.Instance.getCurrentDay();
+        m_player = GameObject.FindWithTag("Player").GetComponent<PlayerComponent>();
     }
 
     // Update is called once per frame
