@@ -20,13 +20,16 @@ public class EnemyControler : MonoBehaviour
 
     public GameResources.PickedUpItemName tplant;
 
+    public int animalHealth = 2;
+    public int aniCurHealth;
+
     // Start is called before the first frame update
     void Start()
     {
         rbody = GetComponent<Rigidbody2D>(); 
         moveDirection = isVertical? Vector2.up: Vector2.right;
         changeTimer = changeDirectionTime;
-       
+        aniCurHealth = animalHealth;
     }
 
     // Update is called once per frame
@@ -56,7 +59,20 @@ public class EnemyControler : MonoBehaviour
                 Debug.Log("扣血");
             
         }
-       
+    }
 
+    public void animalChangeHealth(int amount)
+    {
+        if (amount < 0)
+        {
+            Debug.Log(aniCurHealth + "/" + animalHealth);
+            aniCurHealth = Mathf.Clamp(aniCurHealth + amount, 0, animalHealth);
+            //UiManager.instance.UpdateHealthbar(currentHealth, maxHealth);
+            Debug.Log(aniCurHealth + "/" + animalHealth);
+            if (aniCurHealth == 0)
+            {
+                Destroy(this.gameObject);
+            }
+        }
     }
 }

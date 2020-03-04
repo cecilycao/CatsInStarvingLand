@@ -23,6 +23,10 @@ public class PlayerComponent : MonoBehaviour
     public int m_temperature;
     public int m_tiredness;
 
+    public GameObject bulletObj;
+    private Vector2 lookDeriction = new Vector2(1, 0);
+
+
     public int surroundingTemperature;
 
     public enum m_status {
@@ -80,7 +84,15 @@ public class PlayerComponent : MonoBehaviour
                 isInvincible = false;
             }
         }
-
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            GameObject bullet = Instantiate(bulletObj, transform.position, Quaternion.identity);
+            Bullet Bc = bullet.GetComponent<Bullet>();
+            if (Bc != null)
+            {
+                Bc.BulletMove(lookDeriction, 300);
+            }
+        }
     }
 
 
