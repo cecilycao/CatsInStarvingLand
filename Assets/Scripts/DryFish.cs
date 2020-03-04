@@ -34,4 +34,9 @@ public class DryFish : PickedUpItems
     {
         throw new NotImplementedException();
     }
+
+    public override GameResources.PickedUpItemName getItemName()
+    {
+        return GameResources.PickedUpItemName.DRIED_FISH;
+    }
 }
