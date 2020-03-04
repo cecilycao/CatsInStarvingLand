@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Backpack
 {
-    private int maxCapacity = 100;
+    private int maxCapacity = 10000;
     private int maxItemSpace = 12;
     private int currentWeight = 0;
 

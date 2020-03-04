@@ -416,6 +416,8 @@ MonoBehaviour:
   m_hunger: 0
   m_temperature: 0
   m_tiredness: 0
+  bulletObj: {fileID: 7451286104210488710, guid: 9b81301f42a8e469fa524824128d6edc,
+    type: 3}
   surroundingTemperature: 0
   currentHolded: {fileID: 0}
   HoldedPosition: {fileID: 2127437878}
