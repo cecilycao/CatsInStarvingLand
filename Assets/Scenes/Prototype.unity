@@ -1215,6 +1215,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7761783708371312299, guid: 9256816374183df4e87fdbe23870f7dd,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761783708371312299, guid: 9256816374183df4e87fdbe23870f7dd,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761783708371312299, guid: 9256816374183df4e87fdbe23870f7dd,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9256816374183df4e87fdbe23870f7dd, type: 3}
 --- !u!1 &546810532 stripped
@@ -1659,7 +1674,7 @@ SpriteRenderer:
   m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 315e65c8c22f5d7449ad5d579100e6c0, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8962264, g: 0.73490494, b: 0.68907976, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

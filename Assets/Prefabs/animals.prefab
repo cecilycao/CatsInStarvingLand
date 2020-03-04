@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 7761783708371312297}
   - component: {fileID: 7761783708371312294}
   - component: {fileID: 7761783708371312295}
+  - component: {fileID: 9168081516210190489}
+  - component: {fileID: 143936499}
   m_Layer: 0
   m_Name: animals
   m_TagString: animal
@@ -28,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7761783708371312292}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.57, z: 0}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -73,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300030, guid: 651c4abeb0812e74685da0e5a31c8dff, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8e361440f470c064d8e954be265ce316, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -118,18 +120,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 1
-  m_Offset: {x: -0.043736637, y: 0.4624957}
+  m_Offset: {x: 0.15865159, y: -0.00021219254}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1.7069987, y: 1.7053334}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5, y: 5}
     newSize: {x: 1.7069987, y: 1.7053334}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 0.89092004, y: 0.9249914}
+  m_Size: {x: 3.3902545, y: 2.724412}
   m_EdgeRadius: 0
 --- !u!114 &7761783708371312295
 MonoBehaviour:
@@ -153,3 +155,37 @@ MonoBehaviour:
   tplant: 0
   animalHealth: 2
   aniCurHealth: 0
+--- !u!95 &9168081516210190489
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7761783708371312292}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c540954c77efd2b469b14853d5889d9a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &143936499
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7761783708371312292}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

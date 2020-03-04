@@ -12,8 +12,8 @@ public class Plant : PickedUpItems
 
 
 	public PlayerComponent m_player;
-	public GameResources.PickedUpItemName tplant;
-	public GameResources.PickedUpItemName tfruit;
+	//public GameResources.PickedUpItemName tplant;
+	//public GameResources.PickedUpItemName tfruit;
 
 
 	public FruitStatus f_status;
@@ -92,7 +92,7 @@ private void pickUpFruit()
 	Debug.Log("wwwwww");
     //m_player.PickedUp(this);
 
-	GameObject newPlant = Instantiate(plant.gameObject);
+	GameObject newPlant = Instantiate(gameObject);
 
 	m_player.PickedUp(this);
 
