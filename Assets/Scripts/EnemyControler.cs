@@ -44,15 +44,19 @@ public class EnemyControler : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D other){
-
-        PlayerComponent pc = other.gameObject.GetComponent<PlayerComponent>();
         
-        if(pc!= null){
-             pc.ChangeHealth(-1);
-           GameObject xiaoDryfish=Instantiate(wuping, other.transform.position, transform.rotation);
-            //Destroy(this);
-            Debug.Log("扣血");
+             if (other.gameObject.tag == "Player")
+        {
+            PlayerComponent pc = other.gameObject.GetComponent<PlayerComponent>();
+
+            
+                pc.ChangeHealth(-1);
+                GameObject xiaoDryfish = Instantiate(wuping, transform.position, transform.rotation);
+                //Destroy(this);
+                Debug.Log("扣血");
+            
         }
+       
 
     }
 }
