@@ -5,7 +5,7 @@ using UnityEngine;
 public class WorldManager : MonoBehaviour
 {
 
-    public static int LengthOfDayInSecond = 300;
+    public static int LengthOfDayInSecond = 30;
 
     private static WorldManager instance = null;
     public static WorldManager Instance { get { return instance; } }
@@ -51,7 +51,7 @@ public class WorldManager : MonoBehaviour
         {
             //in seconds
             currentSecond = Time.time - startTime;
-            currentDay = ((int)currentSecond / 300) + 1;
+            currentDay = ((int)currentSecond / 30) + 1;
         }
     }
 

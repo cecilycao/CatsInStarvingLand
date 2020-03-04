@@ -11,13 +11,14 @@ public class EnemyControler : MonoBehaviour
     private Rigidbody2D rbody;
     private Vector2 moveDirection;
     private int lastpop;
-    
 
+    
+    private int lastPopo=1;
     public PlayerComponent m_player;
 
     public GameObject Fish;
     public GameObject wuping;
-
+    public GameObject shit;
     public GameResources.PickedUpItemName tplant;
 
     public int animalHealth = 2;
@@ -30,6 +31,8 @@ public class EnemyControler : MonoBehaviour
         moveDirection = isVertical? Vector2.up: Vector2.right;
         changeTimer = changeDirectionTime;
         aniCurHealth = animalHealth;
+       
+
     }
 
     // Update is called once per frame
@@ -44,6 +47,13 @@ public class EnemyControler : MonoBehaviour
         position.x += moveDirection.x *  speed * Time.deltaTime;
         position.y += moveDirection.y *  speed * Time.deltaTime;
         rbody.MovePosition(position);
+        //Debug.Log(WorldManager.Instance.getCurrentDay());
+        if(WorldManager.Instance.getCurrentDay()- lastPopo >=1)
+        {
+            lastPopo = WorldManager.Instance.getCurrentDay();
+            GameObject newShit = Instantiate(shit, transform.position, transform.rotation);
+        }
+
     }
 
     void OnCollisionEnter2D(Collision2D other){
@@ -54,7 +64,6 @@ public class EnemyControler : MonoBehaviour
 
             
                 pc.ChangeHealth(-1);
-               
                 //Destroy(this);
                 Debug.Log("扣血");
             
