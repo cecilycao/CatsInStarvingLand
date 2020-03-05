@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManagerForNetwork : MonoBehaviourPunCallbacks
 {
+    private static GameManagerForNetwork instance = null;
+    public static GameManagerForNetwork Instance { get { return instance; } }
 
     public PlayerComponent PlayerPrefab;
 
@@ -19,6 +21,19 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
             SceneManager.LoadScene("Menu");
             return;
         }
+
+
+        // Singleton
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+        
     }
 
     private void Start()

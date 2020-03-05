@@ -7,29 +7,41 @@ using static GameResources;
 
 public class PlayerComponent : MonoBehaviourPun
 {
-    APCharacterController m_player;
-    Animator m_anim;
-
     //health component
     public int m_health;//current health
-    private int maxHealth =100;
-    public int myMaxHealth{
-        get{return maxHealth;}
+    private int maxHealth = 100;
+    public int myMaxHealth
+    {
+        get { return maxHealth; }
     }
-    public int myCurrentHealth{
-        get{return m_health;}
+    public int myCurrentHealth
+    {
+        get { return m_health; }
     }
-     private float invincibleTime = 2f; //无敌时间
-    private float invincibleTimer;  
+    private float invincibleTime = 2f; //无敌时间
+    private float invincibleTimer;
     private bool isInvincible; //是否无敌
 
     public int m_hunger;
+    public int maxHunger = 100;
+
+    public int myCurrentHunger
+    {
+        get { return m_hunger; }
+    }
+
     public int m_temperature;
     public int m_tiredness;
 
+    public GameObject bulletObj;
+
+    private Vector2 lookDeriction = new Vector2(1, 0);
+
+
     public int surroundingTemperature;
 
-    public enum m_status {
+    public enum m_status
+    {
         DEFAULT,
         ATTACK,
         SLEEP
@@ -43,21 +55,27 @@ public class PlayerComponent : MonoBehaviourPun
 
     public UIManager myUIManager;
 
+    private APCharacterController APcontroller;
+    Animator m_anim;
 
     private void Awake()
     {
-        m_player = GetComponent<APCharacterController>();
+        APcontroller = GetComponent<APCharacterController>();
         m_anim = GetComponent<Animator>();
 
-        if(!photonView.IsMine && GetComponent<APCharacterController>() != null)
+        if (!photonView.IsMine && GetComponent<APCharacterController>() != null)
         {
             Destroy(GetComponent<APCharacterController>());
             //Destroy Motor????
         }
     }
+
     // Start is called before the first frame update
     void Start()
     {
+        APcontroller = GetComponent<APCharacterController>();
+
+
         Inventory iv = FindObjectOfType<Inventory>();
         myBackpack = new Backpack(iv);
 
@@ -79,7 +97,7 @@ public class PlayerComponent : MonoBehaviourPun
             currentHolded.transform.position = HoldedPosition.position;
         }
 
-        
+
     }
 
     // Update is called once per frame
@@ -88,21 +106,32 @@ public class PlayerComponent : MonoBehaviourPun
         //health -1 / 3s
 
         //tiredness -10 / 27s
-        
 
-     if(isInvincible){
+
+        if (isInvincible)
+        {
             invincibleTimer -= Time.deltaTime;
-            if(invincibleTimer<0){
+            if (invincibleTimer < 0)
+            {
                 isInvincible = false;
             }
         }
-
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            GameObject bullet = Instantiate(bulletObj, APcontroller.GetRigidBody().position, Quaternion.identity);
+            Bullet Bc = bullet.GetComponent<Bullet>();
+            if (Bc != null)
+            {
+                Bc.BulletMove(lookDeriction, 300);
+            }
+        }
     }
 
 
 
     void OnMouseDown()
     {
+        Debug.Log("Click character");
         useItemInHand();
     }
 
@@ -114,12 +143,13 @@ public class PlayerComponent : MonoBehaviourPun
 
     IEnumerator Digest()
     {
-        if(m_hunger > 0)
+        if (m_hunger > 0)
         {
             m_hunger--;
-            
+
             yield return new WaitForSeconds(3);
-        } else
+        }
+        else
         {
             //decrease health
         }
@@ -159,7 +189,7 @@ public class PlayerComponent : MonoBehaviourPun
 
     public void HoldItemInHand(PickedUpItems item)
     {
-        if(item.m_State == PickedUpItems.ItemState.IN_BAG)
+        if (item.m_State == PickedUpItems.ItemState.IN_BAG)
         {
             //hold in hand(change UI?)
             item.m_State = PickedUpItems.ItemState.IN_HAND;
@@ -169,7 +199,7 @@ public class PlayerComponent : MonoBehaviourPun
             item.transform.SetParent(transform);
             item.transform.position = HoldedPosition.position;
 
-            
+
         }
     }
 
@@ -179,18 +209,21 @@ public class PlayerComponent : MonoBehaviourPun
         return currentHolded;
     }
 
-    public void ChangeHealth(int amount){
-        if(amount <0){
-            if(isInvincible==true){
+    public void ChangeHealth(int amount)
+    {
+        if (amount < 0)
+        {
+            if (isInvincible == true)
+            {
                 return;
             }
             isInvincible = true;
             invincibleTimer = invincibleTime;
         }
 
-        Debug.Log(m_health+"/"+maxHealth);
-        m_health =Mathf.Clamp(m_health+amount,0,maxHealth);
-        Debug.Log(m_health+"/"+maxHealth);
+        Debug.Log("player" + m_health + "/" + maxHealth);
+        m_health = Mathf.Clamp(m_health + amount, 0, maxHealth);
+        Debug.Log("player" + m_health + "/" + maxHealth);
     }
 
     public void useItemInHand()
@@ -199,11 +232,7 @@ public class PlayerComponent : MonoBehaviourPun
         //if(currentHolded.getItemName() == PickedUpItemName.FRUIT)
         //{
         //    //ChangeHealth();
-        if(currentHolded.gameObject != null)
-        {
-            Destroy(currentHolded.gameObject);
-        }
-            
+        Destroy(currentHolded.gameObject);
         //}
 
 
@@ -217,13 +246,19 @@ public class PlayerComponent : MonoBehaviourPun
         this.surroundingTemperature = surroundingTemperature;
     }
 
+    public void changeHunger(int amount)
+    {
+        Debug.Log(m_hunger + "/" + maxHunger);
+        m_hunger = Mathf.Clamp(m_hunger + amount, 0, maxHunger);
+        Debug.Log(m_hunger + "/" + maxHunger);
+    }
 
     public static void RefreshInstance(ref PlayerComponent player, PlayerComponent Prefab)
     {
         var position = Vector3.zero;
         var rotation = Quaternion.identity;
 
-        if(player != null)
+        if (player != null)
         {
             position = player.transform.position;
             rotation = player.transform.rotation;
@@ -232,4 +267,5 @@ public class PlayerComponent : MonoBehaviourPun
         player = PhotonNetwork.Instantiate(Prefab.gameObject.name, position, rotation).GetComponent<PlayerComponent>();
 
     }
+
 }
