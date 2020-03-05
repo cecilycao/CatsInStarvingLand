@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,18 @@ public class DryFish : PickedUpItems
         { 
             Debug.Log("Pick DryFish!");
             m_player.PickedUp(this);
+            
         }
 
+    }
+
+    public static implicit operator GameObject(DryFish v)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override GameResources.PickedUpItemName getItemName()
+    {
+        return GameResources.PickedUpItemName.DRIED_FISH;
     }
 }

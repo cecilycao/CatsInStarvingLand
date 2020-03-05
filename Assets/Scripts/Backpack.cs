@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Backpack
 {
-    private int maxCapacity = 100;
+    private int maxCapacity = 10000;
     private int maxItemSpace = 12;
     private int currentWeight = 0;
 
@@ -121,8 +121,7 @@ public class Backpack
         int count = 0;
         foreach (var item in inventory)
         {
-            Debug.Log(item.Key);
-            Debug.Log(item.Value);
+            Debug.Log("背包更新: "+ item.Key + "=" + item.Value);
             inventoryUI.UpdateOne(count, item.Key, item.Value);
             count++;
         }

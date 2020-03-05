@@ -33,4 +33,9 @@ public class InventorySlot : MonoBehaviour
         //string spriteName = "InventoryUIs/PLANT";
         return Resources.Load<Sprite>(spriteName);
     }
+
+    public void clickItem()
+    {
+        Debug.Log("call your function here");
+    }
 }

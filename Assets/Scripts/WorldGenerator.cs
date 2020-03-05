@@ -79,7 +79,7 @@ public class WorldGenerator : MonoBehaviour
         {
             for (int y = 0; y < m_landTypeMap.GetLength(1); y++)
             {
-                Vector2 pos = new Vector3((-totalWidth / 2.0f) + (width * tileSize / 2.0f) + x * width * tileSize, (totalHeight / 2.0f) - (width * tileSize / 2.0f) - width * tileSize * y);
+                Vector3 pos = new Vector3((-totalWidth / 2.0f) + (width * tileSize / 2.0f) + x * width * tileSize, (totalHeight / 2.0f) - (width * tileSize / 2.0f) - width * tileSize * y, 5);
 
                 if (m_landTypeMap[x, y] == (int)LandType.GREENLAND)
                 {
@@ -161,7 +161,7 @@ public class WorldGenerator : MonoBehaviour
 
     public void GenerateCreature(GameObject obj, int x, int y)
     {
-        Vector2 pos = new Vector3((-totalWidth / 2.0f) + (tileSize / 2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y);
+        Vector3 pos = new Vector3((-totalWidth / 2.0f) + (tileSize / 2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y, 1);
         //Debug.Log(pos);
         GameObject newCreature = Instantiate(obj);
         newCreature.transform.SetParent(transform);
@@ -230,7 +230,7 @@ public class WorldGenerator : MonoBehaviour
     void FillWith(GameObject obj, int x, int y)
     {
        
-        Vector2 pos = new Vector3((-totalWidth/2.0f) + (tileSize/2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y);
+        Vector3 pos = new Vector3((-totalWidth/2.0f) + (tileSize/2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y, 3);
         //Debug.Log(pos);
         GameObject newTile = Instantiate(obj);
         newTile.transform.SetParent(transform);
