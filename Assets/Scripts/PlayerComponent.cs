@@ -12,7 +12,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     
     public int m_health;//current health
     public int m_hunger;
-    public int m_temperature;
+    public double m_temperature;
     public int m_tiredness;
 
     private bool isInvincible; //是否无敌
@@ -62,6 +62,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     public Backpack myBackpack;
 
     public UIManager myUIManager;
+
+    private float lastTempCheck;
 
     private APCharacterController APcontroller;
     Animator m_anim;
@@ -121,7 +123,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             currentHolded.transform.position = HoldedPosition.position;
         }
 
-
+        lastTempCheck = Time.time;    
     }
 
     // Update is called once per frame
@@ -144,6 +146,27 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         {
             attack();
         }
+        BodyTempCheckBasedOnTemp();
+    }
+
+    void BodyTempCheckBasedOnTemp() {
+        if (Time.time - lastTempCheck >= 1) {
+            if (this.surroundingTemperature > 28) {
+                m_temperature += 0.1;
+            } else if (this.surroundingTemperature < 10) {
+                m_temperature -= 0.1;
+            }
+            lastTempCheck = Time.time;
+            Debug.Log("当前环境温度:"+surroundingTemperature + "   当前体温: "+m_temperature);
+        }
+    }
+
+    //改变饥饿值
+        
+    void ChangeHungry(){
+        //吃果子，+10；
+        //吃小鱼干，+20；
+        //吃屎，+20
     }
 
     void attack()
