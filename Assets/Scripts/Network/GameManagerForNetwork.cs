@@ -14,6 +14,10 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
 
     public PlayerComponent LocalPlayer;
 
+    public int LocalPlayerID;
+
+    
+
     private void Awake()
     {
         if (!PhotonNetwork.IsConnected)
@@ -39,11 +43,20 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
     private void Start()
     {
         PlayerComponent.RefreshInstance(ref LocalPlayer, PlayerPrefab);
+        LocalPlayerID = LocalPlayer.GetComponent<PhotonView>().ViewID;
+        //if (PhotonNetwork.IsMasterClient)
+        //{
+        //    //instantiate world
+        //    PhotonNetwork.Instantiate("Plant", new Vector3(2.49f, -0.03f, 0f), Quaternion.identity, 0);
+        //    PhotonNetwork.Instantiate("Poopoo", new Vector3(3.36f, -0.27f, 0f), Quaternion.identity, 0);
+        //}
+        
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
         PlayerComponent.RefreshInstance(ref LocalPlayer, PlayerPrefab);
+        LocalPlayerID = LocalPlayer.GetComponent<PhotonView>().ViewID;
     }
 }

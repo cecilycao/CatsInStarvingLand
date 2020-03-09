@@ -5,10 +5,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
 
-public class PlayerComponent : MonoBehaviourPun
+public class PlayerComponent : MonoBehaviourPun, IPunObservable
 {
-    //health component
+
+    public static PlayerComponent instance;
+    
     public int m_health;//current health
+    public int m_hunger;
+    public int m_temperature;
+    public int m_tiredness;
+
+    private bool isInvincible; //是否无敌
+
+    public PickedUpItems currentHolded;
+
     private int maxHealth = 100;
     public int myMaxHealth
     {
@@ -20,9 +30,7 @@ public class PlayerComponent : MonoBehaviourPun
     }
     private float invincibleTime = 2f; //无敌时间
     private float invincibleTimer;
-    private bool isInvincible; //是否无敌
 
-    public int m_hunger;
     public int maxHunger = 100;
 
     public int myCurrentHunger
@@ -30,8 +38,7 @@ public class PlayerComponent : MonoBehaviourPun
         get { return m_hunger; }
     }
 
-    public int m_temperature;
-    public int m_tiredness;
+    
 
     public GameObject bulletObj;
 
@@ -44,10 +51,11 @@ public class PlayerComponent : MonoBehaviourPun
     {
         DEFAULT,
         ATTACK,
-        SLEEP
+        SLEEP,
+        DEAD
     };
 
-    public PickedUpItems currentHolded;
+    
 
     public Transform HoldedPosition;
 
@@ -57,6 +65,22 @@ public class PlayerComponent : MonoBehaviourPun
 
     private APCharacterController APcontroller;
     Animator m_anim;
+
+    private void OnEnable()
+    {
+        //if(instance == null)
+        //{
+        //    instance = this;
+        //} else
+        //{
+        //    if(PlayerComponent.instance != this)
+        //    {
+        //        Destroy(PlayerComponent.instance.gameObject);
+        //        PlayerComponent.instance = this;
+        //    }
+        //}
+        //DontDestroyOnLoad(this.gameObject);
+    }
 
     private void Awake()
     {
@@ -118,19 +142,30 @@ public class PlayerComponent : MonoBehaviourPun
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
-            GameObject bullet = Instantiate(bulletObj, APcontroller.GetRigidBody().position, Quaternion.identity);
-            Bullet Bc = bullet.GetComponent<Bullet>();
-            if (Bc != null)
-            {
-                Bc.BulletMove(lookDeriction, 300);
-            }
+            attack();
         }
     }
 
-
+    void attack()
+    {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+        GameObject bullet = Instantiate(bulletObj, APcontroller.GetRigidBody().position, Quaternion.identity);
+        Bullet Bc = bullet.GetComponent<Bullet>();
+        if (Bc != null)
+        {
+            Bc.BulletMove(lookDeriction, 300);
+        }
+    }
 
     void OnMouseDown()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         Debug.Log("Click character");
         useItemInHand();
     }
@@ -168,8 +203,13 @@ public class PlayerComponent : MonoBehaviourPun
         }
     }
 
+    //Only local player can pick up things
     public bool PickedUp(PickedUpItems item)
     {
+        if (!photonView.IsMine)
+        {
+            return false;
+        }
         GameResources.PickedUpItemName name = item.getItemName();
         if (currentHolded == null)
         {
@@ -268,4 +308,8 @@ public class PlayerComponent : MonoBehaviourPun
 
     }
 
+    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        //throw new NotImplementedException();
+    }
 }
