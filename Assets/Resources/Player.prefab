@@ -1304,13 +1304,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_health: 0
   m_hunger: 0
-  maxHunger: 100
   m_temperature: 0
   m_tiredness: 0
+  currentHolded: {fileID: 0}
+  maxHunger: 100
   bulletObj: {fileID: 7451286104210488710, guid: 9b81301f42a8e469fa524824128d6edc,
     type: 3}
   surroundingTemperature: 0
-  currentHolded: {fileID: 0}
   HoldedPosition: {fileID: 3529215988044126100}
   myUIManager: {fileID: 0}
 --- !u!114 &747590515145160931
