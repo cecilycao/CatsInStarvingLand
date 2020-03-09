@@ -1125,6 +1125,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: animals
       objectReference: {fileID: 0}
+    - target: {fileID: 7761783708371312295, guid: 9256816374183df4e87fdbe23870f7dd,
+        type: 3}
+      propertyPath: shit
+      value: 
+      objectReference: {fileID: 4774913156795051937, guid: 5691ded58057fa54687767eca93f7438,
+        type: 3}
     - target: {fileID: 7761783708371312299, guid: 9256816374183df4e87fdbe23870f7dd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4323,7 +4329,7 @@ MonoBehaviour:
     type: 3}
   LandTile_Empty: {fileID: 2138564080893431778, guid: 5407c32753a29de43883bf848c0d0209,
     type: 3}
-  FruitPlant: {fileID: 3334355724727302056, guid: c836a3b2f93e0894ea67969711e6b2e7,
+  FruitPlant: {fileID: 3334355724727302056, guid: 1cdcf6625c8592a44b7499e243e78e99,
     type: 3}
   GrassAnimal: {fileID: 7761783708371312292, guid: 9256816374183df4e87fdbe23870f7dd,
     type: 3}

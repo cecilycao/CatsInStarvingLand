@@ -151,7 +151,7 @@ MonoBehaviour:
   m_player: {fileID: 0}
   Fish: {fileID: 0}
   wuping: {fileID: 4873913953231771013, guid: e7751ee60ce0499479adff51e9544200, type: 3}
-  shit: {fileID: 4774913156795051937, guid: b1c8a76065e0d9841845fe2281b27bfc, type: 3}
+  shit: {fileID: 4774913156795051937, guid: 5691ded58057fa54687767eca93f7438, type: 3}
   tplant: 0
   animalHealth: 2
   aniCurHealth: 0
