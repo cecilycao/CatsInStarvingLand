@@ -1,27 +1,44 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
 
-public class PlayerComponent : MonoBehaviour
+public class PlayerComponent : MonoBehaviourPun, IPunObservable
 {
-    //health component
-    public int m_health;//current health
-    private int maxHealth =100;
-    public int myMaxHealth{
-        get{return maxHealth;}
-    }
-    public int myCurrentHealth{
-        get{return m_health;}
-    }
-     private float invincibleTime = 2f; //无敌时间
-    private float invincibleTimer;  
-    private bool isInvincible; //是否无敌
 
+    public static PlayerComponent instance;
+    
+    public int m_health;//current health
     public int m_hunger;
     public double m_temperature;
     public int m_tiredness;
+
+    private bool isInvincible; //是否无敌
+
+    public PickedUpItems currentHolded;
+
+    private int maxHealth = 100;
+    public int myMaxHealth
+    {
+        get { return maxHealth; }
+    }
+    public int myCurrentHealth
+    {
+        get { return m_health; }
+    }
+    private float invincibleTime = 2f; //无敌时间
+    private float invincibleTimer;
+
+    public int maxHunger = 100;
+
+    public int myCurrentHunger
+    {
+        get { return m_hunger; }
+    }
+
+    
 
     public GameObject bulletObj;
 
@@ -30,13 +47,15 @@ public class PlayerComponent : MonoBehaviour
 
     public int surroundingTemperature;
 
-    public enum m_status {
+    public enum m_status
+    {
         DEFAULT,
         ATTACK,
-        SLEEP
+        SLEEP,
+        DEAD
     };
 
-    public PickedUpItems currentHolded;
+    
 
     public Transform HoldedPosition;
 
@@ -47,6 +66,36 @@ public class PlayerComponent : MonoBehaviour
     private float lastTempCheck;
 
     private APCharacterController APcontroller;
+    Animator m_anim;
+
+    private void OnEnable()
+    {
+        //if(instance == null)
+        //{
+        //    instance = this;
+        //} else
+        //{
+        //    if(PlayerComponent.instance != this)
+        //    {
+        //        Destroy(PlayerComponent.instance.gameObject);
+        //        PlayerComponent.instance = this;
+        //    }
+        //}
+        //DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void Awake()
+    {
+        APcontroller = GetComponent<APCharacterController>();
+        m_anim = GetComponent<Animator>();
+
+        if (!photonView.IsMine && GetComponent<APCharacterController>() != null)
+        {
+            Destroy(GetComponent<APCharacterController>());
+            //Destroy Motor????
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,7 +124,6 @@ public class PlayerComponent : MonoBehaviour
         }
 
         lastTempCheck = Time.time;    
-        
     }
 
     // Update is called once per frame
@@ -84,22 +132,19 @@ public class PlayerComponent : MonoBehaviour
         //health -1 / 3s
 
         //tiredness -10 / 27s
-        
 
-        if(isInvincible){
+
+        if (isInvincible)
+        {
             invincibleTimer -= Time.deltaTime;
-            if(invincibleTimer<0){
+            if (invincibleTimer < 0)
+            {
                 isInvincible = false;
             }
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
-            GameObject bullet = Instantiate(bulletObj, APcontroller.GetRigidBody().position, Quaternion.identity);
-            Bullet Bc = bullet.GetComponent<Bullet>();
-            if (Bc != null)
-            {
-                Bc.BulletMove(lookDeriction, 300);
-            }
+            attack();
         }
         BodyTempCheckBasedOnTemp();
     }
@@ -124,10 +169,27 @@ public class PlayerComponent : MonoBehaviour
         //吃屎，+20
     }
 
-
+    void attack()
+    {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+        GameObject bullet = Instantiate(bulletObj, APcontroller.GetRigidBody().position, Quaternion.identity);
+        Bullet Bc = bullet.GetComponent<Bullet>();
+        if (Bc != null)
+        {
+            Bc.BulletMove(lookDeriction, 300);
+        }
+    }
 
     void OnMouseDown()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+        Debug.Log("Click character");
         useItemInHand();
     }
 
@@ -139,12 +201,13 @@ public class PlayerComponent : MonoBehaviour
 
     IEnumerator Digest()
     {
-        if(m_hunger > 0)
+        if (m_hunger > 0)
         {
             m_hunger--;
-            
+
             yield return new WaitForSeconds(3);
-        } else
+        }
+        else
         {
             //decrease health
         }
@@ -163,8 +226,13 @@ public class PlayerComponent : MonoBehaviour
         }
     }
 
+    //Only local player can pick up things
     public bool PickedUp(PickedUpItems item)
     {
+        if (!photonView.IsMine)
+        {
+            return false;
+        }
         GameResources.PickedUpItemName name = item.getItemName();
         if (currentHolded == null)
         {
@@ -184,7 +252,7 @@ public class PlayerComponent : MonoBehaviour
 
     public void HoldItemInHand(PickedUpItems item)
     {
-        if(item.m_State == PickedUpItems.ItemState.IN_BAG)
+        if (item.m_State == PickedUpItems.ItemState.IN_BAG)
         {
             //hold in hand(change UI?)
             item.m_State = PickedUpItems.ItemState.IN_HAND;
@@ -194,7 +262,7 @@ public class PlayerComponent : MonoBehaviour
             item.transform.SetParent(transform);
             item.transform.position = HoldedPosition.position;
 
-            
+
         }
     }
 
@@ -204,18 +272,21 @@ public class PlayerComponent : MonoBehaviour
         return currentHolded;
     }
 
-    public void ChangeHealth(int amount){
-        if(amount <0){
-            if(isInvincible==true){
+    public void ChangeHealth(int amount)
+    {
+        if (amount < 0)
+        {
+            if (isInvincible == true)
+            {
                 return;
             }
             isInvincible = true;
             invincibleTimer = invincibleTime;
         }
 
-        Debug.Log("player" + m_health +"/"+maxHealth);
-        m_health =Mathf.Clamp(m_health+amount,0,maxHealth);
-        Debug.Log("player" + m_health +"/"+maxHealth);
+        Debug.Log("player" + m_health + "/" + maxHealth);
+        m_health = Mathf.Clamp(m_health + amount, 0, maxHealth);
+        Debug.Log("player" + m_health + "/" + maxHealth);
     }
 
     public void useItemInHand()
@@ -224,7 +295,7 @@ public class PlayerComponent : MonoBehaviour
         //if(currentHolded.getItemName() == PickedUpItemName.FRUIT)
         //{
         //    //ChangeHealth();
-            Destroy(currentHolded.gameObject);
+        Destroy(currentHolded.gameObject);
         //}
 
 
@@ -238,4 +309,30 @@ public class PlayerComponent : MonoBehaviour
         this.surroundingTemperature = surroundingTemperature;
     }
 
+    public void changeHunger(int amount)
+    {
+        Debug.Log(m_hunger + "/" + maxHunger);
+        m_hunger = Mathf.Clamp(m_hunger + amount, 0, maxHunger);
+        Debug.Log(m_hunger + "/" + maxHunger);
+    }
+
+    public static void RefreshInstance(ref PlayerComponent player, PlayerComponent Prefab)
+    {
+        var position = Vector3.zero;
+        var rotation = Quaternion.identity;
+
+        if (player != null)
+        {
+            position = player.transform.position;
+            rotation = player.transform.rotation;
+            PhotonNetwork.Destroy(player.gameObject);
+        }
+        player = PhotonNetwork.Instantiate(Prefab.gameObject.name, position, rotation).GetComponent<PlayerComponent>();
+
+    }
+
+    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        //throw new NotImplementedException();
+    }
 }

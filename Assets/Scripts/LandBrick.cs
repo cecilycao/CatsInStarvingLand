@@ -9,13 +9,15 @@ public class LandBrick : PickedUpItems
 {
     public PickedUpItemName myType;
 
-    public PlayerComponent m_player;
+    //public PlayerComponent m_player;
     BoxCollider2D m_collider;
 
     public float scaleChange = 0.5f;
     public bool isCracked = false;
     public int maxDigDistance = 6;
     public WorldManager m_worldManager;
+
+    public GameManagerForNetwork m_gameManager;
 
     public Vector2Int index;
 
@@ -25,10 +27,13 @@ public class LandBrick : PickedUpItems
     {
         
         //alterLand.onClick.AddListener(AlterLand);
-        m_player = GameObject.FindWithTag("Player").GetComponent<PlayerComponent>();
+        //m_player = GameObject.FindWithTag("Player").GetComponent<PlayerComponent>();
         m_collider = GetComponent<BoxCollider2D>();
         m_Size = m_collider.bounds.size.x;
         m_worldManager = GameObject.FindWithTag("WorldManager").GetComponent<WorldManager>();
+        m_gameManager = GameObject.FindWithTag("WorldManager").GetComponent<GameManagerForNetwork>();
+
+
     }
 
     void OnMouseDown()
@@ -64,7 +69,7 @@ public class LandBrick : PickedUpItems
 
     private bool checkDistance()
     {
-        float distance = Vector2.Distance(m_player.transform.position, transform.position);
+        float distance = Vector2.Distance(m_gameManager.LocalPlayer.transform.position, transform.position);
         if (distance > maxDigDistance * m_Size)
         {
             return false;
@@ -84,6 +89,7 @@ public class LandBrick : PickedUpItems
             Debug.Log("Pick me!");
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             Destroy(rb);
+            PlayerComponent m_player = collision.gameObject.GetComponent<PlayerComponent>();
             m_player.PickedUp(this);
             
         }

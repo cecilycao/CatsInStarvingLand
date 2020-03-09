@@ -22,6 +22,7 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        target = GameManagerForNetwork.Instance.LocalPlayer.gameObject;
         if (target)
         {
             Vector3 posNoZ = transform.position;
