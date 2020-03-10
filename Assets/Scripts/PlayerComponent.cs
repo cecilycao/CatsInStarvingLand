@@ -104,7 +104,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
         Inventory iv = FindObjectOfType<Inventory>();
         myBackpack = new Backpack(iv);
-
+        myUIManager = FindObjectOfType<UIManager>();
 
         m_health = 100;
         invincibleTimer = 0;
