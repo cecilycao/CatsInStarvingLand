@@ -151,17 +151,21 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     }
 
     void BodyTempCheckBasedOnTemp() {
-        if (Time.time - lastTempCheck >= 1) {
-            if (this.surroundingTemperature > 28) {
+        if (Time.time - lastTempCheck >= 1)
+        {
+            if (this.surroundingTemperature > 28)
+            {
                 m_temperature += 0.1;
-            } else if (this.surroundingTemperature < 10) {
+            }
+            else if (this.surroundingTemperature < 10)
+            {
                 m_temperature -= 0.1;
             }
             lastTempCheck = Time.time;
 
-            Debug.Log("当前环境温度:"+surroundingTemperature + "   当前体温: "+m_temperature);
+            Debug.Log("当前环境温度:" + surroundingTemperature + "   当前体温: " + m_temperature);
             myUIManager.UpdateTemperature(m_temperature);
-
+        }
 
     }
     public void changeHunger(int amount)
@@ -343,8 +347,9 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
     }
 
-    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        //throw new NotImplementedException();
+        throw new NotImplementedException();
     }
 }
