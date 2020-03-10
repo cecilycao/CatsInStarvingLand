@@ -10,16 +10,14 @@ public class EnemyControler : MonoBehaviour
     private float changeTimer;
     private Rigidbody2D rbody;
     private Vector2 moveDirection;
-    private int lastpop;
-
     
-    private int lastPopo=1;
+    private int lastPopo=0;
     public PlayerComponent m_player;
 
     public GameObject Fish;
     public GameObject wuping;
     public GameObject shit;
-    public GameResources.PickedUpItemName tplant;
+    private int CreateShitTime;
 
     public int animalHealth = 2;
     public int aniCurHealth;
@@ -31,7 +29,7 @@ public class EnemyControler : MonoBehaviour
         moveDirection = isVertical? Vector2.up: Vector2.right;
         changeTimer = changeDirectionTime;
         aniCurHealth = animalHealth;
-       
+        CreateShitTime = 0;
 
     }
 
@@ -48,13 +46,20 @@ public class EnemyControler : MonoBehaviour
         position.y += moveDirection.y *  speed * Time.deltaTime;
         rbody.MovePosition(position);
         //Debug.Log(WorldManager.Instance.getCurrentDay());
-        if(WorldManager.Instance.getCurrentDay()- lastPopo >=1)
+        if(WorldManager.Instance.getCurrentSecond()- lastPopo >=30)
         {
-            lastPopo = WorldManager.Instance.getCurrentDay();
+            lastPopo = (int)WorldManager.Instance.getCurrentSecond()-20;
             GameObject newShit = Instantiate(shit, transform.position, transform.rotation);
+            CreateShitTime = WorldManager.Instance.getCurrentDay();
         }
 
     }
+
+    public int ShitTime()
+    {
+        return CreateShitTime;
+    }
+
 
     void OnCollisionEnter2D(Collision2D other){
         

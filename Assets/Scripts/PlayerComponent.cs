@@ -157,7 +157,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
                 m_temperature -= 0.1;
             }
             lastTempCheck = Time.time;
-            Debug.Log("当前环境温度:"+surroundingTemperature + "   当前体温: "+m_temperature);
+            //Debug.Log("当前环境温度:"+surroundingTemperature + "   当前体温: "+m_temperature);
         }
     }
 
