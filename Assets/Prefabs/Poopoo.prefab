@@ -96,6 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_State: 0
+  slime: {fileID: 6118754286997114249, guid: f695920fba17b47f18636ad47bbbc178, type: 3}
+  isSlime: 0
 --- !u!70 &8964428696047415579
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
