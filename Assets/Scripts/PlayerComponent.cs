@@ -104,6 +104,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
         Inventory iv = FindObjectOfType<Inventory>();
         myBackpack = new Backpack(iv);
+        myUIManager = FindObjectOfType<UIManager>();
 
 
         m_health = 100;
@@ -112,6 +113,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         m_hunger = 100;
         m_temperature = 38;
         m_tiredness = 100;
+
+
 
         //temp
         PlayerInitialize();
