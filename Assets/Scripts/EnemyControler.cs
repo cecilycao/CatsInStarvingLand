@@ -19,7 +19,7 @@ public class EnemyControler : MonoBehaviour
     public GameObject shit;
     private int CreateShitTime;
 
-    public int animalHealth = 2;
+    public int animalHealth = 1;
     public int aniCurHealth;
 
     // Start is called before the first frame update
@@ -48,9 +48,10 @@ public class EnemyControler : MonoBehaviour
         //Debug.Log(WorldManager.Instance.getCurrentDay());
         if(WorldManager.Instance.getCurrentSecond()- lastPopo >=30)
         {
-            lastPopo = (int)WorldManager.Instance.getCurrentSecond()-20;
+            lastPopo = (int)WorldManager.Instance.getCurrentSecond()-10;
             GameObject newShit = Instantiate(shit, transform.position, transform.rotation);
-            CreateShitTime = WorldManager.Instance.getCurrentDay();
+            Debug.Log("sssssss");
+            //CreateShitTime = WorldManager.Instance.getCurrentDay();
         }
 
     }

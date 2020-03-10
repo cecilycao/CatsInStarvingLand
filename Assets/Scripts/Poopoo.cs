@@ -7,8 +7,8 @@ public class Poopoo : PickedUpItems
 {
     //PlayerComponent m_player;
     // Start is called before the first frame update
-  
-    private int happenDay = 0;
+
+    private int happenDay;
 
 
     public GameObject slime;
@@ -23,6 +23,7 @@ public class Poopoo : PickedUpItems
         //m_player = GameObject.FindWithTag("Player").GetComponent<PlayerComponent>();
        
         isSlime = false;
+        happenDay = (int)WorldManager.Instance.getCurrentSecond();
     }
 
     // Update is called once per frame
@@ -45,9 +46,9 @@ public class Poopoo : PickedUpItems
             if (m_State == ItemState.DEFAULT)
             {
                 Destroy(this.gameObject);
-                //GameObject xiaoslime = Instantiate(slime, transform.position, transform.rotation);
+                GameObject xiaoslime = Instantiate(slime, transform.position, transform.rotation);
                 Debug.Log("biansheng!!!!!!!!!!!!!!!!!!");
-                happenDay = (int)WorldManager.Instance.getCurrentSecond() - 10;
+                //happenDay = (int)WorldManager.Instance.getCurrentSecond() +30;
             }
            
         }
