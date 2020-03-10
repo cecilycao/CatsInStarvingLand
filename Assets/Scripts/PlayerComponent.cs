@@ -147,6 +147,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             attack();
         }
         BodyTempCheckBasedOnTemp();
+        
     }
 
     void BodyTempCheckBasedOnTemp() {
@@ -158,15 +159,16 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             }
             lastTempCheck = Time.time;
             Debug.Log("当前环境温度:"+surroundingTemperature + "   当前体温: "+m_temperature);
+            myUIManager.UpdateTemperature(m_temperature);
         }
     }
-
-    //改变饥饿值
-        
-    void ChangeHungry(){
-        //吃果子，+10；
-        //吃小鱼干，+20；
-        //吃屎，+20
+    public void changeHunger(int amount)
+    {
+       
+            //Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
+            m_hunger = Mathf.Clamp(m_hunger + amount, 0, maxHunger);
+            Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
+            //myUIManager.UpdateHunger(m_hunger);
     }
 
     void attack()
@@ -190,7 +192,9 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             return;
         }
         Debug.Log("Click character");
+        //ChangeValue();
         useItemInHand();
+
     }
 
     public void PlayerInitialize()
@@ -295,11 +299,22 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         //if(currentHolded.getItemName() == PickedUpItemName.FRUIT)
         //{
         //    //ChangeHealth();
+        //if (currentHolded.getItemName() == PickedUpItemName.DRIED_FISH)
+        //{
+        //    changeHunger(10);
+        //}
         Destroy(currentHolded.gameObject);
         //}
 
-
     }
+
+    //public void ChangeValue()
+    //{
+    //    if (currentHolded.getItemName() == PickedUpItemName.DRIED_FISH)
+    //    {
+    //        changeHunger(10);
+    //    }
+    //}
 
     //Change player's temperature based on surrounding temperature.
     //if surrounding temperature > 28, m_temperature +0.1/s
@@ -309,12 +324,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         this.surroundingTemperature = surroundingTemperature;
     }
 
-    public void changeHunger(int amount)
-    {
-        Debug.Log(m_hunger + "/" + maxHunger);
-        m_hunger = Mathf.Clamp(m_hunger + amount, 0, maxHunger);
-        Debug.Log(m_hunger + "/" + maxHunger);
-    }
+    
 
     public static void RefreshInstance(ref PlayerComponent player, PlayerComponent Prefab)
     {
