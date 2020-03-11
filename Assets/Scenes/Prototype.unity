@@ -758,6 +758,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: animals
       objectReference: {fileID: 0}
+    - target: {fileID: 7761783708371312292, guid: 9256816374183df4e87fdbe23870f7dd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7761783708371312295, guid: 9256816374183df4e87fdbe23870f7dd,
         type: 3}
       propertyPath: shit
@@ -1148,6 +1153,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 3334355724727302056, guid: 1cdcf6625c8592a44b7499e243e78e99,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5341932226366525000, guid: 1cdcf6625c8592a44b7499e243e78e99,
         type: 3}
@@ -2023,7 +2033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f8462cdef144940975ecaedd41a8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WorldManager: {fileID: 9034760638757847760, guid: 905ee663a66c64c3282fff4a835b401c,
+  WorldManager: {fileID: 9034760638757847760, guid: 31d2dcf47c7fe421bbf9bf91b207d552,
     type: 3}
   PlayerPrefab: {fileID: 3529215989349474147, guid: 1e0694490cd443f41926430c0ecdefb3,
     type: 3}
@@ -2679,6 +2689,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: dryfish
       objectReference: {fileID: 0}
+    - target: {fileID: 4873913953231771013, guid: e7751ee60ce0499479adff51e9544200,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7751ee60ce0499479adff51e9544200, type: 3}
 --- !u!1 &1450625556 stripped
@@ -2806,10 +2821,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae2040687f11a4b8b89b45cc9625f760, type: 3}
---- !u!224 &1523251720 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3329728700314201038, guid: ae2040687f11a4b8b89b45cc9625f760,
-    type: 3}
+--- !u!4 &1523251720 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 1523251719}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1595942410
