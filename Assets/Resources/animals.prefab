@@ -153,7 +153,7 @@ MonoBehaviour:
   m_player: {fileID: 0}
   Fish: {fileID: 0}
   wuping: {fileID: 4873913953231771013, guid: e7751ee60ce0499479adff51e9544200, type: 3}
-  shit: {fileID: 4774913156795051937, guid: 5691ded58057fa54687767eca93f7438, type: 3}
+  shit: {fileID: 6048079311400627791, guid: 6de9705a200ca4fa69b9a08cacdfc93a, type: 3}
   animalHealth: 2
   aniCurHealth: 0
 --- !u!95 &9168081516210190489

@@ -36,5 +36,6 @@ MonoBehaviour:
   - RespawnSpaceship
   - RpcChangeHoldItemSprite
   - RpcUpdateTileMap
+  - Rpcfertilize
   DisableAutoOpenWizard: 1
   ShowSettings: 0
