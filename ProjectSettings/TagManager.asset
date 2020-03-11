@@ -8,6 +8,8 @@ TagManager:
   - soldier
   - animal
   - UIManager
+  - slime
+  - poopoo
   layers:
   - Default
   - TransparentFX
