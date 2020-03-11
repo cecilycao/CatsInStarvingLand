@@ -52,7 +52,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
     public SpriteRenderer HoldedItemSprite;
 
-    public Backpack myBackpack;
+    public Inventory myBackpack;
 
     public UIManager myUIManager;
 
@@ -87,8 +87,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         APcontroller = GetComponent<APCharacterController>();
         m_ID = GetComponent<PhotonView>().ViewID;
 
-        Inventory iv = FindObjectOfType<Inventory>();
-        myBackpack = new Backpack(iv);
+        this.myBackpack = FindObjectOfType<Inventory>();
+
         myUIManager = FindObjectOfType<UIManager>();
 
         //initialize player status
@@ -264,7 +264,6 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         useItemInHand();
 
     }
-
    
 
     public bool PickedUp(PickedUpItems item)

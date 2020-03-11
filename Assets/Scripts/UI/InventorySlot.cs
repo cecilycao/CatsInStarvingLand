@@ -8,10 +8,12 @@ public class InventorySlot : MonoBehaviour
     public Text ItemCountText;
     public Image ItemUIImage;
 
+    private Inventory myManager;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        this.myManager = FindObjectOfType<Inventory>();
     }
 
     public bool updateItem(GameResources.PickedUpItemName ItemName, int count)
@@ -36,6 +38,18 @@ public class InventorySlot : MonoBehaviour
 
     public void clickItem()
     {
-        Debug.Log("call your function here");
+        Debug.Log("clickItem");
+        GameResources.PickedUpItemName item = myManager.WhatItemAtThisIndex(getMySlotIndexID());
+
+        Debug.Log(getMySlotIndexID() + " " + item);
+
+
+        
+
     }
+
+    private int getMySlotIndexID() {
+        return this.myManager.slotGetIndexID(this.GetHashCode());
+    }
+
 }
