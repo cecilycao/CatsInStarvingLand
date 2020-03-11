@@ -1012,6 +1012,7 @@ MonoBehaviour:
   followDistance: 2.84
   target: {fileID: 1450625556}
   offset: {x: 0, y: 0, z: 0}
+  background: {fileID: 677413186}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -2566,10 +2567,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1203596998}
-  - component: {fileID: 1203596999}
   - component: {fileID: 1203597000}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: NetworkManager
   m_TagString: WorldManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2589,21 +2589,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1203596999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1203596997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56ac819955f308b40bcc22bc4a483759, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentSecond: 0
-  currentDay: 0
-  m_worldGenerator: {fileID: 2117873269}
 --- !u!114 &1203597000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2616,6 +2601,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f8462cdef144940975ecaedd41a8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WorldManager: {fileID: 9034760638757847760, guid: 8f2fe0c4bf1eb7543b1297d7b06a4c14,
+    type: 3}
   PlayerPrefab: {fileID: 3529215989349474147, guid: 1e0694490cd443f41926430c0ecdefb3,
     type: 3}
   LocalPlayer: {fileID: 0}
