@@ -12,9 +12,11 @@ public class Inventory : MonoBehaviour
     private int maxItemSpace = 12;
     private int currentWeight = 0;
 
+    private PlayerComponent myPlayer;
+
+    List<PickedUpItems> instanceList = new List<PickedUpItems>();
 
     private Dictionary<GameResources.PickedUpItemName, int> backpack = new Dictionary<GameResources.PickedUpItemName, int>();
-
     private Dictionary<GameResources.PickedUpItemName, int> itemToSlotIndex = new Dictionary<GameResources.PickedUpItemName, int>();
     private Dictionary<int, GameResources.PickedUpItemName> slotIndexToItem = new Dictionary<int, GameResources.PickedUpItemName>();
 
@@ -25,6 +27,9 @@ public class Inventory : MonoBehaviour
     void Start()
     {
         backpack.Clear();
+
+        this.myPlayer = FindObjectOfType<PlayerComponent>();
+
         slotList = GetComponentsInChildren<InventorySlot>();
         if (slotList.Length != 12)
         {
@@ -42,11 +47,20 @@ public class Inventory : MonoBehaviour
         return hashID2IndexID[hashCode];
     }
 
-    public GameResources.PickedUpItemName WhatItemAtThisIndex(int index)
+    public void WhatItemAtThisIndex(int index)
     {
         GameResources.PickedUpItemName tmp = GameResources.PickedUpItemName.DEFAULT;
         slotIndexToItem.TryGetValue(index, out tmp);
-        return tmp;
+
+        if (tmp != GameResources.PickedUpItemName.DEFAULT)
+        {
+
+            foreach (var el in instanceList)
+                if (el.getItemName() == tmp) {
+                    this.myPlayer.HoldItemInHand(el);
+                    return;
+                }
+        }
     }
 
     public bool IsEmpty()
@@ -84,8 +98,57 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    public bool AddNewItem(GameResources.PickedUpItemName newItem)
+    // public bool AddNewItem(GameResources.PickedUpItemName newItem)
+    // {
+    //     int weight = 1;
+
+    //     if (weight > this.CapacityLeft())
+    //     {
+    //         return false;
+    //     }
+
+    //     int tmpCount;
+    //     if (backpack.TryGetValue(newItem, out tmpCount))
+    //     {
+    //         backpack[newItem] = tmpCount + 1;
+    //         slotList[itemToSlotIndex[newItem]].updateItem(newItem, tmpCount + 1);
+    //     }
+    //     else
+    //     {
+    //         if (ItemSpaceLeft() == 0)
+    //         {
+    //             return false;
+    //         }
+
+
+    //         for (int i = 0; i < 12; i++)
+    //         {
+    //             if (!slotIndexToItem.ContainsKey(i))
+    //             {
+
+    //                 slotIndexToItem[i] = newItem;
+    //                 itemToSlotIndex[newItem] = i;
+
+    //                 slotList[i].updateItem(newItem, 1);
+
+    //                 break;
+    //             }
+    //         }
+
+    //         backpack[newItem] = 1;
+    //     }
+
+    //     currentWeight += weight;
+    //     return true;
+    // }
+
+
+    public bool AddNewItem(PickedUpItems newItem)
     {
+
+        GameResources.PickedUpItemName itemName = newItem.getItemName();
+
+
         int weight = 1;
 
         if (weight > this.CapacityLeft())
@@ -94,10 +157,10 @@ public class Inventory : MonoBehaviour
         }
 
         int tmpCount;
-        if (backpack.TryGetValue(newItem, out tmpCount))
+        if (backpack.TryGetValue(itemName, out tmpCount))
         {
-            backpack[newItem] = tmpCount + 1;
-            slotList[itemToSlotIndex[newItem]].updateItem(newItem, tmpCount + 1);
+            backpack[itemName] = tmpCount + 1;
+            slotList[itemToSlotIndex[itemName]].updateItem(itemName, tmpCount + 1);
         }
         else
         {
@@ -106,27 +169,29 @@ public class Inventory : MonoBehaviour
                 return false;
             }
 
-
             for (int i = 0; i < 12; i++)
             {
                 if (!slotIndexToItem.ContainsKey(i))
                 {
+                    slotIndexToItem[i] = itemName;
+                    itemToSlotIndex[itemName] = i;
 
-                    slotIndexToItem[i] = newItem;
-                    itemToSlotIndex[newItem] = i;
-                    
-                    slotList[i].updateItem(newItem, 1);
-                    
+                    slotList[i].updateItem(itemName, 1);
+
                     break;
                 }
             }
 
-            backpack[newItem] = 1;
+            backpack[itemName] = 1;
         }
+
+        instanceList.Add(newItem);
 
         currentWeight += weight;
         return true;
     }
+
+
 
     public bool PopItem(GameResources.PickedUpItemName item)
     {
