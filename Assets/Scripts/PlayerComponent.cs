@@ -98,10 +98,14 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         m_temperature = 38;
         m_tiredness = 100;
 
-        myUIManager.UpdateHealth(m_health);
-        myUIManager.UpdateHunger(m_hunger);
-        myUIManager.UpdateTemperature(m_temperature);
-        myUIManager.UpdateTiredness(m_tiredness);
+        if (photonView.IsMine)
+        {
+            myUIManager.UpdateHealth(m_health);
+            myUIManager.UpdateHunger(m_hunger);
+            myUIManager.UpdateTemperature(m_temperature);
+            myUIManager.UpdateTiredness(m_tiredness);
+        }
+        
 
         InvokeRepeating("Digest", 1f, 1f);
         InvokeRepeating("Working", 1f, 1f);
@@ -145,13 +149,18 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         if (m_hunger > 0)
         {
             m_hunger--;
-            myUIManager.UpdateHunger(m_hunger);
+            if(photonView.IsMine)
+                myUIManager.UpdateHunger(m_hunger);
         }
         else
         {
             m_health -= 3;
-            myUIManager.UpdateHunger(m_hunger);
-            myUIManager.UpdateHealth(m_health);
+            if (photonView.IsMine)
+            {
+                myUIManager.UpdateHunger(m_hunger);
+                myUIManager.UpdateHealth(m_health);
+            }
+            
             //decrease health
         }
     }
@@ -161,14 +170,18 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         if (m_tiredness > 0)
         {
             m_tiredness--;
-            myUIManager.UpdateTiredness(m_tiredness);
+            if(photonView.IsMine)
+                myUIManager.UpdateTiredness(m_tiredness);
         }
         else
         {
             //decrease health
             m_health -= 3;
-            myUIManager.UpdateTiredness(m_tiredness);
-            myUIManager.UpdateHealth(m_health);
+            if (photonView.IsMine)
+            {
+                myUIManager.UpdateTiredness(m_tiredness);
+                myUIManager.UpdateHealth(m_health);
+            }
         }
     }
 
@@ -186,7 +199,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             lastTempCheck = Time.time;
 
             Debug.Log("当前环境温度:" + surroundingTemperature + "   当前体温: " + m_temperature);
-            myUIManager.UpdateTemperature(m_temperature);
+            if(photonView.IsMine)
+                myUIManager.UpdateTemperature(m_temperature);
         }
 
     }
@@ -196,6 +210,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             //Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
             m_hunger = Mathf.Clamp(m_hunger + amount, 0, maxHunger);
             Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
+        if(photonView.IsMine)
             myUIManager.UpdateHunger(m_hunger);
     }
 
@@ -214,7 +229,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         Debug.Log("player" + m_health + "/" + maxHealth);
         m_health = Mathf.Clamp(m_health + amount, 0, maxHealth);
         Debug.Log("player" + m_health + "/" + maxHealth);
-        myUIManager.UpdateHealth(m_health);
+        if(photonView.IsMine)
+            myUIManager.UpdateHealth(m_health);
     }
 
     void attack()
@@ -347,15 +363,19 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         //if(currentHolded.getItemName() == PickedUpItemName.FRUIT)
         //{
         //    //ChangeHealth();
+        if(currentHolded == null)
+        {
+            return;
+        }
         if (currentHolded.getItemName() == PickedUpItemName.DRIED_FISH)
         {
             changeHunger(10);
         }
-        if (currentHolded.getItemName() == PickedUpItemName.FRUIT)
+        else if (currentHolded.getItemName() == PickedUpItemName.FRUIT)
         {
             changeHunger(10);
         }
-        if (currentHolded.getItemName() == PickedUpItemName.POOPOO)
+        else if (currentHolded.getItemName() == PickedUpItemName.POOPOO)
         {
             changeHunger(10);
         }
@@ -401,10 +421,12 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(bagFull);
+            stream.SendNext(m_health);
         }
         else
         {
             bagFull = (bool)stream.ReceiveNext();
+            m_health = (int)stream.ReceiveNext();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
@@ -9,6 +10,7 @@ public class Poopoo : PickedUpItems
     // Start is called before the first frame update
 
     private int happenDay;
+    public int slimeCreateDuration = 10;
 
 
     public GameObject slime;
@@ -16,13 +18,13 @@ public class Poopoo : PickedUpItems
 
     
 
-    public bool isSlime;
+    //public bool createSlime;
 
     void Start()
     {
         //m_player = GameObject.FindWithTag("Player").GetComponent<PlayerComponent>();
        
-        isSlime = false;
+        //createSlime = false;
         happenDay = (int)WorldManager.Instance.getCurrentSecond();
     }
 
@@ -41,17 +43,27 @@ public class Poopoo : PickedUpItems
         //    }
         //    isSlime = true;
         //}
-        if (WorldManager.Instance.getCurrentSecond() - happenDay >= 30)
+        if (WorldManager.Instance.getCurrentSecond() - happenDay >= slimeCreateDuration && m_State == ItemState.DEFAULT)
         {
-            if (m_State == ItemState.DEFAULT)
+            Destroy(gameObject);
+            if (PhotonNetwork.IsMasterClient)
             {
-                Destroy(this.gameObject);
-                GameObject xiaoslime = Instantiate(slime, transform.position, transform.rotation);
-                //Debug.Log("biansheng!!!!!!!!!!!!!!!!!!");
-                //happenDay = (int)WorldManager.Instance.getCurrentSecond() +30;
+                CreateSlime();
             }
-           
+            
         }
+           
+        
+    }
+
+
+    public void CreateSlime()
+    {
+        //GameObject newSlime = Instantiate(slime);
+        //newSlime.transform.position = transform.position;
+        PhotonNetwork.InstantiateSceneObject(slime.name, transform.position, transform.rotation);
+
+            //PhotonNetwork.Destroy(this.gameObject);
     }
 
     public override PickedUpItemName getItemName()

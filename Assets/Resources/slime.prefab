@@ -13,8 +13,10 @@ GameObject:
   - component: {fileID: 1629754046138637421}
   - component: {fileID: 2270082387803366780}
   - component: {fileID: 1485543742547736558}
-  - component: {fileID: -518453056600060304}
-  - component: {fileID: 5321996116771264332}
+  - component: {fileID: -8905787747806971878}
+  - component: {fileID: 9180891301915062212}
+  - component: {fileID: 1172492497951186764}
+  - component: {fileID: 8654142170578772329}
   m_Layer: 0
   m_Name: slime
   m_TagString: slime
@@ -148,12 +150,50 @@ MonoBehaviour:
   SlimeSpeed: 3
   SlimeChangeDirectionTime: 1
   isVertical: 0
-  meiqiguan: {fileID: 0}
+  meiqiguan: {fileID: 849637592681851989, guid: 4855d57eecd4df4438d440eff54fc70c,
+    type: 3}
   nextPoopoo: {fileID: 6048079311400627791, guid: 6de9705a200ca4fa69b9a08cacdfc93a,
     type: 3}
   SlimeHealth: 3
   SlimeCurHealth: 0
---- !u!95 &-518453056600060304
+--- !u!114 &-8905787747806971878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3175595131553692011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 9180891301915062212}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &9180891301915062212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3175595131553692011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+--- !u!95 &1172492497951186764
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -163,7 +203,7 @@ Animator:
   m_GameObject: {fileID: 3175595131553692011}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c540954c77efd2b469b14853d5889d9a, type: 2}
+  m_Controller: {fileID: 9100000, guid: e1df772cf41ff40288ca463b40d17ef6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -172,7 +212,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!111 &5321996116771264332
+--- !u!111 &8654142170578772329
 Animation:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,7 +221,7 @@ Animation:
   m_GameObject: {fileID: 3175595131553692011}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 0}
+  m_Animation: {fileID: 7400000, guid: ddb33037a50954e708f6e3d4d7cbc3aa, type: 2}
   m_Animations: []
   m_WrapMode: 0
   m_PlayAutomatically: 1
