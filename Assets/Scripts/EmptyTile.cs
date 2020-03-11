@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmptyTile : MonoBehaviour
+public class EmptyTile : PickedUpItems
 {
     public Vector2Int index;
     public WorldManager m_worldManager;
@@ -10,14 +10,14 @@ public class EmptyTile : MonoBehaviour
 
     void Start()
     {
-        m_worldManager = GameObject.FindWithTag("WorldManager").GetComponent<WorldManager>();
+        //m_worldManager = GameObject.FindWithTag("WorldManager").GetComponent<WorldManager>();
         GameObject playerGameObject = GameObject.FindWithTag("Player");
         m_player = playerGameObject.GetComponent<PlayerComponent>();
     }
 
     void OnMouseDown()
     {
-
+        m_worldManager = FindObjectOfType<WorldManager>();
         Debug.Log("index: " + index.x + ", " + index.y);
         if(m_player.currentHolded == null)
         {

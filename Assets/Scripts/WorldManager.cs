@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldManager : MonoBehaviour
+public class WorldManager : MonoBehaviourPun, IPunObservable
 {
 
     public static int LengthOfDayInSecond = 30;
@@ -38,6 +39,7 @@ public class WorldManager : MonoBehaviour
 
     void Start()
     {
+        m_worldGenerator = FindObjectOfType<WorldGenerator>();
         m_worldGenerator.GenerateWorld();
 
         m_map = m_worldGenerator.getInitialMap();
@@ -47,12 +49,16 @@ public class WorldManager : MonoBehaviour
 
     private void Update()
     {
-        if(startTime != -1)
+        if (photonView.IsMine)
         {
-            //in seconds
-            currentSecond = Time.time - startTime;
-            currentDay = ((int)currentSecond / 30) + 1;
+            if (startTime != -1)
+            {
+                //in seconds
+                currentSecond = Time.time - startTime;
+                currentDay = ((int)currentSecond / 30) + 1;
+            }
         }
+
     }
 
     public int getCurrentDay()
@@ -75,15 +81,38 @@ public class WorldManager : MonoBehaviour
 
     }
 
+
     public bool UpdateTileMap(Vector2Int index, int val)
     {
-        if (!checkEmptyAround(index.x, index.y))
+        if(val == 0)
         {
-            m_map[index.x, index.y] = val;
-            m_worldGenerator.FillWithTileType(val, index.x, index.y);
+            //this is a landtile, change it to an empty tile
+            photonView.RPC("RpcUpdateTileMap", RpcTarget.AllBuffered, index.x, index.y, val);
+            return true;
+        }
+        else if (!checkEmptyAround(index.x, index.y))
+        {
+            //this is an empty tile, put a tile on it
+            photonView.RPC("RpcUpdateTileMap", RpcTarget.AllBuffered, index.x, index.y, val);
             return true;
         }
         return false;
+    }
+
+    [PunRPC]
+    public void RpcUpdateTileMap(int x, int y, int val)
+    {
+        //currently it is a LandBrick, crack the landbrick
+        if(m_map[x, y] != 0)
+        {
+            LandBrick tile = (LandBrick)m_worldGenerator.getTileComponent(x, y);
+            tile.isCracked = true;
+            tile.crackALandTile();
+        }
+
+        print("update tile map with value: " + val);
+        m_map[x, y] = val;
+        m_worldGenerator.FillWithTileType(val, x, y);
     }
 
     //Buggy!!!!!
@@ -105,5 +134,19 @@ public class WorldManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(currentSecond);
+            stream.SendNext(currentDay);
+
+        } else
+        {
+            currentSecond = (float)stream.ReceiveNext();
+            currentDay = (int)stream.ReceiveNext();
+        }
     }
 }

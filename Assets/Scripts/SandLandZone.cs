@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameResources;
 
 public class SandLandZone : MonoBehaviour
 {
     public int temperature = 45;
+    public LandType m_landType = LandType.SANDLAND;
 
     BoxCollider2D m_collider;
 
@@ -25,7 +27,7 @@ public class SandLandZone : MonoBehaviour
         if(collision.tag == "Player")
         {
             Debug.Log("Hi!!! You are in sandLand!!!");
-            collision.gameObject.GetComponent<PlayerComponent>().changeZone(temperature);
+            collision.gameObject.GetComponent<PlayerComponent>().changeZone(temperature, m_landType);
         }
     }
 }

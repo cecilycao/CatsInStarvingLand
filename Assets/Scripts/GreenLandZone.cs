@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameResources;
 
 public class GreenLandZone : MonoBehaviour
 {
     public int temperature = 20;
     BoxCollider2D m_collider;
+    public LandType m_landType = LandType.GREENLAND;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +26,7 @@ public class GreenLandZone : MonoBehaviour
         if(collision.tag == "Player")
         {
             Debug.Log("Hi!!! You are in greenland!!!");
-            collision.gameObject.GetComponent<PlayerComponent>().changeZone(temperature);
+            collision.gameObject.GetComponent<PlayerComponent>().changeZone(temperature, m_landType);
         }
     }
 }

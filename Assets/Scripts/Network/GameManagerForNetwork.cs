@@ -10,6 +10,7 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
     private static GameManagerForNetwork instance = null;
     public static GameManagerForNetwork Instance { get { return instance; } }
 
+    public WorldManager WorldManager;
     public PlayerComponent PlayerPrefab;
 
     public PlayerComponent LocalPlayer;
@@ -44,12 +45,13 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
     {
         PlayerComponent.RefreshInstance(ref LocalPlayer, PlayerPrefab);
         LocalPlayerID = LocalPlayer.GetComponent<PhotonView>().ViewID;
-        //if (PhotonNetwork.IsMasterClient)
-        //{
-        //    //instantiate world
-        //    PhotonNetwork.Instantiate("Plant", new Vector3(2.49f, -0.03f, 0f), Quaternion.identity, 0);
-        //    PhotonNetwork.Instantiate("Poopoo", new Vector3(3.36f, -0.27f, 0f), Quaternion.identity, 0);
-        //}
+        if (PhotonNetwork.IsMasterClient)
+        {
+            //    //instantiate world
+            PhotonNetwork.Instantiate(WorldManager.gameObject.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+            //    PhotonNetwork.Instantiate("Plant", new Vector3(2.49f, -0.03f, 0f), Quaternion.identity, 0);
+            //    PhotonNetwork.Instantiate("Poopoo", new Vector3(3.36f, -0.27f, 0f), Quaternion.identity, 0);
+        }
         
     }
 

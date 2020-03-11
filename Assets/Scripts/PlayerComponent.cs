@@ -14,10 +14,13 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     public int m_hunger;
     public double m_temperature;
     public int m_tiredness;
+    public int m_ID;
+    public bool bagFull = false;
 
     private bool isInvincible; //是否无敌
 
     public PickedUpItems currentHolded;
+    //public int HoldedItemID;
 
     private int maxHealth = 100;
     public int myMaxHealth
@@ -47,17 +50,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
     public int surroundingTemperature;
 
-    public enum m_status
-    {
-        DEFAULT,
-        ATTACK,
-        SLEEP,
-        DEAD
-    };
-
-    
-
-    public Transform HoldedPosition;
+    public SpriteRenderer HoldedItemSprite;
 
     public Backpack myBackpack;
 
@@ -67,6 +60,14 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
     private APCharacterController APcontroller;
     Animator m_anim;
+
+    public enum m_status
+    {
+        DEFAULT,
+        ATTACK,
+        SLEEP,
+        DEAD
+    };
 
     private void OnEnable()
     {
@@ -100,7 +101,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     void Start()
     {
         APcontroller = GetComponent<APCharacterController>();
-
+        m_ID = GetComponent<PhotonView>().ViewID;
 
         Inventory iv = FindObjectOfType<Inventory>();
         myBackpack = new Backpack(iv);
@@ -119,14 +120,19 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         //temp
         PlayerInitialize();
 
-        //temporary for testing use
-        if (currentHolded != null)
-        {
-            currentHolded.transform.SetParent(transform);
-            currentHolded.transform.position = HoldedPosition.position;
-        }
+        ////temporary for testing use
+        //if (currentHolded != null)
+        //{
+        //    currentHolded.transform.SetParent(transform);
+        //    currentHolded.transform.position = HoldedPosition.position;
+        //}
 
-        lastTempCheck = Time.time;    
+        lastTempCheck = Time.time;   
+        
+        if (HoldedItemSprite == null)
+        {
+            Debug.Log("Remember to attach holded item sprite");
+        }
     }
 
     // Update is called once per frame
@@ -239,26 +245,45 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         }
     }
 
-    //Only local player can pick up things
     public bool PickedUp(PickedUpItems item)
     {
-        if (!photonView.IsMine)
-        {
-            return false;
-        }
         GameResources.PickedUpItemName name = item.getItemName();
+        Debug.Log("Pick up " + name.ToString());
+
+
+        //put in hand if didnt hold anything in hand
         if (currentHolded == null)
         {
             item.m_State = PickedUpItems.ItemState.IN_BAG;
             HoldItemInHand(item);
+            //Destroy(item.gameObject);
+            item.gameObject.SetActive(false);
             return true;
         }
         //put in bag
-        if (myBackpack.AddNewItem(name))
+        //local player: put in bag
+        //other client: check bag empty, destroy obj or not
+        if (photonView.IsMine)
         {
-            item.m_State = PickedUpItems.ItemState.IN_BAG;
-            Destroy(item.gameObject);
-            return true;
+            if (myBackpack.AddNewItem(name))
+            {
+                bagFull = myBackpack.ItemSpaceLeft() > 0;
+                item.m_State = PickedUpItems.ItemState.IN_BAG;
+                //Destroy(item.gameObject);
+                item.gameObject.SetActive(false);
+                return true;
+            }
+        }
+        else
+        {
+            //not local player
+
+            if (!bagFull)
+            {
+                item.m_State = PickedUpItems.ItemState.IN_BAG;
+                //Destroy(item.gameObject);
+                item.gameObject.SetActive(false);
+            }
         }
         return false;
     }
@@ -270,13 +295,37 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             //hold in hand(change UI?)
             item.m_State = PickedUpItems.ItemState.IN_HAND;
             currentHolded = item;
-
+            string HoldedItemID = item.getItemName().ToString();
             Debug.Log("Hold Item: Item exist.");
-            item.transform.SetParent(transform);
-            item.transform.position = HoldedPosition.position;
+            photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, HoldedItemID, m_ID);
 
 
+            //item.transform.SetParent(transform);
+            //item.transform.position = HoldedPosition.position;
         }
+    }
+    
+    [PunRPC]
+    public void RpcChangeHoldItemSprite(string ItemName, int PlayerID)
+    {
+        PlayerComponent[] playerList = GetComponentsInParent<PlayerComponent>();
+        foreach(PlayerComponent player in playerList)
+        {
+            if(player.m_ID == PlayerID)
+            {
+                if(ItemName == "")
+                {
+                    HoldedItemSprite.sprite = null;
+                }
+                else
+                {
+                    string spriteName = "InventoryUIs/" + ItemName.ToString();
+                    HoldedItemSprite.sprite = Resources.Load<Sprite>(spriteName);
+                }
+                
+            }
+        }
+       
     }
 
     //Use this function to get whats in hand
@@ -313,6 +362,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         //    changeHunger(10);
         //}
         Destroy(currentHolded.gameObject);
+        photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, "", m_ID);
         //}
 
     }
@@ -328,9 +378,13 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     //Change player's temperature based on surrounding temperature.
     //if surrounding temperature > 28, m_temperature +0.1/s
     //if surrounding temperature < 10, m_temperature -0.1/s
-    public void changeZone(int surroundingTemperature)
+    public void changeZone(int surroundingTemperature, LandType land)
     {
         this.surroundingTemperature = surroundingTemperature;
+        if (photonView.IsMine)
+        {
+            CameraFollow.Instance.changeBg(land);
+        }
     }
 
     
@@ -353,6 +407,13 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        throw new NotImplementedException();
+        if (stream.IsWriting)
+        {
+            stream.SendNext(bagFull);
+        }
+        else
+        {
+            bagFull = (bool)stream.ReceiveNext();
+        }
     }
 }

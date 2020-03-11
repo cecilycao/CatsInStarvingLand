@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using static GameResources;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -12,7 +13,24 @@ public class CameraFollow : MonoBehaviour
     public GameObject target;
     public Vector3 offset;
     Vector3 targetPos;
-   
+    public SpriteRenderer background;
+
+    private static CameraFollow instance = null;
+    public static CameraFollow Instance { get { return instance; } }
+
+    void Awake()
+    {
+        // Singleton
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -36,6 +54,20 @@ public class CameraFollow : MonoBehaviour
 
             transform.position = Vector3.Lerp(transform.position, targetPos + offset, lerpStep);
 
+        }
+    }
+
+    public void changeBg(LandType land)
+    {
+        if(land == LandType.GREENLAND)
+        {
+            background.sprite = Resources.Load<Sprite>("Bg/greenland_bg");
+        } else if(land == LandType.RUINLAND)
+        {
+            background.sprite = Resources.Load<Sprite>("Bg/ruinland_bg");
+        } else
+        {
+            background.sprite = Resources.Load<Sprite>("Bg/sandland_bg");
         }
     }
 }
