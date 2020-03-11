@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
 
-public class WorldGenerator : MonoBehaviour
+public class WorldGenerator : MonoBehaviourPun
 {
     public GameObject LandTile_DIRT;
     public GameObject LandTile_STONE;
@@ -129,7 +130,7 @@ public class WorldGenerator : MonoBehaviour
                     FillWithTileType(m_map[x, y], x, y);
 
                     //if the index id surface, try to fill with creature
-                    if (m_map[x, y] == 0)
+                    if (m_map[x, y] == 0 && PhotonNetwork.IsMasterClient)
                     {
                         if(PlantGenerationConditions(x, y))
                         {
@@ -165,7 +166,8 @@ public class WorldGenerator : MonoBehaviour
     {
         Vector3 pos = new Vector3((-totalWidth / 2.0f) + (tileSize / 2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y, 1);
         //Debug.Log(pos);
-        GameObject newCreature = Instantiate(obj);
+        //GameObject newCreature = Instantiate(obj);
+        GameObject newCreature = PhotonNetwork.InstantiateSceneObject(obj.name, Vector3.zero, Quaternion.identity);
         newCreature.transform.SetParent(transform);
         newCreature.transform.position = pos;
     }

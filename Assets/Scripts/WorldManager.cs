@@ -84,6 +84,7 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
 
     public bool UpdateTileMap(Vector2Int index, int val)
     {
+        print("update tile map (" + index.x + ", " + index.y + ")" + " = " + val);
         if(val == 0)
         {
             //this is a landtile, change it to an empty tile
@@ -92,6 +93,7 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
         }
         else if (!checkEmptyAround(index.x, index.y))
         {
+            print("can put tile!!");
             //this is an empty tile, put a tile on it
             photonView.RPC("RpcUpdateTileMap", RpcTarget.AllBuffered, index.x, index.y, val);
             return true;

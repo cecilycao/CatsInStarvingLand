@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
@@ -58,7 +59,7 @@ public class Plant : PickedUpItems
 		else if (holdedItem.getItemName() == GameResources.PickedUpItemName.POOPOO)
 		{
 
-			fertilize();
+            photonView.RPC("Rpcfertilize", RpcTarget.AllBuffered);
             m_player.useItemInHand();
 
 		}
@@ -87,6 +88,7 @@ public class Plant : PickedUpItems
 
         }
 
+    
 	    private void pickUpPlant(PlayerComponent m_player)
     {
 	    //disable 图标
@@ -106,13 +108,12 @@ public class Plant : PickedUpItems
 
 	    }
 
-    public void fertilize()
+    [PunRPC]
+    public void Rpcfertilize()
     {
 	    fruityPlant.SetActive(true);
 	    initialPlant.SetActive(false);
 	    f_status = FruitStatus.withFruit;
-
-
     }
 
     public override PickedUpItemName getItemName()
@@ -120,6 +121,10 @@ public class Plant : PickedUpItems
         return PickedUpItemName.FRUIT_PLANT;
     }
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        
+    }
 }
 
 	

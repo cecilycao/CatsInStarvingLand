@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyControler : MonoBehaviour
+public class EnemyControler : MonoBehaviourPun
 {
     public float speed = 3 ;
     public float changeDirectionTime =2f;
@@ -86,7 +87,7 @@ public class EnemyControler : MonoBehaviour
             Debug.Log("animal" +aniCurHealth + "/" + animalHealth);
             if (aniCurHealth == 0)
             {
-                Destroy(this.gameObject);
+                PhotonNetwork.Destroy(this.gameObject);
                 GameObject xiaoDryfish = Instantiate(wuping, transform.position, transform.rotation);
             }
         }

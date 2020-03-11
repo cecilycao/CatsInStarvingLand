@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
@@ -6,7 +7,7 @@ using static GameResources;
 /*
 Items That can be picked up 
 */
-public class PickedUpItems : MonoBehaviour
+public class PickedUpItems : MonoBehaviourPun
 {
     public ItemState m_State;
     //add public ItemName
