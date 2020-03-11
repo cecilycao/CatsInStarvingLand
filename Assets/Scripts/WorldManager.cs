@@ -110,7 +110,7 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
             tile.crackALandTile();
         }
 
-        print("update tile map with value: " + val);
+        //print("update tile map with value: " + val);
         m_map[x, y] = val;
         m_worldGenerator.FillWithTileType(val, x, y);
     }

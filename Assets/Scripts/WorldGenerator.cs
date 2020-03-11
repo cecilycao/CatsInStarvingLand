@@ -231,7 +231,7 @@ public class WorldGenerator : MonoBehaviour
 
     PickedUpItems FillWith(GameObject obj, int x, int y)
     {
-        print("Fill with landtile at " + x + ", " + y);
+        //print("Fill with landtile at " + x + ", " + y);
         Vector3 pos = new Vector3((-totalWidth/2.0f) + (tileSize/2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y, 3);
         //Debug.Log(pos);
         GameObject newTile = Instantiate(obj);

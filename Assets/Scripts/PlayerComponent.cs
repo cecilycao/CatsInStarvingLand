@@ -69,22 +69,6 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         DEAD
     };
 
-    private void OnEnable()
-    {
-        //if(instance == null)
-        //{
-        //    instance = this;
-        //} else
-        //{
-        //    if(PlayerComponent.instance != this)
-        //    {
-        //        Destroy(PlayerComponent.instance.gameObject);
-        //        PlayerComponent.instance = this;
-        //    }
-        //}
-        //DontDestroyOnLoad(this.gameObject);
-    }
-
     private void Awake()
     {
         APcontroller = GetComponent<APCharacterController>();
@@ -107,25 +91,20 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         myBackpack = new Backpack(iv);
         myUIManager = FindObjectOfType<UIManager>();
 
-
-        m_health = 100;
+        //initialize player status
         invincibleTimer = 0;
-
+        m_health = 100;
         m_hunger = 100;
         m_temperature = 38;
         m_tiredness = 100;
 
+        myUIManager.UpdateHealth(m_health);
+        myUIManager.UpdateHunger(m_hunger);
+        myUIManager.UpdateTemperature(m_temperature);
+        myUIManager.UpdateTiredness(m_tiredness);
 
-
-        //temp
-        PlayerInitialize();
-
-        ////temporary for testing use
-        //if (currentHolded != null)
-        //{
-        //    currentHolded.transform.SetParent(transform);
-        //    currentHolded.transform.position = HoldedPosition.position;
-        //}
+        InvokeRepeating("Digest", 3f, 3f);
+        InvokeRepeating("Work", 3f, 3f);
 
         lastTempCheck = Time.time;   
         
@@ -138,10 +117,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     // Update is called once per frame
     void Update()
     {
-        //health -1 / 3s
-
         //tiredness -10 / 27s
-
 
         if (isInvincible)
         {
@@ -156,7 +132,40 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             attack();
         }
         BodyTempCheckBasedOnTemp();
+
+        if(m_health <= 0)
+        {
+            OnDeath();
+        }
         
+    }
+
+    void Digest()
+    {
+        if (m_hunger > 0)
+        {
+            m_hunger--;
+            myUIManager.UpdateHunger(m_hunger);
+        }
+        else
+        {
+            m_health -= 3;
+            //decrease health
+        }
+    }
+
+    void Working()
+    {
+        if (m_tiredness > 0)
+        {
+            m_tiredness--;
+            myUIManager.UpdateTiredness(m_tiredness);
+        }
+        else
+        {
+            //decrease health
+            m_health -= 3;
+        }
     }
 
     void BodyTempCheckBasedOnTemp() {
@@ -177,13 +186,32 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         }
 
     }
+
     public void changeHunger(int amount)
     {
        
             //Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
             m_hunger = Mathf.Clamp(m_hunger + amount, 0, maxHunger);
             Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
-            //myUIManager.UpdateHunger(m_hunger);
+            myUIManager.UpdateHunger(m_hunger);
+    }
+
+    public void ChangeHealth(int amount)
+    {
+        if (amount < 0)
+        {
+            if (isInvincible == true)
+            {
+                return;
+            }
+            isInvincible = true;
+            invincibleTimer = invincibleTime;
+        }
+
+        Debug.Log("player" + m_health + "/" + maxHealth);
+        m_health = Mathf.Clamp(m_health + amount, 0, maxHealth);
+        Debug.Log("player" + m_health + "/" + maxHealth);
+        myUIManager.UpdateHealth(m_health);
     }
 
     void attack()
@@ -200,6 +228,12 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         }
     }
 
+    private void OnDeath()
+    {
+        print("You are Dead!!!!");
+        Destroy(this.gameObject);
+    }
+
     void OnMouseDown()
     {
         if (!photonView.IsMine)
@@ -212,38 +246,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
     }
 
-    public void PlayerInitialize()
-    {
-        StartCoroutine("Digest");
-        StartCoroutine("Working");
-    }
-
-    IEnumerator Digest()
-    {
-        if (m_hunger > 0)
-        {
-            m_hunger--;
-
-            yield return new WaitForSeconds(3);
-        }
-        else
-        {
-            //decrease health
-        }
-    }
-
-    IEnumerator Working()
-    {
-        if (m_tiredness > 0)
-        {
-            m_tiredness--;
-            yield return new WaitForSeconds(2.7f);
-        }
-        else
-        {
-            //decrease health
-        }
-    }
+   
 
     public bool PickedUp(PickedUpItems item)
     {
@@ -334,22 +337,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         return currentHolded;
     }
 
-    public void ChangeHealth(int amount)
-    {
-        if (amount < 0)
-        {
-            if (isInvincible == true)
-            {
-                return;
-            }
-            isInvincible = true;
-            invincibleTimer = invincibleTime;
-        }
 
-        Debug.Log("player" + m_health + "/" + maxHealth);
-        m_health = Mathf.Clamp(m_health + amount, 0, maxHealth);
-        Debug.Log("player" + m_health + "/" + maxHealth);
-    }
 
     public void useItemInHand()
     {
@@ -366,14 +354,6 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         //}
 
     }
-
-    //public void ChangeValue()
-    //{
-    //    if (currentHolded.getItemName() == PickedUpItemName.DRIED_FISH)
-    //    {
-    //        changeHunger(10);
-    //    }
-    //}
 
     //Change player's temperature based on surrounding temperature.
     //if surrounding temperature > 28, m_temperature +0.1/s

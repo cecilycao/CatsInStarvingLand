@@ -50,7 +50,7 @@ public class EnemyControler : MonoBehaviour
         {
             lastPopo = (int)WorldManager.Instance.getCurrentSecond()-10;
             GameObject newShit = Instantiate(shit, transform.position, transform.rotation);
-            Debug.Log("sssssss");
+            //Debug.Log("sssssss");
             //CreateShitTime = WorldManager.Instance.getCurrentDay();
         }
 

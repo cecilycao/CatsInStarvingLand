@@ -47,7 +47,7 @@ public class Poopoo : PickedUpItems
             {
                 Destroy(this.gameObject);
                 GameObject xiaoslime = Instantiate(slime, transform.position, transform.rotation);
-                Debug.Log("biansheng!!!!!!!!!!!!!!!!!!");
+                //Debug.Log("biansheng!!!!!!!!!!!!!!!!!!");
                 //happenDay = (int)WorldManager.Instance.getCurrentSecond() +30;
             }
            
