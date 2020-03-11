@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class slime : MonoBehaviour
+public class slime : MonoBehaviourPun, IPunObservable
 {
     public float SlimeSpeed = 3;
     public float SlimeChangeDirectionTime = 1f;
@@ -39,6 +40,8 @@ public class slime : MonoBehaviour
         position.x += moveDirection.x * SlimeSpeed * Time.deltaTime;
         position.y += moveDirection.y * SlimeSpeed * Time.deltaTime;
         rbody.MovePosition(position);
+
+        checkDeath();
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -63,20 +66,41 @@ public class slime : MonoBehaviour
             SlimeCurHealth = Mathf.Clamp(SlimeCurHealth + amount, 0, SlimeHealth);
             //UiManager.instance.UpdateHealthbar(currentHealth, maxHealth);
             Debug.Log("animal" + SlimeCurHealth + "/" + SlimeHealth);
-            if (SlimeCurHealth == 0)
-            {
-                Destroy(this.gameObject);
-                int a = Random.Range(1,100);
-                if (a <= 5)
-                {
-                    GameObject meiqi = Instantiate(meiqiguan, transform.position, transform.rotation);
-                }
-                else
-                {
-                    GameObject nextpopo = Instantiate(nextPoopoo, transform.position, transform.rotation);
-                }
-               
-            }
+        }
+    }
+
+    public void checkDeath()
+    {
+        if (SlimeCurHealth == 0 && PhotonNetwork.IsMasterClient)
+        {
+            int prob = Random.Range(1, 100);
+            PhotonNetwork.Destroy(this.gameObject);
+            photonView.RPC("slimeDrop", RpcTarget.AllBuffered, prob);
+        }
+    }
+
+    [PunRPC]
+    public void slimeDrop(int probability)
+    {
+        if (probability <= 5)
+        {
+            GameObject meiqi = Instantiate(meiqiguan, transform.position, transform.rotation);
+        }
+        else
+        {
+            GameObject nextpopo = Instantiate(nextPoopoo, transform.position, transform.rotation);
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(SlimeCurHealth);
+        } else if (stream.IsReading)
+        {
+            SlimeCurHealth = (int)stream.ReceiveNext();
+            
         }
     }
 }

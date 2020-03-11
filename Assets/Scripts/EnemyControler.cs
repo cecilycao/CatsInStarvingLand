@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyControler : MonoBehaviourPun
 {
+    public int shitDuration = 30;
     public float speed = 3 ;
     public float changeDirectionTime =2f;
     public bool isVertical;
@@ -47,9 +48,9 @@ public class EnemyControler : MonoBehaviourPun
         position.y += moveDirection.y *  speed * Time.deltaTime;
         rbody.MovePosition(position);
         //Debug.Log(WorldManager.Instance.getCurrentDay());
-        if(WorldManager.Instance.getCurrentSecond()- lastPopo >=30)
+        if(WorldManager.Instance.getCurrentSecond()- lastPopo >= shitDuration)
         {
-            lastPopo = (int)WorldManager.Instance.getCurrentSecond()-10;
+            lastPopo = (int)WorldManager.Instance.getCurrentSecond();
             GameObject newShit = Instantiate(shit, transform.position, transform.rotation);
             //Debug.Log("sssssss");
             //CreateShitTime = WorldManager.Instance.getCurrentDay();

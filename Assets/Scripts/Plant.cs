@@ -72,41 +72,46 @@ public class Plant : PickedUpItems
 
     private void pickUpFruit(PlayerComponent m_player)
     {
-	    Debug.Log("hahahaah");
 
-	    //disable 图标
-	    fruityPlant.SetActive(false);
-	    initialPlant.SetActive(true);
 
-	    f_status = FruitStatus.noFruit;
         GameObject newFruit = Instantiate(fruit.gameObject);
+        m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
+        photonView.RPC("RpcPickUpFruit", RpcTarget.AllBuffered);
 
-	    m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
 
-            //m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
-         //Destroy(newFruit);
+    }
 
-        }
+    [PunRPC]
+    public void RpcPickUpFruit()
+    {
+        //disable 图标
+        fruityPlant.SetActive(false);
+        initialPlant.SetActive(true);
+
+        f_status = FruitStatus.noFruit;
+        
+    }
 
     
 	    private void pickUpPlant(PlayerComponent m_player)
     {
-	    //disable 图标
-	    initialPlant.SetActive(false);
-	    Debug.Log("wwwwww");
-        //m_player.PickedUp(this);
+	    
 
-	    GameObject newPlant = Instantiate(gameObject);
-
+	    //GameObject newPlant = Instantiate(gameObject);
 	    m_player.PickedUp(this);
+        photonView.RPC("RpcPickUpPlant", RpcTarget.AllBuffered);
 
 
-	    //m_player.PickedUp(newPlant.GetComponent<PickedUpItems>());
-	    //Debug.Log(newPlant.GetComponent<PickedUpItems>());
-        //destroy(plant);
 
+    }
 
-	    }
+    [PunRPC]
+    public void RpcPickUpPlant()
+    {
+        //disable 图标
+        initialPlant.SetActive(false);
+
+    }
 
     [PunRPC]
     public void Rpcfertilize()
@@ -119,11 +124,6 @@ public class Plant : PickedUpItems
     public override PickedUpItemName getItemName()
     {
         return PickedUpItemName.FRUIT_PLANT;
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        
     }
 }
 
