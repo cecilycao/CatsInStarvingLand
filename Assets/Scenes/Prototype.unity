@@ -748,6 +748,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3123978678754994406, guid: 9256816374183df4e87fdbe23870f7dd,
+        type: 3}
+      propertyPath: viewIdField
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7761783708371312292, guid: 9256816374183df4e87fdbe23870f7dd,
         type: 3}
       propertyPath: m_Name
@@ -3807,7 +3812,7 @@ MonoBehaviour:
   randomFillPercent1: 30
   randomFillPercent2: 20
   plantsFillPercent: 20
-  animalFillPercent: 10
+  animalFillPercent: 5
 --- !u!1001 &2141179564
 PrefabInstance:
   m_ObjectHideFlags: 0
