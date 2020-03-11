@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1629754046138637421}
   - component: {fileID: 2270082387803366780}
   - component: {fileID: 1485543742547736558}
+  - component: {fileID: -518453056600060304}
+  - component: {fileID: 5321996116771264332}
   m_Layer: 0
   m_Name: slime
   m_TagString: slime
@@ -151,3 +153,37 @@ MonoBehaviour:
     type: 3}
   SlimeHealth: 3
   SlimeCurHealth: 0
+--- !u!95 &-518453056600060304
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3175595131553692011}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c540954c77efd2b469b14853d5889d9a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &5321996116771264332
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3175595131553692011}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
