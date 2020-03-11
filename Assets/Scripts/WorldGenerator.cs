@@ -50,6 +50,7 @@ public class WorldGenerator : MonoBehaviour
     [HideInInspector]
     public int[,] m_map;
     public int[,] m_landTypeMap;
+    public PickedUpItems[,] TileMap;
 
     // Start is called before the first frame update
     public void GenerateWorld()
@@ -118,6 +119,7 @@ public class WorldGenerator : MonoBehaviour
 
         if (m_map != null)
         {
+            TileMap = new PickedUpItems[m_map.GetLength(0), m_map.GetLength(1)];
             for (int x = 0; x < width * finalMapWidthCount; x++)
             {
                 //height* finalMapWidthCount
@@ -203,33 +205,33 @@ public class WorldGenerator : MonoBehaviour
     {
         if (TileTypeVal == (int)TileType.DIRT)
         {
-            FillWith(LandTile_DIRT, x, y);
+            TileMap[x, y] = FillWith(LandTile_DIRT, x, y);
         }
         else if (TileTypeVal == (int)TileType.STONE)
         {
-            FillWith(LandTile_STONE, x, y);
+            TileMap[x, y] = FillWith(LandTile_STONE, x, y);
         }
         else if (TileTypeVal == (int)TileType.SAND)
         {
-            FillWith(LandTile_SAND, x, y);
+            TileMap[x, y] = FillWith(LandTile_SAND, x, y);
         }
         else if (TileTypeVal == (int)TileType.IRON)
         {
-            FillWith(LandTile_IRON, x, y);
+            TileMap[x, y] = FillWith(LandTile_IRON, x, y);
         }
         else if (TileTypeVal == (int)TileType.SPARE)
         {
-            FillWith(LandTile_SPARE, x, y);
+            TileMap[x, y] = FillWith(LandTile_SPARE, x, y);
         }
         else if (TileTypeVal == 0)
         {
-            FillWith(LandTile_Empty, x, y);
+            TileMap[x, y] = FillWith(LandTile_Empty, x, y);
         }
     }
 
-    void FillWith(GameObject obj, int x, int y)
+    PickedUpItems FillWith(GameObject obj, int x, int y)
     {
-       
+        print("Fill with landtile at " + x + ", " + y);
         Vector3 pos = new Vector3((-totalWidth/2.0f) + (tileSize/2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y, 3);
         //Debug.Log(pos);
         GameObject newTile = Instantiate(obj);
@@ -243,17 +245,24 @@ public class WorldGenerator : MonoBehaviour
         {
             tile.index = new Vector2Int(x, y);
             //Debug.Log("index: " + x + ", " + y);
+            return tile;
         }
         else
         {
             EmptyTile.index = new Vector2Int(x, y);
             //Debug.Log("index: " + x + ", " + y);
+            return EmptyTile;
         }
 
     }
 
     public int[,] getInitialMap() {
         return m_map;
+    }
+
+    public PickedUpItems getTileComponent(int x, int y)
+    {
+        return TileMap[x, y];
     }
 
 

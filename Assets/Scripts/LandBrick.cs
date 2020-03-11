@@ -30,7 +30,6 @@ public class LandBrick : PickedUpItems
         //m_player = GameObject.FindWithTag("Player").GetComponent<PlayerComponent>();
         m_collider = GetComponent<BoxCollider2D>();
         m_Size = m_collider.bounds.size.x;
-        m_worldManager = GameObject.FindWithTag("WorldManager").GetComponent<WorldManager>();
         m_gameManager = GameObject.FindWithTag("WorldManager").GetComponent<GameManagerForNetwork>();
 
 
@@ -38,6 +37,7 @@ public class LandBrick : PickedUpItems
 
     void OnMouseDown()
     {
+        m_worldManager = FindObjectOfType<WorldManager>();
         Debug.Log("index: " + index.x + ", " + index.y);
         if (!isCracked && checkDistance() && m_State == ItemState.DEFAULT)
         {
@@ -46,8 +46,8 @@ public class LandBrick : PickedUpItems
                 print("cracked a land brick");
                 /*new a land fragment for pick up*/
 
-                crackALandTile();
-                isCracked = true;
+                //crackALandTile();
+                //isCracked = true;
                 m_worldManager.UpdateTileMap(index, 0);
 
             }
@@ -55,7 +55,7 @@ public class LandBrick : PickedUpItems
 
     }
 
-    private void crackALandTile()
+    public void crackALandTile()
     {
         Vector3 newScale = gameObject.transform.localScale;
         newScale *= scaleChange;

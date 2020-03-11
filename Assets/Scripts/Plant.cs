@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using static GameResources;
 
 public class Plant : PickedUpItems
 {
@@ -59,8 +59,7 @@ public class Plant : PickedUpItems
 		{
 
 			fertilize();
-            //destroy poo
-            Destroy(holdedItem.gameObject);
+            m_player.useItemInHand();
 
 		}
 		
@@ -70,53 +69,56 @@ public class Plant : PickedUpItems
 
 
 
-private void pickUpFruit(PlayerComponent m_player)
-{
-	Debug.Log("hahahaah");
+    private void pickUpFruit(PlayerComponent m_player)
+    {
+	    Debug.Log("hahahaah");
 
-	//disable 图标
-	fruityPlant.SetActive(false);
-	initialPlant.SetActive(true);
+	    //disable 图标
+	    fruityPlant.SetActive(false);
+	    initialPlant.SetActive(true);
 
-	f_status = FruitStatus.noFruit;
-    GameObject newFruit = Instantiate(fruit.gameObject);
+	    f_status = FruitStatus.noFruit;
+        GameObject newFruit = Instantiate(fruit.gameObject);
 
-	m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
+	    m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
 
-        //m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
-     //Destroy(newFruit);
+            //m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
+         //Destroy(newFruit);
+
+        }
+
+	    private void pickUpPlant(PlayerComponent m_player)
+    {
+	    //disable 图标
+	    initialPlant.SetActive(false);
+	    Debug.Log("wwwwww");
+        //m_player.PickedUp(this);
+
+	    GameObject newPlant = Instantiate(gameObject);
+
+	    m_player.PickedUp(this);
+
+
+	    //m_player.PickedUp(newPlant.GetComponent<PickedUpItems>());
+	    //Debug.Log(newPlant.GetComponent<PickedUpItems>());
+        //destroy(plant);
+
+
+	    }
+
+    public void fertilize()
+    {
+	    fruityPlant.SetActive(true);
+	    initialPlant.SetActive(false);
+	    f_status = FruitStatus.withFruit;
+
 
     }
 
-	private void pickUpPlant(PlayerComponent m_player)
-{
-	//disable 图标
-	initialPlant.SetActive(false);
-	Debug.Log("wwwwww");
-    //m_player.PickedUp(this);
-
-	GameObject newPlant = Instantiate(gameObject);
-
-	m_player.PickedUp(this);
-
-
-	//m_player.PickedUp(newPlant.GetComponent<PickedUpItems>());
-	//Debug.Log(newPlant.GetComponent<PickedUpItems>());
-    //destroy(plant);
-
-
-	}
-
-private void fertilize()
-{
-	fruityPlant.SetActive(true);
-	initialPlant.SetActive(false);
-	f_status = FruitStatus.withFruit;
-
-
-}
-
-
+    public override PickedUpItemName getItemName()
+    {
+        return PickedUpItemName.FRUIT_PLANT;
+    }
 
 }
 
