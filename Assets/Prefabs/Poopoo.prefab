@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5038825859809279662}
   - component: {fileID: -2149174567918093003}
   m_Layer: 0
-  m_Name: poopoo
+  m_Name: Poopoo
   m_TagString: poopoo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_State: 0
-  slime: {fileID: 6428035513277495719, guid: ccf801a01fd8b4150a55c7175d476ef0, type: 3}
+  slime: {fileID: 3175595131553692011, guid: 917c2b66d9a164c39b3d3e193d3571c5, type: 3}
   isSlime: 0
 --- !u!70 &-2149174567918093003
 CapsuleCollider2D:
