@@ -67,8 +67,15 @@ public class slime : MonoBehaviour
             {
                 Destroy(this.gameObject);
                 int a = Random.Range(1,100);
-                Debug.Log(a);
-                //GameObject xiaoDryfish = Instantiate(meiqiguan, transform.position, transform.rotation);
+                if (a <= 5)
+                {
+                    GameObject meiqi = Instantiate(meiqiguan, transform.position, transform.rotation);
+                }
+                else
+                {
+                    GameObject nextpopo = Instantiate(nextPoopoo, transform.position, transform.rotation);
+                }
+               
             }
         }
     }

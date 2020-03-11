@@ -24,11 +24,22 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        EnemyControler Ec = collision.gameObject.GetComponent<EnemyControler>();
-        if (Ec != null)
+        if (collision.gameObject.tag == "animal")
         {
-            Ec.animalChangeHealth(-1);
+            EnemyControler Ec = collision.gameObject.GetComponent<EnemyControler>();
+            if (Ec != null)
+            {
+                Ec.animalChangeHealth(-1);
+            }
+        
+        }else if(collision.gameObject.tag == "slime")
+        {
+            slime sl = collision.gameObject.GetComponent<slime>();
+            sl.slimeChangeHealth(-1);
+            Debug.Log("sss");
         }
         Destroy(this.gameObject);
+
+
     }
 }

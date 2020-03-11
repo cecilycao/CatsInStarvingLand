@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2756081182518197235}
   m_Layer: 0
   m_Name: slime
-  m_TagString: Untagged
+  m_TagString: slime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,6 +147,7 @@ MonoBehaviour:
   SlimeChangeDirectionTime: 1
   isVertical: 0
   meiqiguan: {fileID: 0}
-  nextPoopoo: {fileID: 0}
+  nextPoopoo: {fileID: 4774913156795051937, guid: 5691ded58057fa54687767eca93f7438,
+    type: 3}
   SlimeHealth: 3
   SlimeCurHealth: 0
