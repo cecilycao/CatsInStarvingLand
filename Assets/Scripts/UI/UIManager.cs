@@ -30,6 +30,6 @@ public class UIManager : MonoBehaviour
     public void UpdateTiredness(int tirednessValue)
     {
         Text TirednessText = Tiredness.GetComponentInChildren<Text>();
-        TirednessText.text = "Tiredness: " + TirednessText;
+        TirednessText.text = "Tiredness: " + tirednessValue;
     }
 }

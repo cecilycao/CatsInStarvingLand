@@ -103,8 +103,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         myUIManager.UpdateTemperature(m_temperature);
         myUIManager.UpdateTiredness(m_tiredness);
 
-        InvokeRepeating("Digest", 3f, 3f);
-        InvokeRepeating("Work", 3f, 3f);
+        InvokeRepeating("Digest", 1f, 1f);
+        InvokeRepeating("Working", 1f, 1f);
 
         lastTempCheck = Time.time;   
         
@@ -150,6 +150,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         else
         {
             m_health -= 3;
+            myUIManager.UpdateHunger(m_hunger);
+            myUIManager.UpdateHealth(m_health);
             //decrease health
         }
     }
@@ -165,6 +167,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         {
             //decrease health
             m_health -= 3;
+            myUIManager.UpdateTiredness(m_tiredness);
+            myUIManager.UpdateHealth(m_health);
         }
     }
 
@@ -189,7 +193,6 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
     public void changeHunger(int amount)
     {
-       
             //Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
             m_hunger = Mathf.Clamp(m_hunger + amount, 0, maxHunger);
             Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
@@ -345,10 +348,19 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         //if(currentHolded.getItemName() == PickedUpItemName.FRUIT)
         //{
         //    //ChangeHealth();
-        //if (currentHolded.getItemName() == PickedUpItemName.DRIED_FISH)
-        //{
-        //    changeHunger(10);
-        //}
+        if (currentHolded.getItemName() == PickedUpItemName.DRIED_FISH)
+        {
+            changeHunger(10);
+        }
+        if (currentHolded.getItemName() == PickedUpItemName.FRUIT)
+        {
+            changeHunger(10);
+        }
+        if (currentHolded.getItemName() == PickedUpItemName.POOPOO)
+        {
+            changeHunger(10);
+        }
+
         Destroy(currentHolded.gameObject);
         photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, "", m_ID);
         //}
