@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
         Text HungerText = Hunger.GetComponentInChildren<Text>();
         HungerText.text = "Hunger: " + hungerValue;
     }
-    public void UpdateTemperature(int temperatureValue)
+    public void UpdateTemperature(double temperatureValue)
     {
         Text TemperatureText = Temperature.GetComponentInChildren<Text>();
         TemperatureText.text = "Temperature: " + temperatureValue;
