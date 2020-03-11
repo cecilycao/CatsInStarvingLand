@@ -14,6 +14,14 @@ public class Inventory : MonoBehaviour
 
 
     private Dictionary<GameResources.PickedUpItemName, int> backpack = new Dictionary<GameResources.PickedUpItemName, int>();
+
+    private Dictionary<GameResources.PickedUpItemName, int> itemToSlotIndex = new Dictionary<GameResources.PickedUpItemName, int>();
+    private Dictionary<int, GameResources.PickedUpItemName> slotIndexToItem = new Dictionary<int, GameResources.PickedUpItemName>();
+
+
+
+    private Dictionary<int, int> hashID2IndexID = new Dictionary<int, int>();
+
     void Start()
     {
         backpack.Clear();
@@ -22,15 +30,23 @@ public class Inventory : MonoBehaviour
         {
             Debug.Log("Everything are fucked up");
         }
+
+        for (int i = 0; i < 12; i++)
+        {
+            hashID2IndexID[slotList[i].GetHashCode()] = i;
+        }
     }
 
-    private bool UpdateOne(int slotID, GameResources.PickedUpItemName item, int count)
+    public int slotGetIndexID(int hashCode)
     {
-        if (slotID >= 12)
-        {
-            Debug.Log("FUCK you");
-        }
-        return slotList[slotID].updateItem(item, count);
+        return hashID2IndexID[hashCode];
+    }
+
+    public GameResources.PickedUpItemName WhatItemAtThisIndex(int index)
+    {
+        GameResources.PickedUpItemName tmp = GameResources.PickedUpItemName.DEFAULT;
+        slotIndexToItem.TryGetValue(index, out tmp);
+        return tmp;
     }
 
     public bool IsEmpty()
@@ -70,11 +86,10 @@ public class Inventory : MonoBehaviour
 
     public bool AddNewItem(GameResources.PickedUpItemName newItem)
     {
-        Debug.Log("准备放入背包");
         int weight = 1;
+
         if (weight > this.CapacityLeft())
         {
-            Debug.Log("放入背包结果1");
             return false;
         }
 
@@ -82,19 +97,34 @@ public class Inventory : MonoBehaviour
         if (backpack.TryGetValue(newItem, out tmpCount))
         {
             backpack[newItem] = tmpCount + 1;
+            slotList[itemToSlotIndex[newItem]].updateItem(newItem, tmpCount + 1);
         }
         else
         {
             if (ItemSpaceLeft() == 0)
             {
-                Debug.Log("放入背包结果2");
                 return false;
             }
+
+
+            for (int i = 0; i < 12; i++)
+            {
+                if (!slotIndexToItem.ContainsKey(i))
+                {
+
+                    slotIndexToItem[i] = newItem;
+                    itemToSlotIndex[newItem] = i;
+                    
+                    slotList[i].updateItem(newItem, 1);
+                    
+                    break;
+                }
+            }
+
             backpack[newItem] = 1;
         }
-        updateAllSlot();
+
         currentWeight += weight;
-        Debug.Log("放入背包结果3");
         return true;
     }
 
@@ -111,6 +141,10 @@ public class Inventory : MonoBehaviour
             else
             {
                 backpack.Remove(item);
+
+                int index = itemToSlotIndex[item];
+                slotIndexToItem.Remove(index);
+                itemToSlotIndex.Remove(item);
             }
         }
         else
@@ -118,7 +152,6 @@ public class Inventory : MonoBehaviour
             return false;
         }
         currentWeight -= weight;
-        updateAllSlot();
         return true;
     }
 
@@ -132,14 +165,4 @@ public class Inventory : MonoBehaviour
         return backpack;
     }
 
-    void updateAllSlot()
-    {
-        int count = 0;
-        foreach (var item in backpack)
-        {
-            Debug.Log("背包更新: " + item.Key + "=" + item.Value);
-            this.UpdateOne(count, item.Key, item.Value);
-            count++;
-        }
-    }
 }
