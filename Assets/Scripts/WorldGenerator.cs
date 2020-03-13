@@ -15,6 +15,7 @@ public class WorldGenerator : MonoBehaviourPun
     public GameObject LandTile_Empty;
 
     public GameObject FruitPlant;
+    public GameObject LuminousPlant;
     public GameObject GrassAnimal;
 
     public GameObject GreenLandZone;
@@ -44,7 +45,8 @@ public class WorldGenerator : MonoBehaviourPun
     public int randomFillPercent2;
 
     //for plants and animals.etc
-    public int plantsFillPercent;
+    public int fruitPlantsFillPercent;
+    public int luminousPlantFillPercent;
     public int animalFillPercent;
 
     MapGenerator m_mapGenerator;
@@ -134,17 +136,26 @@ public class WorldGenerator : MonoBehaviourPun
                     {
                         if(PlantGenerationConditions(x, y))
                         {
+                            print("Generate plant..");
                             int randIntPlant = pseudoRandom.Next(0, 100);
-                           //Debug.Log("RandIntPlant: " + randIntPlant);
-                            if (randIntPlant < plantsFillPercent)
+                            int totalPlantPercent = fruitPlantsFillPercent + luminousPlantFillPercent;
+                            int randIntOneKindPlant = pseudoRandom.Next(0, totalPlantPercent);
+                            if (randIntPlant < (fruitPlantsFillPercent + luminousPlantFillPercent))
                             {
-                                //genertae planet
-                                GenerateCreature(FruitPlant, x, y);
+                                //can generate plant here
+                                if(randIntOneKindPlant < fruitPlantsFillPercent)
+                                {
+                                    GenerateCreature(FruitPlant, x, y);
+                                } else if(randIntOneKindPlant < (fruitPlantsFillPercent + luminousPlantFillPercent))
+                                {
+                                    GenerateCreature(LuminousPlant, x, y);
+                                }
                             }
                         } 
                         
                         if(AnimalGenerationConditions(x, y))
                         {
+                            print("Generate animal..");
                             int randIntAnimal = pseudoRandom.Next(0, 100);
                             //Debug.Log("RandIntAnimal: " + randIntAnimal);
                             if (randIntAnimal < animalFillPercent)

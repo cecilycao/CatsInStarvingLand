@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5001077723783343283}
   - component: {fileID: 4254724396751601275}
+  - component: {fileID: 2148291049517521862}
   m_Layer: 0
   m_Name: LightBulb
   m_TagString: Untagged
@@ -82,6 +83,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2148291049517521862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849637592681851989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411a6bacc245f41489117347b5a769c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_State: 0
 --- !u!1 &4445405530226959991
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +139,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 5
   m_Range: 3.8300974
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

@@ -26,6 +26,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "animal")
         {
+            print("Hit animal!!!");
             EnemyControler Ec = collision.gameObject.GetComponent<EnemyControler>();
             if (Ec != null)
             {

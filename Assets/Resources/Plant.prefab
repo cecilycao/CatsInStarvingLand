@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3185188987307196725
 Transform:
   m_ObjectHideFlags: 0
@@ -97,7 +97,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3185188987859046773
 Transform:
   m_ObjectHideFlags: 0
@@ -230,8 +230,7 @@ MonoBehaviour:
   fruityPlant: {fileID: 3185188987307196723}
   initialPlant: {fileID: 3185188987859046771}
   fruit: {fileID: 3836660957453848034, guid: 2a93105ca73b57146b76d92cd0591087, type: 3}
-  plant: {fileID: 0}
-  f_status: 1
+  f_status: 0
 --- !u!114 &-6106984619723574523
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static GameResources;
 
 public class PlayerComponent : MonoBehaviourPun, IPunObservable
@@ -51,6 +52,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     public int surroundingTemperature;
 
     public SpriteRenderer HoldedItemSprite;
+
+    public Transform MeleePosition;
 
     public Inventory myBackpack;
 
@@ -133,7 +136,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
-            attack();
+            Attack();
         }
         BodyTempCheckBasedOnTemp();
 
@@ -233,13 +236,21 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             myUIManager.UpdateHealth(m_health);
     }
 
-    void attack()
+    void Attack()
     {
         if (!photonView.IsMine)
         {
             return;
         }
-        GameObject bullet = Instantiate(bulletObj, APcontroller.GetRigidBody().position, Quaternion.identity);
+        photonView.RPC("RpcAttack", RpcTarget.AllBuffered, MeleePosition.position);
+
+    }
+
+    [PunRPC]
+    void RpcAttack(Vector3 position)
+    {
+
+        GameObject bullet = Instantiate(bulletObj, position, Quaternion.identity);
         Bullet Bc = bullet.GetComponent<Bullet>();
         if (Bc != null)
         {
@@ -250,7 +261,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     private void OnDeath()
     {
         print("You are Dead!!!!");
-        Destroy(this.gameObject);
+        SceneManager.LoadScene("Menu");
     }
 
     void OnMouseDown()

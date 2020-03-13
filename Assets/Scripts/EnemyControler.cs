@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyControler : MonoBehaviourPun
+//This script is for animal behaviour
+public class EnemyControler : MonoBehaviourPun, IPunObservable
 {
     public int shitDuration = 30;
     public float speed = 3 ;
@@ -56,6 +57,16 @@ public class EnemyControler : MonoBehaviourPun
             //CreateShitTime = WorldManager.Instance.getCurrentDay();
         }
 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (aniCurHealth == 0)
+            {
+                print("I am master, destroy this animal now.....");
+                PhotonNetwork.Destroy(this.gameObject);
+                photonView.RPC("RpcAnimalDrop", RpcTarget.AllBuffered);
+            }
+        }
+
     }
 
     public int ShitTime()
@@ -66,7 +77,7 @@ public class EnemyControler : MonoBehaviourPun
 
     void OnCollisionEnter2D(Collision2D other){
         
-             if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             PlayerComponent pc = other.gameObject.GetComponent<PlayerComponent>();
 
@@ -86,11 +97,24 @@ public class EnemyControler : MonoBehaviourPun
             aniCurHealth = Mathf.Clamp(aniCurHealth + amount, 0, animalHealth);
             //UiManager.instance.UpdateHealthbar(currentHealth, maxHealth);
             Debug.Log("animal" +aniCurHealth + "/" + animalHealth);
-            if (aniCurHealth == 0)
-            {
-                PhotonNetwork.Destroy(this.gameObject);
-                GameObject xiaoDryfish = Instantiate(wuping, transform.position, transform.rotation);
-            }
+        }
+    }
+
+    [PunRPC]
+    public void RpcAnimalDrop()
+    {
+        Instantiate(wuping, transform.position, transform.rotation);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(aniCurHealth);
+        }
+        else
+        {
+            aniCurHealth = (int)stream.ReceiveNext();
         }
     }
 }

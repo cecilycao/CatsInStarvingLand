@@ -40,5 +40,8 @@ MonoBehaviour:
   - RpcPickUpFruit
   - RpcPickUpPlant
   - slimeDeath
+  - slimeDrop
+  - RpcAnimalDrop
+  - RpcAttack
   DisableAutoOpenWizard: 1
   ShowSettings: 0

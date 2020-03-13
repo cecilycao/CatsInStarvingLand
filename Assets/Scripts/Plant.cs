@@ -9,7 +9,7 @@ public class Plant : PickedUpItems
 	public GameObject fruityPlant;
 	public GameObject initialPlant;
     public GameObject fruit;
-	public GameObject plant;
+	//public GameObject plant;
 
 
 	//public PlayerComponent m_player;
