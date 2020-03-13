@@ -297,7 +297,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         //other client: check bag empty, destroy obj or not
         if (photonView.IsMine)
         {
-            if (myBackpack.AddNewItem(name))
+            if (myBackpack.AddNewItem(item))
             {
                 bagFull = myBackpack.ItemSpaceLeft() > 0;
                 item.m_State = PickedUpItems.ItemState.IN_BAG;

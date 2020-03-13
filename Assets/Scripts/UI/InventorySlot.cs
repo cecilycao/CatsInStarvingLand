@@ -21,7 +21,6 @@ public class InventorySlot : MonoBehaviour
         ItemCountText.text = count.ToString();
         ItemCountText.color = Color.black;
         Debug.Log("itemCount:" + count.ToString());
-        //find Image with ItemName
         ItemUIImage.sprite = findImageWithItemName(ItemName);
         return true;
     }
@@ -39,13 +38,7 @@ public class InventorySlot : MonoBehaviour
     public void clickItem()
     {
         Debug.Log("clickItem");
-        GameResources.PickedUpItemName item = myManager.WhatItemAtThisIndex(getMySlotIndexID());
-
-        Debug.Log(getMySlotIndexID() + " " + item);
-
-
-        
-
+        myManager.WhatItemAtThisIndex(getMySlotIndexID());
     }
 
     private int getMySlotIndexID() {
