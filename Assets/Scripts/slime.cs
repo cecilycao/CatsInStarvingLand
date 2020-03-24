@@ -86,10 +86,10 @@ public class slime : MonoBehaviourPun, IPunObservable
 
     public void checkSurviveTime()
     {
-        if (WorldManager.Instance.getCurrentSecond() - surviveTime >= TotalSurviveTime)
+        if (WorldManager.Instance.getCurrentSecond() - surviveTime >= TotalSurviveTime && PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.Destroy(this.gameObject);
-           
+            Debug.Log("die!~~~~~~");
         }
     }
 
