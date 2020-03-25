@@ -62,8 +62,9 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
             if (aniCurHealth == 0)
             {
                 print("I am master, destroy this animal now.....");
-                PhotonNetwork.Destroy(this.gameObject);
                 photonView.RPC("RpcAnimalDrop", RpcTarget.AllBuffered);
+                PhotonNetwork.Destroy(this.gameObject);
+                
             }
         }
 

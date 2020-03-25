@@ -16,6 +16,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     public double m_temperature;
     public int m_tiredness;
     public int m_ID;
+    public PlayerStatus m_status;
     public bool bagFull = false;
 
     private bool isInvincible; //是否无敌
@@ -64,7 +65,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     private APCharacterController APcontroller;
     Animator m_anim;
 
-    public enum m_status
+    public enum PlayerStatus
     {
         DEFAULT,
         ATTACK,
@@ -101,6 +102,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         m_temperature = 38;
         m_tiredness = 100;
 
+        m_status = PlayerStatus.DEFAULT;
+
         if (photonView.IsMine)
         {
             myUIManager.UpdateHealth(m_health);
@@ -126,29 +129,36 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     {
         //tiredness -10 / 27s
 
-        if (isInvincible)
+        if (m_status != PlayerStatus.DEAD)
         {
-            invincibleTimer -= Time.deltaTime;
-            if (invincibleTimer < 0)
+            if (isInvincible)
             {
-                isInvincible = false;
+                invincibleTimer -= Time.deltaTime;
+                if (invincibleTimer < 0)
+                {
+                    isInvincible = false;
+                }
             }
-        }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            Attack();
-        }
-        BodyTempCheckBasedOnTemp();
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                Attack();
+            }
+            BodyTempCheckBasedOnTemp();
 
-        if(m_health <= 0)
-        {
-            OnDeath();
+            if (m_health <= 0)
+            {
+                OnDeath();
+            }
         }
         
     }
 
     void Digest()
     {
+        if(m_status == PlayerStatus.DEAD)
+        {
+            return;
+        }
         if (m_hunger > 0)
         {
             m_hunger--;
@@ -170,6 +180,10 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
     void Working()
     {
+        if (m_status == PlayerStatus.DEAD)
+        {
+            return;
+        }
         if (m_tiredness > 0)
         {
             m_tiredness--;
@@ -201,7 +215,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             }
             lastTempCheck = Time.time;
 
-            Debug.Log("当前环境温度:" + surroundingTemperature + "   当前体温: " + m_temperature);
+            //Debug.Log("当前环境温度:" + surroundingTemperature + "   当前体温: " + m_temperature);
             if(photonView.IsMine)
                 myUIManager.UpdateTemperature(m_temperature);
         }
@@ -210,8 +224,12 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
     public void changeHunger(int amount)
     {
-            //Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
-            m_hunger = Mathf.Clamp(m_hunger + amount, 0, maxHunger);
+        if (m_status == PlayerStatus.DEAD)
+        {
+            return;
+        }
+        //Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
+        m_hunger = Mathf.Clamp(m_hunger + amount, 0, maxHunger);
             Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
         if(photonView.IsMine)
             myUIManager.UpdateHunger(m_hunger);
@@ -219,6 +237,10 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
     public void ChangeHealth(int amount)
     {
+        if (m_status == PlayerStatus.DEAD)
+        {
+            return;
+        }
         if (amount < 0)
         {
             if (isInvincible == true)
@@ -238,10 +260,15 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
     void Attack()
     {
+        if (m_status == PlayerStatus.DEAD)
+        {
+            return;
+        }
         if (!photonView.IsMine)
         {
             return;
         }
+        AudioManager.instance.PlaySound("punch");
         photonView.RPC("RpcAttack", RpcTarget.AllBuffered, MeleePosition.position);
 
     }
@@ -261,7 +288,20 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     private void OnDeath()
     {
         print("You are Dead!!!!");
-        SceneManager.LoadScene("Menu");
+        
+        //disable movement
+        APcontroller.enabled = false;
+        //disable input
+
+        photonView.RPC("RpcOnDeath", RpcTarget.AllBuffered);
+        WorldManager.Instance.OnPlayerNumberChange();
+        //SceneManager.LoadScene("Menu");
+    }
+
+    [PunRPC]
+    private void RpcOnDeath()
+    {
+        m_status = PlayerStatus.DEAD;
     }
 
     void OnMouseDown()

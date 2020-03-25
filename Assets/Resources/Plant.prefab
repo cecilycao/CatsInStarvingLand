@@ -230,6 +230,7 @@ MonoBehaviour:
   fruityPlant: {fileID: 3185188987307196723}
   initialPlant: {fileID: 3185188987859046771}
   fruit: {fileID: 3836660957453848034, guid: 2a93105ca73b57146b76d92cd0591087, type: 3}
+  index: {x: 0, y: 0}
   f_status: 0
 --- !u!114 &-6106984619723574523
 MonoBehaviour:

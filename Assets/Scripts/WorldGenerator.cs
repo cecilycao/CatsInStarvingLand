@@ -145,10 +145,10 @@ public class WorldGenerator : MonoBehaviourPun
                                 //can generate plant here
                                 if(randIntOneKindPlant < fruitPlantsFillPercent)
                                 {
-                                    GenerateCreature(FruitPlant, x, y);
+                                    GeneratePlant((int)PickedUpItemName.FRUIT_PLANT, x, y, true);
                                 } else if(randIntOneKindPlant < (fruitPlantsFillPercent + luminousPlantFillPercent))
                                 {
-                                    GenerateCreature(LuminousPlant, x, y);
+                                    GeneratePlant((int)PickedUpItemName.LIGHT_PLANT, x, y, true);
                                 }
                             }
                         } 
@@ -173,7 +173,7 @@ public class WorldGenerator : MonoBehaviourPun
         }
     }
 
-    public void GenerateCreature(GameObject obj, int x, int y)
+    public GameObject GenerateCreature(GameObject obj, int x, int y)
     {
         Vector3 pos = new Vector3((-totalWidth / 2.0f) + (tileSize / 2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y, 1);
         //Debug.Log(pos);
@@ -181,9 +181,31 @@ public class WorldGenerator : MonoBehaviourPun
         GameObject newCreature = PhotonNetwork.InstantiateSceneObject(obj.name, Vector3.zero, Quaternion.identity);
         newCreature.transform.SetParent(transform);
         newCreature.transform.position = pos;
+        return newCreature;
     }
 
-    private bool PlantGenerationConditions(int x, int y)
+    public void GeneratePlant(int obj, int x, int y, bool hasFruit)
+    {
+        GameObject newPlant;
+        if(obj == (int)PickedUpItemName.FRUIT_PLANT)
+        {
+            newPlant = GenerateCreature(FruitPlant, x, y);
+            Plant m_plant = newPlant.GetComponent<Plant>();
+            m_plant.setFruitStatus(hasFruit);
+            m_plant.setIndex(x, y);
+            
+        } else if(obj == (int)PickedUpItemName.LIGHT_PLANT)
+        {
+            newPlant = GenerateCreature(LuminousPlant, x, y);
+            LuminousPlant m_luPlant = newPlant.GetComponent<LuminousPlant>();
+            m_luPlant.setFruitStatus(hasFruit);
+            m_luPlant.setIndex(x, y);
+        }
+        
+        
+    }
+
+    public bool PlantGenerationConditions(int x, int y)
     {
         if(y >= height * finalMapWidthCount)
         {

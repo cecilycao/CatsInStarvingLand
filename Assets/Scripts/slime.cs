@@ -74,8 +74,9 @@ public class slime : MonoBehaviourPun, IPunObservable
         if (SlimeCurHealth == 0 && PhotonNetwork.IsMasterClient)
         {
             int prob = Random.Range(1, 100);
-            PhotonNetwork.Destroy(this.gameObject);
             photonView.RPC("slimeDrop", RpcTarget.AllBuffered, prob);
+            PhotonNetwork.Destroy(this.gameObject);
+            
         }
     }
 

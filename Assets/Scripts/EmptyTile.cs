@@ -7,6 +7,7 @@ public class EmptyTile : PickedUpItems
     public Vector2Int index;
     public WorldManager m_worldManager;
     public PlayerComponent m_player;
+    public bool occupied;
 
     void Start()
     {
@@ -17,6 +18,10 @@ public class EmptyTile : PickedUpItems
 
     void OnMouseDown()
     {
+        if (occupied)
+        {
+            return;
+        }
         m_player = GameManagerForNetwork.Instance.LocalPlayer.GetComponent<PlayerComponent>();
         m_worldManager = FindObjectOfType<WorldManager>();
         Debug.Log("index: " + index.x + ", " + index.y);
@@ -31,8 +36,18 @@ public class EmptyTile : PickedUpItems
             int landTileId = (int)m_player.currentHolded.getItemName();
             if(m_worldManager.UpdateTileMap(index, landTileId))
             {
+                AudioManager.instance.PlaySound("dig");
                 m_player.useItemInHand();
                 Destroy(gameObject);
+            }
+        } else if(m_player.currentHolded.GetType() == typeof(Plant) || m_player.currentHolded.GetType().IsSubclassOf(typeof(Plant)))
+        {
+            Debug.Log("Plant something...");
+            if (m_worldManager.Plant(index, (int)m_player.currentHolded.getItemName()))
+            {
+                AudioManager.instance.PlaySound("plant");
+                m_player.useItemInHand();
+                occupied = true;
             }
         }
         

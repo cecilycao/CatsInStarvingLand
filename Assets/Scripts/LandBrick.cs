@@ -49,7 +49,7 @@ public class LandBrick : PickedUpItems
                 //crackALandTile();
                 //isCracked = true;
                 m_worldManager.UpdateTileMap(index, 0);
-
+                AudioManager.instance.PlaySound("dig");
             }
         }
 

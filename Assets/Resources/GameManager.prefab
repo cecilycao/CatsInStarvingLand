@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentSecond: 0
   currentDay: 0
+  EndGame: 0
   m_worldGenerator: {fileID: 0}
 --- !u!114 &5484852388145359986
 MonoBehaviour:
