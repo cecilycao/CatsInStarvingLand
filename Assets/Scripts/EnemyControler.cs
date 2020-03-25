@@ -33,7 +33,8 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
         changeTimer = changeDirectionTime;
         aniCurHealth = animalHealth;
         CreateShitTime = 0;
-
+        lastPopo = Random.Range(1, 30);
+        //Debug.Log("suijishijian"+lastPopo);
     }
 
     // Update is called once per frame
@@ -51,7 +52,7 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
         //Debug.Log(WorldManager.Instance.getCurrentDay());
         if(WorldManager.Instance.getCurrentSecond()- lastPopo >= shitDuration)
         {
-            lastPopo = (int)WorldManager.Instance.getCurrentSecond();
+            lastPopo = (int)WorldManager.Instance.getCurrentSecond()+ Random.Range(1, 30); 
             GameObject newShit = Instantiate(shit, transform.position, transform.rotation);
             //Debug.Log("sssssss");
             //CreateShitTime = WorldManager.Instance.getCurrentDay();

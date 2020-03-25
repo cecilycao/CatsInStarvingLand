@@ -9,7 +9,7 @@ public class Poopoo : PickedUpItems
     //PlayerComponent m_player;
     // Start is called before the first frame update
 
-    private int happenDay;
+    private int happenSecond;
     public int slimeCreateDuration = 10;
 
 
@@ -23,9 +23,9 @@ public class Poopoo : PickedUpItems
     void Start()
     {
         //m_player = GameObject.FindWithTag("Player").GetComponent<PlayerComponent>();
-       
+
         //createSlime = false;
-        happenDay = (int)WorldManager.Instance.getCurrentSecond();
+        happenSecond = (int)WorldManager.Instance.getCurrentSecond();
     }
 
     // Update is called once per frame
@@ -34,16 +34,16 @@ public class Poopoo : PickedUpItems
         //if (!isSlime)
         //{
 
-        //    if (WorldManager.Instance.getCurrentSecond() - happenDay >= 30)
+        //    if (WorldManager.Instance.getCurrentSecond() - happenSecond >= 30)
         //    {
         //        //Destroy(this.gameObject);
         //        //GameObject xiaoslime = Instantiate(slime, transform.position, transform.rotation);
         //        Debug.Log("biansheng!!!!!!!!!!!!!!!!!!");
-        //        happenDay = (int)WorldManager.Instance.getCurrentSecond() + 1;
+        //        happenSecond = (int)WorldManager.Instance.getCurrentSecond() + 1;
         //    }
         //    isSlime = true;
         //}
-        if (WorldManager.Instance.getCurrentSecond() - happenDay >= slimeCreateDuration && m_State == ItemState.DEFAULT)
+        if (WorldManager.Instance.getCurrentSecond() - happenSecond >= slimeCreateDuration && m_State == ItemState.DEFAULT)
         {
             Destroy(gameObject);
             if (PhotonNetwork.IsMasterClient)
