@@ -54,12 +54,25 @@ public class Inventory : MonoBehaviour
 
         if (tmp != GameResources.PickedUpItemName.DEFAULT)
         {
-
             foreach (var el in instanceList)
-                if (el.getItemName() == tmp) {
+            {
+                el.m_State = PickedUpItems.ItemState.IN_BAG;
+                if (el.getItemName() == tmp)
+                {
                     this.myPlayer.HoldItemInHand(el);
-                    return;
+
+                    Debug.Log(el.getItemName());
+                    Debug.Log("CLICKED");
                 }
+            }
+        }
+    }
+
+    public void LetItemInHandByName(GameResources.PickedUpItemName itemName)
+    {
+        if (itemToSlotIndex.ContainsKey(itemName)) {
+            int slotIndex = itemToSlotIndex[itemName];
+            WhatItemAtThisIndex(slotIndex);
         }
     }
 
@@ -193,23 +206,34 @@ public class Inventory : MonoBehaviour
 
 
 
-    public bool PopItem(GameResources.PickedUpItemName item)
+    public bool PopItem(PickedUpItems newItem)
     {
+        GameResources.PickedUpItemName itemName = newItem.getItemName();
         int weight = 1;
+
+        Debug.Log("POP " + itemName);
+
         int tmpCount;
-        if (backpack.TryGetValue(item, out tmpCount))
+
+        instanceList.Remove(newItem);
+
+        if (backpack.TryGetValue(itemName, out tmpCount))
         {
+            int index = itemToSlotIndex[itemName];
+
             if (tmpCount - 1 > 0)
             {
-                backpack[item] = tmpCount - 1;
+                backpack[itemName] = tmpCount - 1;
+
+                slotList[index].updateItem(itemName, tmpCount - 1);
             }
             else
             {
-                backpack.Remove(item);
+                slotList[index].updateItem(GameResources.PickedUpItemName.DEFAULT, 0);
 
-                int index = itemToSlotIndex[item];
+                backpack.Remove(itemName);
                 slotIndexToItem.Remove(index);
-                itemToSlotIndex.Remove(item);
+                itemToSlotIndex.Remove(itemName);
             }
         }
         else

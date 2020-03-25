@@ -286,7 +286,9 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         //put in hand if didnt hold anything in hand
         if (currentHolded == null)
         {
+            myBackpack.AddNewItem(item);
             item.m_State = PickedUpItems.ItemState.IN_BAG;
+
             HoldItemInHand(item);
             //Destroy(item.gameObject);
             item.gameObject.SetActive(false);
@@ -327,6 +329,11 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             //hold in hand(change UI?)
             item.m_State = PickedUpItems.ItemState.IN_HAND;
             currentHolded = item;
+            
+            
+            Debug.Log("Hold Item: "+ item.getItemName());
+
+
             string HoldedItemID = item.getItemName().ToString();
             Debug.Log("Hold Item: Item exist.");
             photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, HoldedItemID, m_ID);
@@ -378,6 +385,9 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         {
             return;
         }
+
+        currentHolded.m_State = PickedUpItems.ItemState.IN_BAG;
+
         if (currentHolded.getItemName() == PickedUpItemName.DRIED_FISH)
         {
             changeHunger(10);
@@ -391,9 +401,17 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             changeHunger(10);
         }
 
+        // TODO
+
+        GameResources.PickedUpItemName name = currentHolded.getItemName();
+        myBackpack.PopItem(currentHolded);
         Destroy(currentHolded.gameObject);
-        photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, "", m_ID);
-        //}
+
+        myBackpack.LetItemInHandByName(name);
+
+        if (!myBackpack.DoIHave(name)) {
+            photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, "", m_ID);
+        }
 
     }
 
