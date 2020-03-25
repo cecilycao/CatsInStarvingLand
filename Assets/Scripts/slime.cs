@@ -14,10 +14,12 @@ public class slime : MonoBehaviourPun, IPunObservable
 
     public GameObject meiqiguan;
     public GameObject nextPoopoo;
-   
+    private int surviveTime;
+    private int TotalSurviveTime;
 
     public int SlimeHealth = 3;
     public int SlimeCurHealth;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,8 @@ public class slime : MonoBehaviourPun, IPunObservable
         moveDirection = isVertical ? Vector2.up : Vector2.right;
         changeTimer = SlimeChangeDirectionTime;
         SlimeCurHealth = SlimeHealth;
+        surviveTime = (int)WorldManager.Instance.getCurrentSecond();
+        TotalSurviveTime = 90;
     }
 
     // Update is called once per frame
@@ -42,6 +46,7 @@ public class slime : MonoBehaviourPun, IPunObservable
         rbody.MovePosition(position);
 
         checkDeath();
+        checkSurviveTime();
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -74,10 +79,21 @@ public class slime : MonoBehaviourPun, IPunObservable
         if (SlimeCurHealth == 0 && PhotonNetwork.IsMasterClient)
         {
             int prob = Random.Range(1, 100);
-            PhotonNetwork.Destroy(this.gameObject);
             photonView.RPC("slimeDrop", RpcTarget.AllBuffered, prob);
+            PhotonNetwork.Destroy(this.gameObject);
+            
         }
     }
+
+    public void checkSurviveTime()
+    {
+        if (WorldManager.Instance.getCurrentSecond() - surviveTime >= TotalSurviveTime && PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Destroy(this.gameObject);
+            Debug.Log("die!~~~~~~");
+        }
+    }
+
 
     [PunRPC]
     public void slimeDrop(int probability)

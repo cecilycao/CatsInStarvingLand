@@ -12,7 +12,8 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
 
     public WorldManager WorldManager;
     public PlayerComponent PlayerPrefab;
-
+    public string EndSceneName;
+    public string MenuSceneName;
     public PlayerComponent LocalPlayer;
 
     public int LocalPlayerID;
@@ -47,6 +48,11 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
         LocalPlayerID = LocalPlayer.GetComponent<PhotonView>().ViewID;
         if (PhotonNetwork.IsMasterClient)
         {
+            GameObject oldWorldManager = GameObject.Find(WorldManager.gameObject.name);
+            if (oldWorldManager != null)
+            {
+                Destroy(oldWorldManager);
+            }
             //    //instantiate world
             PhotonNetwork.Instantiate(WorldManager.gameObject.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
             //    PhotonNetwork.Instantiate("Plant", new Vector3(2.49f, -0.03f, 0f), Quaternion.identity, 0);
@@ -57,8 +63,29 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        Debug.Log("New Player!! YEAHHHHH");
         base.OnPlayerEnteredRoom(newPlayer);
         PlayerComponent.RefreshInstance(ref LocalPlayer, PlayerPrefab);
         LocalPlayerID = LocalPlayer.GetComponent<PhotonView>().ViewID;
+    }
+
+    public void LoadEndScene()
+    {
+        //SceneManager.LoadScene(EndSceneName);
+        photonView.RPC("RpcLoadEndScene", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void RpcLoadEndScene()
+    {
+        SceneManager.LoadScene(EndSceneName);
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public void ReturnToLobby()
+    {
+        
+        Destroy(gameObject);
+        SceneManager.LoadScene(MenuSceneName);
     }
 }

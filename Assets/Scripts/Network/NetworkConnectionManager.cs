@@ -8,18 +8,50 @@ using UnityEngine.SceneManagement;
 
 public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 {
+    public static NetworkConnectionManager instance;
 
-    public Button BtnConnectMaster;
-    public Button BtnConnectRoom;
+    public Text UserNameText;
+    public Text JoinRoomNameText;
+    public Text CreateRoomName;
+    public Text WelcomeText;
+    public Text Message;
+
+    public GameObject BtnConnectMaster;
+    public GameObject BtnConnectRoom;
     public string MainSceneName = "Prototype";
 
     public bool TriesToConnectToMaster;
     public bool TriesToConnectToRoom;
 
+    public string UserName;
+    public string RoomName;
     // Use this for initialization
+    
+
+    private void Awake()
+    {
+        //Singleton
+        Debug.Log("Awake......");
+        if(instance != null)
+        {
+            Debug.Log("More than one exist.....");
+            if (instance != this)
+            {
+                UserName = instance.UserName;
+                setUserName();
+                Destroy(instance.gameObject);
+                Debug.Log("Destroy.......");
+            }
+        }
+        instance = this;
+        
+        DontDestroyOnLoad(gameObject);
+
+    }
+
     void Start()
     {
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
         TriesToConnectToMaster = false;
         TriesToConnectToRoom = false;
     }
@@ -28,19 +60,22 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     void Update()
     {
         if (BtnConnectMaster != null)
-            BtnConnectMaster.gameObject.SetActive(!PhotonNetwork.IsConnected && !TriesToConnectToMaster);
+            BtnConnectMaster.SetActive(!PhotonNetwork.IsConnected && !TriesToConnectToMaster);
         if (BtnConnectRoom != null)
-            BtnConnectRoom.gameObject.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster && !TriesToConnectToRoom);
+            BtnConnectRoom.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster/* && !TriesToConnectToRoom*/);
 
     }
 
+    //log in
     public void OnClickConnectToMaster()
     {
+        UserName = UserNameText.text;
+        setUserName();
         TriesToConnectToMaster = true;
 
         //Settings (all optional and only for tutorial purpose)
         PhotonNetwork.OfflineMode = false;           //true would "fake" an online connection
-        PhotonNetwork.NickName = "PlayerName";       //to set a player name
+        PhotonNetwork.NickName = UserName;       //to set a player name
         PhotonNetwork.AutomaticallySyncScene = true; //to call PhotonNetwork.LoadLevel()
         PhotonNetwork.GameVersion = "v1";            //only people with the same game version can play together
 
@@ -62,18 +97,44 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         base.OnDisconnected(cause);
         TriesToConnectToMaster = false;
         TriesToConnectToRoom = false;
-        Debug.Log(cause);
+        Debug.Log("Oh No!!! " + cause);
+    }
+
+    public void OnClickConnectToRandomRoom()
+    {
+        if (!PhotonNetwork.IsConnected)
+            return;
+
+        TriesToConnectToRoom = true;
+        Message.text = "Tries to connect to a random room...";
+        //PhotonNetwork.CreateRoom("Peter's Game 1"); //Create a specific Room - Error: OnCreateRoomFailed
+        //PhotonNetwork.JoinRoom("Peter's Game 1");   //Join a specific Room   - Error: OnJoinRoomFailed  
+        PhotonNetwork.JoinRandomRoom();               //Join a random Room     - Error: OnJoinRandomRoomFailed  
+    }
+
+    public void OnClickCreateRoom()
+    {
+        if (!PhotonNetwork.IsConnected)
+            return;
+
+        RoomName = CreateRoomName.text;
+        TriesToConnectToRoom = true;
+        Message.text = "Tries to create room and start game...";
+        PhotonNetwork.CreateRoom(RoomName); //Create a specific Room - Error: OnCreateRoomFailed
+        //PhotonNetwork.JoinRoom("Peter's Game 1");   //Join a specific Room   - Error: OnJoinRoomFailed  
+        //PhotonNetwork.JoinRandomRoom();               //Join a random Room     - Error: OnJoinRandomRoomFailed  
     }
 
     public void OnClickConnectToRoom()
     {
         if (!PhotonNetwork.IsConnected)
             return;
-
+        RoomName = JoinRoomNameText.text;
         TriesToConnectToRoom = true;
+        Message.text = "Tries to connect to a room " + RoomName + " ...";
         //PhotonNetwork.CreateRoom("Peter's Game 1"); //Create a specific Room - Error: OnCreateRoomFailed
-        //PhotonNetwork.JoinRoom("Peter's Game 1");   //Join a specific Room   - Error: OnJoinRoomFailed  
-        PhotonNetwork.JoinRandomRoom();               //Join a random Room     - Error: OnJoinRandomRoomFailed  
+        PhotonNetwork.JoinRoom(RoomName);   //Join a specific Room   - Error: OnJoinRoomFailed  
+        //PhotonNetwork.JoinRandomRoom();               //Join a random Room     - Error: OnJoinRandomRoomFailed  
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -88,7 +149,17 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     {
         base.OnCreateRoomFailed(returnCode, message);
         Debug.Log(message);
+        Message.text = "Fail to create a room. ";
         base.OnCreateRoomFailed(returnCode, message);
+        TriesToConnectToRoom = false;
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        base.OnJoinRoomFailed(returnCode, message);
+        Debug.Log(message);
+        Message.text = "Fail to join room "+ RoomName +" . ";
+        base.OnJoinRoomFailed(returnCode, message);
         TriesToConnectToRoom = false;
     }
 
@@ -107,6 +178,11 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
             //SceneManager.LoadScene(MainSceneName);
         }
             
+    }
+
+    public void setUserName()
+    {
+        WelcomeText.text = "Hi " + UserName + "!";
     }
 }
 

@@ -29,4 +29,9 @@ public class PickedUpItems : MonoBehaviourPun
         return PickedUpItemName.DEFAULT;
     }
 
+    public virtual GameObject getGameObj()
+    {
+        return gameObject;
+    }
+
 }

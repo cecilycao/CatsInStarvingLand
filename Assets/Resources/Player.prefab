@@ -1359,6 +1359,7 @@ MonoBehaviour:
   m_temperature: 0
   m_tiredness: 0
   m_ID: 0
+  m_status: 0
   bagFull: 0
   currentHolded: {fileID: 0}
   maxHunger: 100
@@ -1389,6 +1390,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 9184158181687745720}
   - {fileID: 2503483245290616457}
+  - {fileID: 3529215989349474147}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

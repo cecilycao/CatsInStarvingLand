@@ -136,7 +136,10 @@ public class LuminousPlant : Plant
 		return PickedUpItemName.LIGHT_PLANT;
 	}
 
-
+    public override GameObject getGameObj()
+    {
+        return gameObject;
+    }
 
 }
 

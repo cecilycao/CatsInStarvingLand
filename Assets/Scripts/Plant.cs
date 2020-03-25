@@ -9,15 +9,10 @@ public class Plant : PickedUpItems
 	public GameObject fruityPlant;
 	public GameObject initialPlant;
     public GameObject fruit;
-	//public GameObject plant;
+    public Vector2Int index;
 
 
-	//public PlayerComponent m_player;
-	//public GameResources.PickedUpItemName tplant;
-	//public GameResources.PickedUpItemName tfruit;
-
-
-	public FruitStatus f_status;
+    public FruitStatus f_status;
 
 	public enum FruitStatus
 	{
@@ -32,7 +27,39 @@ public class Plant : PickedUpItems
 		//m_player = playerGameObject.GetComponent<PlayerComponent>();
 	}
 
+    public void setIndex(int x, int y)
+    {
+        photonView.RPC("RpcSetIndex", RpcTarget.AllBuffered, x, y);
+    }
 
+    [PunRPC]
+    public void RpcSetIndex(int x, int y)
+    {
+        index.x = x;
+        index.y = y;
+    }
+
+        public void setFruitStatus(bool hasFruit)
+    {
+        photonView.RPC("RpcSetFruitStatus", RpcTarget.AllBuffered, hasFruit);
+    }
+
+    [PunRPC]
+    public void RpcSetFruitStatus(bool hasFruit)
+    {
+        if (hasFruit)
+        {
+            f_status = FruitStatus.withFruit;
+            fruityPlant.SetActive(true);
+            initialPlant.SetActive(false);
+        }
+        else
+        {
+            f_status = FruitStatus.noFruit;
+            fruityPlant.SetActive(false);
+            initialPlant.SetActive(true);
+        }
+    }
 
 
 	void OnMouseDown()
@@ -89,7 +116,6 @@ public class Plant : PickedUpItems
         initialPlant.SetActive(true);
 
         f_status = FruitStatus.noFruit;
-        
     }
 
     
@@ -100,8 +126,7 @@ public class Plant : PickedUpItems
 	    //GameObject newPlant = Instantiate(gameObject);
 	    m_player.PickedUp(this);
         photonView.RPC("RpcPickUpPlant", RpcTarget.AllBuffered);
-
-
+      
 
     }
 
@@ -110,7 +135,8 @@ public class Plant : PickedUpItems
     {
         //disable 图标
         initialPlant.SetActive(false);
-
+        WorldManager.Instance.clearObjectAt(index.x, index.y);
+        gameObject.SetActive(false);
     }
 
     [PunRPC]
@@ -124,6 +150,11 @@ public class Plant : PickedUpItems
     public override PickedUpItemName getItemName()
     {
         return PickedUpItemName.FRUIT_PLANT;
+    }
+
+    public override GameObject getGameObj()
+    {
+        return gameObject;
     }
 }
 

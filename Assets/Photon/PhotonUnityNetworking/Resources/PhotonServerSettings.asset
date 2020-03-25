@@ -43,5 +43,11 @@ MonoBehaviour:
   - slimeDrop
   - RpcAnimalDrop
   - RpcAttack
+  - RpcPlant
+  - RpcSetFruitStatus
+  - RpcSetIndex
+  - RpcOnPlayerNumberChange
+  - RpcOnDeath
+  - RpcLoadEndScene
   DisableAutoOpenWizard: 1
   ShowSettings: 0

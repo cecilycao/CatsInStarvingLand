@@ -1454,7 +1454,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &827493401
 Light:
   m_ObjectHideFlags: 0
@@ -1467,8 +1467,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10
-  m_Range: 10
+  m_Intensity: 20
+  m_Range: 6
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -1892,6 +1892,98 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b6da2299b99f5046a6c1435550fd0e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &923664510
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 923664512}
+  - component: {fileID: 923664511}
+  m_Layer: 0
+  m_Name: Spot Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &923664511
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923664510}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 0
+  m_Shape: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 5.66
+  m_Range: 113.409874
+  m_SpotAngle: 42.636864
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!4 &923664512
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923664510}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.24478173, y: 0.12, z: -85.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1013087206
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2102,6 +2194,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1203596998}
   - component: {fileID: 1203597000}
+  - component: {fileID: 1203597001}
+  - component: {fileID: 1203596999}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: WorldManager
@@ -2123,6 +2217,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1203596999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203596997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!114 &1203597000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2139,8 +2255,48 @@ MonoBehaviour:
     type: 3}
   PlayerPrefab: {fileID: 3529215989349474147, guid: 1e0694490cd443f41926430c0ecdefb3,
     type: 3}
+  EndSceneName: ResultScene
+  MenuSceneName: Menu
   LocalPlayer: {fileID: 0}
   LocalPlayerID: 0
+--- !u!114 &1203597001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203596997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50473d30f4f54d345b3a3f05f2267a1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: bgm
+    clip: {fileID: 8300000, guid: ef68dd317eec59647bf4c5df0cf3164b, type: 3}
+    volume: 0.4
+    pitch: 1
+    isLoop: 1
+  - name: dig
+    clip: {fileID: 8300000, guid: 72d6e2938e705ad4e9946156fa7b1e92, type: 3}
+    volume: 0.7
+    pitch: 1
+    isLoop: 0
+  - name: login
+    clip: {fileID: 8300000, guid: 6444f213193a3b041a6fa88b995fd666, type: 3}
+    volume: 0.7
+    pitch: 1
+    isLoop: 0
+  - name: punch
+    clip: {fileID: 8300000, guid: 69369cdbdcb99fc46b03c1d727b3dd7d, type: 3}
+    volume: 0.7
+    pitch: 1
+    isLoop: 0
+  - name: plant
+    clip: {fileID: 8300000, guid: 6b1f3e0d5edd99f42800b78932b92594, type: 3}
+    volume: 0.7
+    pitch: 1
+    isLoop: 0
 --- !u!1001 &1232786192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3269,7 +3425,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1760518523
 Light:
   m_ObjectHideFlags: 0

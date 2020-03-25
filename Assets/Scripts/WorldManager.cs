@@ -10,14 +10,14 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
 
     private static WorldManager instance = null;
     public static WorldManager Instance { get { return instance; } }
-    
 
     public float currentSecond = 0;
     public int currentDay = 0;
-
+    
     float startTime = -1f;
 
     public int[,] m_map;
+    public bool EndGame = false;
 
     public WorldGenerator m_worldGenerator;
 
@@ -49,7 +49,7 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        if (photonView.IsMine)
+        if (photonView.IsMine && !EndGame)
         {
             if (startTime != -1)
             {
@@ -59,6 +59,35 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
             }
         }
 
+    }
+
+    public void OnPlayerNumberChange()
+    {
+        photonView.RPC("RpcOnPlayerNumberChange", RpcTarget.MasterClient);
+    }
+
+    [PunRPC]
+    public void RpcOnPlayerNumberChange()
+    {
+        int count = 0;
+        PlayerComponent[] players = FindObjectsOfType<PlayerComponent>();
+        foreach (PlayerComponent player in players)
+        {
+            if (player.m_status != PlayerComponent.PlayerStatus.DEAD)
+            {
+                count++;
+            }
+        }
+        Debug.Log("Current Alive Number: " + count);
+        if (count == 0)
+        {
+            Debug.Log("No One Alive.");
+            //stop time
+            EndGame = true;
+
+            //load End Scene
+            GameManagerForNetwork.Instance.LoadEndScene();
+        }
     }
 
     public int getCurrentDay()
@@ -81,6 +110,21 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
 
     }
 
+    public bool Plant(Vector2Int index, int obj)
+    {
+        if(m_worldGenerator.PlantGenerationConditions(index.x, index.y))
+        {
+            photonView.RPC("RpcPlant", RpcTarget.MasterClient, index.x, index.y, obj);
+            return true;
+        }
+        return false;
+    }
+
+    [PunRPC]
+    public void RpcPlant(int x, int y, int obj)
+    {
+        m_worldGenerator.GeneratePlant(obj, x, y, false);
+    }
 
     public bool UpdateTileMap(Vector2Int index, int val)
     {
@@ -117,7 +161,13 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
         m_worldGenerator.FillWithTileType(val, x, y);
     }
 
-    //Buggy!!!!!
+    public void clearObjectAt(int x, int y)
+    {
+        EmptyTile tile = (EmptyTile)m_worldGenerator.getTileComponent(x, y);
+        tile.occupied = false;
+    }
+
+
     bool checkEmptyAround(int x, int y)
     {
         for (int i = -1; i <= 1; i++)
