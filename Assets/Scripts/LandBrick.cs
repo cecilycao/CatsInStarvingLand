@@ -20,6 +20,7 @@ public class LandBrick : PickedUpItems
     public GameManagerForNetwork m_gameManager;
 
     public Vector2Int index;
+    private bool isPickedUp = false;
 
     float m_Size;
     // Start is called before the first frame update
@@ -84,14 +85,16 @@ public class LandBrick : PickedUpItems
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Player" && m_State == ItemState.DEFAULT)
+        if(collision.gameObject.tag == "Player" && m_State == ItemState.DEFAULT && !isPickedUp)
         {
-            Debug.Log("Pick me!");
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            Destroy(rb);
             PlayerComponent m_player = collision.gameObject.GetComponent<PlayerComponent>();
-            m_player.PickedUp(this);
-            
+            if (m_player.PickedUp(this))
+            {
+                isPickedUp = true;
+                Debug.Log("Some player pick me!");
+                Rigidbody2D rb = GetComponent<Rigidbody2D>();
+                Destroy(rb);
+            }
         }
     }
 

@@ -110,11 +110,13 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             myUIManager.UpdateHunger(m_hunger);
             myUIManager.UpdateTemperature(m_temperature);
             myUIManager.UpdateTiredness(m_tiredness);
+
+            InvokeRepeating("Digest", 1f, 1f);
+            InvokeRepeating("Working", 1f, 1f);
         }
         
 
-        InvokeRepeating("Digest", 1f, 1f);
-        InvokeRepeating("Working", 1f, 1f);
+        
 
         lastTempCheck = Time.time;   
         
@@ -321,51 +323,47 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     {
         GameResources.PickedUpItemName name = item.getItemName();
         Debug.Log("Pick up " + name.ToString());
-
-
-        //put in hand if didnt hold anything in hand
-        if (currentHolded == null)
+        Debug.Log("Bag full: " + bagFull);
+        if (currentHolded != null && bagFull)
         {
-            myBackpack.AddNewItem(item);
-            item.m_State = PickedUpItems.ItemState.IN_BAG;
-
-            HoldItemInHand(item);
-            //Destroy(item.gameObject);
-            item.gameObject.SetActive(false);
-            return true;
+            Debug.Log("Oops, your bug is full! Can not pick up " + name.ToString());
+            return false;
         }
-        //put in bag
-        //local player: put in bag
-        //other client: check bag empty, destroy obj or not
+
+
         if (photonView.IsMine)
         {
+            if(currentHolded == null)
+            {
+                HoldItemInHand(item);
+            } 
+            //put in bag
             if (myBackpack.AddNewItem(item))
             {
-                bagFull = myBackpack.ItemSpaceLeft() > 0;
-                item.m_State = PickedUpItems.ItemState.IN_BAG;
-                //Destroy(item.gameObject);
-                item.gameObject.SetActive(false);
-                return true;
-            }
-        }
-        else
-        {
-            //not local player
-
-            if (!bagFull)
+                bagFull = myBackpack.ItemSpaceLeft() <= 0;
+                Debug.Log("Sucessfully put in bag: now space left " + myBackpack.ItemSpaceLeft());
+            } else
             {
-                item.m_State = PickedUpItems.ItemState.IN_BAG;
-                //Destroy(item.gameObject);
-                item.gameObject.SetActive(false);
+                Debug.LogError("BAG FULL???????");
+                return false;
+            }
+        } else
+        {
+            //not local player, only check hold in hand
+            if (currentHolded == null)
+            {
+                HoldItemInHand(item);
             }
         }
-        return false;
+        item.m_State = PickedUpItems.ItemState.IN_BAG;
+        item.gameObject.SetActive(false);
+        return true;
     }
 
     public void HoldItemInHand(PickedUpItems item)
     {
-        if (item.m_State == PickedUpItems.ItemState.IN_BAG)
-        {
+        //if (item.m_State == PickedUpItems.ItemState.IN_BAG)
+        //{
             //hold in hand(change UI?)
             item.m_State = PickedUpItems.ItemState.IN_HAND;
             currentHolded = item;
@@ -381,7 +379,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
             //item.transform.SetParent(transform);
             //item.transform.position = HoldedPosition.position;
-        }
+        //}
     }
     
     [PunRPC]
