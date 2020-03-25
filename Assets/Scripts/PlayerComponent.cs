@@ -129,7 +129,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     {
         //tiredness -10 / 27s
 
-        if (m_status != PlayerStatus.DEAD)
+        if (m_status != PlayerStatus.DEAD && photonView.IsMine)
         {
             if (isInvincible)
             {
