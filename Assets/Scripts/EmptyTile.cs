@@ -22,7 +22,7 @@ public class EmptyTile : PickedUpItems
         {
             return;
         }
-        m_player = GameManagerForNetwork.Instance.LocalPlayer.GetComponent<PlayerComponent>();
+        m_player = GameManagerForNetwork.Instance.LocalPlayer;
         m_worldManager = FindObjectOfType<WorldManager>();
         Debug.Log("index: " + index.x + ", " + index.y);
         if(m_player.currentHolded == null)

@@ -28,7 +28,7 @@ public class Inventory : MonoBehaviour
     {
         backpack.Clear();
 
-        myPlayer = GameManagerForNetwork.Instance.LocalPlayer.GetComponent<PlayerComponent>();
+        myPlayer = GameManagerForNetwork.Instance.LocalPlayer;
 
         slotList = GetComponentsInChildren<InventorySlot>();
         if (slotList.Length != 12)
@@ -49,6 +49,8 @@ public class Inventory : MonoBehaviour
 
     public void WhatItemAtThisIndex(int index)
     {
+        myPlayer = GameManagerForNetwork.Instance.LocalPlayer;
+
         GameResources.PickedUpItemName tmp = GameResources.PickedUpItemName.DEFAULT;
         slotIndexToItem.TryGetValue(index, out tmp);
 
