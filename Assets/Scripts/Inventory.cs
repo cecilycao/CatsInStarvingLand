@@ -28,7 +28,7 @@ public class Inventory : MonoBehaviour
     {
         backpack.Clear();
 
-        this.myPlayer = FindObjectOfType<PlayerComponent>();
+        myPlayer = GameManagerForNetwork.Instance.LocalPlayer.GetComponent<PlayerComponent>();
 
         slotList = GetComponentsInChildren<InventorySlot>();
         if (slotList.Length != 12)
@@ -59,7 +59,7 @@ public class Inventory : MonoBehaviour
                 el.m_State = PickedUpItems.ItemState.IN_BAG;
                 if (el.getItemName() == tmp)
                 {
-                    this.myPlayer.HoldItemInHand(el);
+                    myPlayer.HoldItemInHand(el);
 
                     Debug.Log(el.getItemName());
                     Debug.Log("CLICKED");
