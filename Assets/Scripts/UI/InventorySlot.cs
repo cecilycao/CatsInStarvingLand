@@ -18,7 +18,11 @@ public class InventorySlot : MonoBehaviour
 
     public bool updateItem(GameResources.PickedUpItemName ItemName, int count)
     {
-        ItemCountText.text = count.ToString();
+        if (count>0) {
+            ItemCountText.text = count.ToString();
+        } else {
+            ItemCountText.text = "";
+        }
         ItemCountText.color = Color.black;
         Debug.Log("itemCount:" + count.ToString());
         ItemUIImage.sprite = findImageWithItemName(ItemName);
