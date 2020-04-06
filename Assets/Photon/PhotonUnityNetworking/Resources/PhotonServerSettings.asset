@@ -49,5 +49,8 @@ MonoBehaviour:
   - RpcOnPlayerNumberChange
   - RpcOnDeath
   - RpcLoadEndScene
+  - RpcStartWorld
+  - RpcSetTime
+  - RpcDestroyHoldedItem
   DisableAutoOpenWizard: 1
   ShowSettings: 0

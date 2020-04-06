@@ -20,6 +20,7 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
     public bool EndGame = false;
 
     public WorldGenerator m_worldGenerator;
+    public string myWorldSeed;
 
     // Start is called before the first frame update
 
@@ -39,17 +40,27 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
 
     void Start()
     {
+        
+     
+
+    }
+
+    public void startWorld(string seed)
+    {
+        myWorldSeed = seed;
+        Debug.Log("Seed: " + myWorldSeed);
         m_worldGenerator = FindObjectOfType<WorldGenerator>();
-        m_worldGenerator.GenerateWorld();
+        m_worldGenerator.GenerateWorld(seed);
 
         m_map = m_worldGenerator.getInitialMap();
 
         beginWorldTime();
     }
+    
 
     private void Update()
     {
-        if (photonView.IsMine && !EndGame)
+        if (startTime > 0 && photonView.IsMine && !EndGame)
         {
             if (startTime != -1)
             {
@@ -59,6 +70,20 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
             }
         }
 
+    }
+
+    public PlayerComponent getPlayer(int punID)
+    {
+        PlayerComponent[] players = FindObjectsOfType<PlayerComponent>();
+        foreach (PlayerComponent player in players)
+        {
+            if (player.m_ID == punID)
+            {
+                return player;
+            }
+        }
+        Debug.LogError("Can not find player with punID: " + punID);
+        return null;
     }
 
     public void OnPlayerNumberChange()
@@ -161,6 +186,7 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
         m_worldGenerator.FillWithTileType(val, x, y);
     }
 
+    //indicate that this emptytile is "Empty" now
     public void clearObjectAt(int x, int y)
     {
         EmptyTile tile = (EmptyTile)m_worldGenerator.getTileComponent(x, y);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
+using UnityEngine.EventSystems;
 
 /*
 Items That can be picked up 
@@ -33,5 +34,4 @@ public class PickedUpItems : MonoBehaviourPun
     {
         return gameObject;
     }
-
 }

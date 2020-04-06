@@ -62,12 +62,15 @@ public class CameraFollow : MonoBehaviour
         if(land == LandType.GREENLAND)
         {
             background.sprite = Resources.Load<Sprite>("Bg/greenland_bg");
+            AudioManager.instance.changeBg("greenlandbg");
         } else if(land == LandType.RUINLAND)
         {
             background.sprite = Resources.Load<Sprite>("Bg/ruinland_bg");
+            AudioManager.instance.changeBg("ruinlandbg");
         } else
         {
             background.sprite = Resources.Load<Sprite>("Bg/sandland_bg");
+            AudioManager.instance.changeBg("sandlandbg");
         }
     }
 }

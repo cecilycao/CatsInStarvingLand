@@ -8,7 +8,7 @@ AnimationClip:
   m_PrefabAsset: {fileID: 0}
   m_Name: slime
   serializedVersion: 6
-  m_Legacy: 0
+  m_Legacy: 1
   m_Compressed: 0
   m_UseHighQualityCurve: 1
   m_RotationCurves: []
@@ -39,20 +39,8 @@ AnimationClip:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   m_ClipBindingConstant:
-    genericBindings:
-    - serializedVersion: 2
-      path: 0
-      attribute: 0
-      script: {fileID: 0}
-      typeID: 212
-      customType: 23
-      isPPtrCurve: 1
-    pptrCurveMapping:
-    - {fileID: 21300000, guid: e718d2046e64b4bdc8bd89e476ba3efe, type: 3}
-    - {fileID: 21300000, guid: 6a1c4a81ab6114816a39b10c5fa926ad, type: 3}
-    - {fileID: 21300000, guid: c5c81a93cfee045198a4e906cf03f4e6, type: 3}
-    - {fileID: 21300000, guid: 350f0ba6cff2f4cbe8da5e869fb73632, type: 3}
-    - {fileID: 21300000, guid: 350f0ba6cff2f4cbe8da5e869fb73632, type: 3}
+    genericBindings: []
+    pptrCurveMapping: []
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static GameResources;
+using UnityEngine.EventSystems;
 
-public class PlayerComponent : MonoBehaviourPun, IPunObservable
+public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHandler
 {
 
     public static PlayerComponent instance;
-    
+
     public int m_health;//current health
     public int m_hunger;
     public double m_temperature;
@@ -53,6 +54,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     public int surroundingTemperature;
 
     public SpriteRenderer HoldedItemSprite;
+    public Transform HoldedPosition;
 
     public Transform MeleePosition;
 
@@ -290,6 +292,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
     private void OnDeath()
     {
         print("You are Dead!!!!");
+
+        AudioManager.instance.PlaySound("dead");
         
         //disable movement
         APcontroller.enabled = false;
@@ -306,7 +310,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         m_status = PlayerStatus.DEAD;
     }
 
-    void OnMouseDown()
+    public void OnPointerClick(PointerEventData eventData)
     {
         if (!photonView.IsMine)
         {
@@ -318,7 +322,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
     }
    
-
+    //this function run on client and for all players
     public bool PickedUp(PickedUpItems item)
     {
         GameResources.PickedUpItemName name = item.getItemName();
@@ -330,22 +334,26 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             return false;
         }
 
-
+        //for self
         if (photonView.IsMine)
         {
-            if(currentHolded == null)
-            {
-                HoldItemInHand(item);
-            } 
+            //play sound
+            AudioManager.instance.PlaySound("pickUp");
             //put in bag
             if (myBackpack.AddNewItem(item))
             {
                 bagFull = myBackpack.ItemSpaceLeft() <= 0;
                 Debug.Log("Sucessfully put in bag: now space left " + myBackpack.ItemSpaceLeft());
+                item.gameObject.SetActive(false);
             } else
             {
                 Debug.LogError("BAG FULL???????");
                 return false;
+            }
+            if (currentHolded == null)
+            {
+                HoldItemInHand(item);
+
             }
         } else
         {
@@ -356,29 +364,35 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
             }
         }
         item.m_State = PickedUpItems.ItemState.IN_BAG;
-        item.gameObject.SetActive(false);
+        //item.gameObject.SetActive(false);
         return true;
     }
 
+
+    //Show item in hand(inactive original item's obj, active new item's obj)
     public void HoldItemInHand(PickedUpItems item)
     {
+        if(currentHolded != null)
+            currentHolded.gameObject.SetActive(false);
+
         //if (item.m_State == PickedUpItems.ItemState.IN_BAG)
         //{
             //hold in hand(change UI?)
             item.m_State = PickedUpItems.ItemState.IN_HAND;
             currentHolded = item;
-            
-            
-            Debug.Log("Hold Item: "+ item.getItemName());
+            currentHolded.gameObject.SetActive(true);
 
 
-            string HoldedItemID = item.getItemName().ToString();
-            Debug.Log("Hold Item: Item exist.");
-            photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, HoldedItemID, m_ID);
+        //Debug.Log("Hold Item: "+ item.getItemName());
 
 
-            //item.transform.SetParent(transform);
-            //item.transform.position = HoldedPosition.position;
+        //string HoldedItemID = item.getItemName().ToString();
+        //Debug.Log("Hold Item: Item exist.");
+        //photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, HoldedItemID, m_ID);
+
+
+        item.transform.SetParent(transform);
+        item.transform.position = HoldedPosition.position;
         //}
     }
     
@@ -443,14 +457,23 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
 
         GameResources.PickedUpItemName name = currentHolded.getItemName();
         myBackpack.PopItem(currentHolded);
-        Destroy(currentHolded.gameObject);
+
+        photonView.RPC("RpcDestroyHoldedItem", RpcTarget.AllBuffered);
+        
 
         myBackpack.LetItemInHandByName(name);
+        
+        //if (!myBackpack.DoIHave(name)) {
+        //    photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, "", m_ID);
+        //}
 
-        if (!myBackpack.DoIHave(name)) {
-            photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, "", m_ID);
-        }
+    }
 
+    [PunRPC]
+    public void RpcDestroyHoldedItem()
+    {
+        Destroy(currentHolded.gameObject);
+        currentHolded = null;
     }
 
     //Change player's temperature based on surrounding temperature.
@@ -465,7 +488,17 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable
         }
     }
 
-    
+    public void Jump()
+    {
+        if(photonView.IsMine)
+            AudioManager.instance.PlaySound("jump");
+    }
+
+    public void Walk()
+    {
+        if (photonView.IsMine)
+            AudioManager.instance.PlaySound("walk");
+    }
 
     public static void RefreshInstance(ref PlayerComponent player, PlayerComponent Prefab)
     {

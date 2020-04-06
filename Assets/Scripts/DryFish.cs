@@ -31,13 +31,13 @@ public class DryFish : PickedUpItems
 
     }
 
-    public static implicit operator GameObject(DryFish v)
-    {
-        throw new NotImplementedException();
-    }
-
     public override GameResources.PickedUpItemName getItemName()
     {
         return GameResources.PickedUpItemName.DRIED_FISH;
+    }
+
+    public override GameObject getGameObj()
+    {
+        return gameObject;
     }
 }

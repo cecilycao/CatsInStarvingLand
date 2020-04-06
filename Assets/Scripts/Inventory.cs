@@ -47,6 +47,7 @@ public class Inventory : MonoBehaviour
         return hashID2IndexID[hashCode];
     }
 
+    //Show Item at index in the hand.
     public void WhatItemAtThisIndex(int index)
     {
         myPlayer = GameManagerForNetwork.Instance.LocalPlayer;
@@ -61,6 +62,7 @@ public class Inventory : MonoBehaviour
                 el.m_State = PickedUpItems.ItemState.IN_BAG;
                 if (el.getItemName() == tmp)
                 {
+                    //should excute on all clients
                     myPlayer.HoldItemInHand(el);
 
                     Debug.Log(el.getItemName());
@@ -70,6 +72,8 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    //Pre: nothing holded in hand
+    //post: hold item with given name in hand
     public void LetItemInHandByName(GameResources.PickedUpItemName itemName)
     {
         if (itemToSlotIndex.ContainsKey(itemName)) {
@@ -206,7 +210,25 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-
+    public bool PopItem(GameResources.PickedUpItemName ItemName)
+    {
+        PickedUpItems thisItem = null;
+        foreach(PickedUpItems item in instanceList)
+        {
+            if (item.getItemName() == ItemName)
+            {
+                thisItem = item;
+            }
+        }
+        if(thisItem == null)
+        {
+            Debug.LogError("Didn't find item in instance list");
+            return false;
+        } else
+        {
+            return PopItem(thisItem);
+        }
+    }
 
     public bool PopItem(PickedUpItems newItem)
     {
@@ -249,6 +271,17 @@ public class Inventory : MonoBehaviour
     public bool DoIHave(GameResources.PickedUpItemName item)
     {
         return backpack.ContainsKey(item);
+    }
+
+    public int HowManyDoIHave(GameResources.PickedUpItemName item)
+    {
+        if (backpack.ContainsKey(item))
+        {
+            return backpack[item];
+        } else
+        {
+            return 0;
+        }
     }
 
     public Dictionary<GameResources.PickedUpItemName, int> WhatsInBackpack()

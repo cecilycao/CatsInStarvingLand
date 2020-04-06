@@ -48,6 +48,7 @@ MonoBehaviour:
   currentDay: 0
   EndGame: 0
   m_worldGenerator: {fileID: 0}
+  myWorldSeed: 6.951602
 --- !u!114 &5484852388145359986
 MonoBehaviour:
   m_ObjectHideFlags: 0

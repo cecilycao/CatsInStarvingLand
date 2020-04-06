@@ -29,6 +29,11 @@ public class Sound
         source.pitch = pitch;
         source.Play();
     }
+
+    public void Stop()
+    {
+        source.Stop();
+    }
 }
 public class AudioManager : MonoBehaviour
 {
@@ -36,6 +41,8 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField]
     Sound[] sounds;
+
+    public Sound currentBg;
 
     private void Awake()
     {
@@ -57,19 +64,51 @@ public class AudioManager : MonoBehaviour
             sounds[i].SetSource(_go.AddComponent<AudioSource>());
             _go.transform.SetParent(this.transform);
         }
-        PlaySound("bgm");
+        currentBg = PlaySound("greenlandbg");
+        
     }
 
-    public void PlaySound(string _name)
+    public Sound PlaySound(string _name)
     {
         for(int i = 0; i < sounds.Length; i++)
         {
             if(sounds[i].name == _name)
             {
                 sounds[i].Play();
-                return;
+                return sounds[i];
             }
         }
         Debug.LogError("Audio Manager: can't find sound " + _name);
+        return null;
+    }
+
+    public Sound changeBg(string _name)
+    {
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            if (sounds[i].name == _name)
+            {
+                currentBg.Stop();
+                sounds[i].Play();
+                currentBg = sounds[i];
+                return sounds[i];
+            }
+        }
+        Debug.LogError("Audio Manager: can't find sound " + _name);
+        return null;
+    }
+
+    public Sound stopSound(string _name)
+    {
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            if (sounds[i].name == _name)
+            {
+                sounds[i].Stop();
+                return sounds[i];
+            }
+        }
+        Debug.LogError("Audio Manager: can't find sound " + _name);
+        return null;
     }
 }

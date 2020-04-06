@@ -48,21 +48,34 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
         LocalPlayerID = LocalPlayer.GetComponent<PhotonView>().ViewID;
         if (PhotonNetwork.IsMasterClient)
         {
+            string seed = Time.time.ToString();
+
             GameObject oldWorldManager = GameObject.Find(WorldManager.gameObject.name);
             if (oldWorldManager != null)
             {
                 Destroy(oldWorldManager);
             }
             //    //instantiate world
-            PhotonNetwork.Instantiate(WorldManager.gameObject.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+            GameObject wmanager = PhotonNetwork.Instantiate(WorldManager.gameObject.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+            photonView.RPC("RpcStartWorld", RpcTarget.AllBuffered, seed);
+
             //    PhotonNetwork.Instantiate("Plant", new Vector3(2.49f, -0.03f, 0f), Quaternion.identity, 0);
             //    PhotonNetwork.Instantiate("Poopoo", new Vector3(3.36f, -0.27f, 0f), Quaternion.identity, 0);
         }
         
     }
 
+    [PunRPC]
+    public void RpcStartWorld(string seed)
+    {
+        WorldManager.Instance.startWorld(seed);
+    }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        //not sure this is on server or on all clients
+        AudioManager.instance.PlaySound("newPlayer");//this should be on all clents
+
         Debug.Log("New Player!! YEAHHHHH");
         base.OnPlayerEnteredRoom(newPlayer);
         PlayerComponent.RefreshInstance(ref LocalPlayer, PlayerPrefab);
@@ -78,6 +91,7 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RpcLoadEndScene()
     {
+        AudioManager.instance.changeBg("endScene");
         SceneManager.LoadScene(EndSceneName);
         PhotonNetwork.LeaveRoom();
     }

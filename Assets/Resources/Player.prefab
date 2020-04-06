@@ -1367,6 +1367,7 @@ MonoBehaviour:
     type: 3}
   surroundingTemperature: 0
   HoldedItemSprite: {fileID: 9099271637101315172}
+  HoldedPosition: {fileID: 3529215988044126100}
   MeleePosition: {fileID: 7938260969415790925}
   myBackpack: {fileID: 0}
   myUIManager: {fileID: 0}

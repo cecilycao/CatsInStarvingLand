@@ -6,7 +6,6 @@ using UnityEngine;
 //This script is for animal behaviour
 public class EnemyControler : MonoBehaviourPun, IPunObservable
 {
-    public int shitDuration = 30;
     public float speed = 3 ;
     public float changeDirectionTime =2f;
     public bool isVertical;
@@ -14,13 +13,17 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
     private Rigidbody2D rbody;
     private Vector2 moveDirection;
     
-    private int lastPopo=0;
+    private int lastPopo=-1;
     public PlayerComponent m_player;
 
     public GameObject Fish;
     public GameObject wuping;
     public GameObject shit;
-    private int CreateShitTime;
+
+    //Duration between shitting
+    public int shitDuration;
+    //first time shit
+    public int CreateShitTime = -1;
 
     public int animalHealth = 1;
     public int aniCurHealth;
@@ -32,14 +35,26 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
         moveDirection = isVertical? Vector2.up: Vector2.right;
         changeTimer = changeDirectionTime;
         aniCurHealth = animalHealth;
-        CreateShitTime = 0;
-        lastPopo = Random.Range(1, 30);
-        //Debug.Log("suijishijian"+lastPopo);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            CreateShitTime = Random.Range(15, 50);
+            shitDuration = Random.Range(25, 40);
+            photonView.RPC("RpcSetTime", RpcTarget.OthersBuffered, CreateShitTime, shitDuration);
+        }
+        
+    }
+
+    [PunRPC]
+    public void RpcSetTime(int createTime, int duration)
+    {
+        this.CreateShitTime = createTime;
+        this.shitDuration = duration;
     }
 
     // Update is called once per frame
     void Update()
     {
+      
         changeTimer -= Time.deltaTime;
         if(changeTimer<0){
             moveDirection *=-1;
@@ -50,12 +65,20 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
         position.y += moveDirection.y *  speed * Time.deltaTime;
         rbody.MovePosition(position);
         //Debug.Log(WorldManager.Instance.getCurrentDay());
+        //Have not set up initial times yet
+        if(CreateShitTime == -1)
+        {
+            return;
+        }
+        if (lastPopo == -1)
+        {
+            lastPopo = CreateShitTime;
+        }
         if(WorldManager.Instance.getCurrentSecond()- lastPopo >= shitDuration)
         {
-            lastPopo = (int)WorldManager.Instance.getCurrentSecond()+ Random.Range(1, 30); 
+            lastPopo = (int)WorldManager.Instance.getCurrentSecond()+ shitDuration; 
             GameObject newShit = Instantiate(shit, transform.position, transform.rotation);
-            //Debug.Log("sssssss");
-            //CreateShitTime = WorldManager.Instance.getCurrentDay();
+            Debug.Log("Shit now");
         }
 
         if (PhotonNetwork.IsMasterClient)
@@ -113,10 +136,12 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(aniCurHealth);
+            //stream.SendNext(lastPopo);
         }
         else
         {
             aniCurHealth = (int)stream.ReceiveNext();
+            //lastPopo = (int)stream.ReceiveNext();
         }
     }
 }

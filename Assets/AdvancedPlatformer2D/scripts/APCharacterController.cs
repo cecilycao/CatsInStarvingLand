@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Photon.Pun;
 
 [RequireComponent(typeof(APCharacterMotor))]
 [AddComponentMenu("Advanced Platformer 2D/CharacterController")]
@@ -233,7 +234,9 @@ public partial class APCharacterController : MonoBehaviour
 		}
 	}
 
-	void OnDisable()
+
+
+    void OnDisable()
 	{
 		m_rigidBody.velocity = Vector2.zero;
 		m_rigidBody.angularVelocity = 0f;
@@ -294,7 +297,10 @@ public partial class APCharacterController : MonoBehaviour
 
 	void OnEnable()
 	{
-		ResetController();
+        m_inputs.m_axisX.m_plugin = ETCInput.instance.move;
+        m_inputs.m_axisY.m_plugin = ETCInput.instance.move;
+        m_jump.m_button.m_plugin = ETCInput.instance.jump;
+        ResetController();
 
 		// Reset initial attack reference
 		foreach (APAttackSwitcher curSwitcher in m_attacks.m_switchers)
@@ -1287,7 +1293,9 @@ public partial class APCharacterController : MonoBehaviour
 
 	void HandleHorizontalMove()
 	{
-		m_sliding = false;
+        //not sure if it should be here. only call when is walking
+        //GetComponent<PlayerComponent>().Walk();
+        m_sliding = false;
 
 		float maxSpeed = ComputeMaxSpeed();
 		float absAxisX = Mathf.Abs(m_inputs.m_axisX.GetValue());
@@ -1616,6 +1624,8 @@ public partial class APCharacterController : MonoBehaviour
 	// force character to jump immediately at minimum height * specified ratio
 	public void Jump(float fMinHeight, float fMaxHeight)
 	{
+        GetComponent<PlayerComponent>().Jump();
+
 		// handle case where jump is requested inside a callback, buffer action in this case
 		if (m_bForceDefer)
 		{

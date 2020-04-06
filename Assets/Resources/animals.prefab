@@ -147,7 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae7e2f384e90e4df9adc23bfb5e59aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shitDuration: 30
   speed: 3
   changeDirectionTime: 2
   isVertical: 0
@@ -155,6 +154,8 @@ MonoBehaviour:
   Fish: {fileID: 0}
   wuping: {fileID: 4873913953231771013, guid: e7751ee60ce0499479adff51e9544200, type: 3}
   shit: {fileID: 6048079311400627791, guid: 6de9705a200ca4fa69b9a08cacdfc93a, type: 3}
+  shitDuration: 30
+  CreateShitTime: -1
   animalHealth: 2
   aniCurHealth: 0
 --- !u!95 &9168081516210190489

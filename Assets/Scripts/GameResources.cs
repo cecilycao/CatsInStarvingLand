@@ -65,4 +65,6 @@ public class GameResources : MonoBehaviour
         WOOD_FENCE,
         CHEST
     }
+
+
 }

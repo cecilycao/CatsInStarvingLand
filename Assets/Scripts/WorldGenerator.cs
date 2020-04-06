@@ -56,8 +56,9 @@ public class WorldGenerator : MonoBehaviourPun
     public PickedUpItems[,] TileMap;
 
     // Start is called before the first frame update
-    public void GenerateWorld()
+    public void GenerateWorld(string seed)
     {
+        this.seed = seed;
         BoxCollider2D LandTileCollider = LandTile_DIRT.GetComponent<BoxCollider2D>();
         tileSize = LandTileCollider.size.x;
         totalWidth = tileSize * (width * finalMapWidthCount);

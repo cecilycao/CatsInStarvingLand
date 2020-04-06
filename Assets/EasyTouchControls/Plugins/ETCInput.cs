@@ -17,7 +17,11 @@ using UnityEngine.EventSystems;
 public class ETCInput : MonoBehaviour{
 
 	public static ETCInput _instance = null;
-	public static ETCInput instance{
+
+    public APInputJoystickPlugin move;
+    public APInputButtonPlugin jump;
+
+    public static ETCInput instance{
 		get{
 			if( !_instance ){
 				

@@ -13,6 +13,8 @@ public partial class APCharacterController : MonoBehaviour
 		public APInputJoystick m_axisX = new APInputJoystick("Horizontal", true);
 		public APInputJoystick m_axisY = new APInputJoystick("Vertical", false);
 		public APInputButton m_runButton;
+
+        
 	}
 
 	public enum eAutoMove

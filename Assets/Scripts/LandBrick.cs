@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class LandBrick : PickedUpItems
+public class LandBrick : PickedUpItems, IPointerClickHandler
 {
     public PickedUpItemName myType;
 
@@ -14,7 +15,6 @@ public class LandBrick : PickedUpItems
 
     public float scaleChange = 0.5f;
     public bool isCracked = false;
-    public int maxDigDistance = 6;
     public WorldManager m_worldManager;
 
     public GameManagerForNetwork m_gameManager;
@@ -22,6 +22,7 @@ public class LandBrick : PickedUpItems
     public Vector2Int index;
     private bool isPickedUp = false;
 
+    int maxDigDistance = 2;
     float m_Size;
     // Start is called before the first frame update
     void Start()
@@ -36,7 +37,7 @@ public class LandBrick : PickedUpItems
 
     }
 
-    void OnMouseDown()
+    public void OnPointerClick(PointerEventData eventData)
     {
         m_worldManager = FindObjectOfType<WorldManager>();
         Debug.Log("index: " + index.x + ", " + index.y);
@@ -70,7 +71,13 @@ public class LandBrick : PickedUpItems
 
     private bool checkDistance()
     {
+        if(m_gameManager.LocalPlayer.currentHolded is Pickaxe)
+        {
+            Pickaxe m_pickaxe = (Pickaxe)m_gameManager.LocalPlayer.currentHolded;
+            maxDigDistance = m_pickaxe.pickRange;
+        } 
         float distance = Vector2.Distance(m_gameManager.LocalPlayer.transform.position, transform.position);
+        Debug.Log("max:" + maxDigDistance + "; distance: " + distance + "; allowedDistance: " + maxDigDistance * m_Size);
         if (distance > maxDigDistance * m_Size)
         {
             return false;

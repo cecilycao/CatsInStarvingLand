@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
+using UnityEngine.EventSystems;
 
-public class Plant : PickedUpItems
+public class Plant : PickedUpItems, IPointerClickHandler
 {
 	public GameObject fruityPlant;
 	public GameObject initialPlant;
@@ -62,8 +63,8 @@ public class Plant : PickedUpItems
     }
 
 
-	void OnMouseDown()
-	{
+	public void OnPointerClick(PointerEventData eventData)
+    {
 		Debug.Log("click a plant");
         //find local player
         PlayerComponent m_player = GameManagerForNetwork.Instance.LocalPlayer.GetComponent<PlayerComponent>();
@@ -99,19 +100,20 @@ public class Plant : PickedUpItems
 
     private void pickUpFruit(PlayerComponent m_player)
     {
-
-
-        GameObject newFruit = Instantiate(fruit.gameObject);
-        m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
-        photonView.RPC("RpcPickUpFruit", RpcTarget.AllBuffered);
+      
+        photonView.RPC("RpcPickUpFruit", RpcTarget.AllBuffered, m_player.m_ID);
 
 
     }
 
     [PunRPC]
-    public void RpcPickUpFruit()
+    public void RpcPickUpFruit(int playerID)
     {
-        //disable 图标
+        PlayerComponent m_player = WorldManager.Instance.getPlayer(playerID);
+        GameObject newFruit = Instantiate(fruit.gameObject);
+        m_player.PickedUp(newFruit.GetComponent<PickedUpItems>());
+
+        //change plant sprite
         fruityPlant.SetActive(false);
         initialPlant.SetActive(true);
 
@@ -124,19 +126,21 @@ public class Plant : PickedUpItems
 	    
 
 	    //GameObject newPlant = Instantiate(gameObject);
-	    m_player.PickedUp(this);
-        photonView.RPC("RpcPickUpPlant", RpcTarget.AllBuffered);
+	    //m_player.PickedUp(this);
+        photonView.RPC("RpcPickUpPlant", RpcTarget.AllBuffered, m_player.m_ID);
       
 
     }
 
     [PunRPC]
-    public void RpcPickUpPlant()
+    public void RpcPickUpPlant(int playerID)
     {
+        PlayerComponent m_player = WorldManager.Instance.getPlayer(playerID);
+        m_player.PickedUp(this);
         //disable 图标
-        initialPlant.SetActive(false);
+        //initialPlant.SetActive(false);
         WorldManager.Instance.clearObjectAt(index.x, index.y);
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     [PunRPC]
