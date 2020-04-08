@@ -395,6 +395,15 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         item.transform.position = HoldedPosition.position;
         //}
     }
+
+    public void HandItemBack()
+    {
+        if(currentHolded != null) {
+            currentHolded.gameObject.SetActive(false);
+            currentHolded = null;
+            currentHolded.m_State = PickedUpItems.ItemState.IN_BAG;
+        }
+    }
     
     [PunRPC]
     public void RpcChangeHoldItemSprite(string ItemName, int PlayerID)

@@ -69,6 +69,8 @@ public class Inventory : MonoBehaviour
                     Debug.Log("CLICKED");
                 }
             }
+        } else {
+            myPlayer.HandItemBack();
         }
     }
 
