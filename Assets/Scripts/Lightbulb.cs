@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameResources;
 
-public class Lightbulb : PickedUpItems
+public class Lightbulb : PlaceableItem
 {
 
 

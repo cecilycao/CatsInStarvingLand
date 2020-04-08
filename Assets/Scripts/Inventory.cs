@@ -258,6 +258,11 @@ public class Inventory : MonoBehaviour
                 backpack.Remove(itemName);
                 slotIndexToItem.Remove(index);
                 itemToSlotIndex.Remove(itemName);
+                myPlayer = GameManagerForNetwork.Instance.LocalPlayer;
+                if (myPlayer.currentHolded == newItem)
+                {
+                    myPlayer.DestroyHoldedItem();
+                }
             }
         }
         else

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameResources;
 
 public class WorldManager : MonoBehaviourPun, IPunObservable
 {
@@ -149,6 +150,33 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
     public void RpcPlant(int x, int y, int obj)
     {
         m_worldGenerator.GeneratePlant(obj, x, y, false);
+    }
+
+    public bool Place(Vector2Int index, int obj)
+    {
+        if (m_worldGenerator.PlaceItemCondition(index.x, index.y, obj))
+        {
+            photonView.RPC("RpcPlace", RpcTarget.AllBuffered, index.x, index.y, obj);
+            return true;
+        }
+        return false;
+    }
+
+    //Lamp, LittleSun, CatsHome
+    [PunRPC]
+    public void RpcPlace(int x, int y, int obj)
+    {
+        if(obj == (int)PickedUpItemName.LAMP)
+        {
+            m_worldGenerator.GenerateItem(TechnologyUI.Instance.Lamp, x, y);
+        } else if (obj == (int)PickedUpItemName.LITTLE_SUN)
+        {
+            m_worldGenerator.GenerateItem(TechnologyUI.Instance.LittleSun, x, y);
+        }
+        else if (obj == (int)PickedUpItemName.CATERRY)
+        {
+            m_worldGenerator.GenerateItem(TechnologyUI.Instance.CatsHome, x, y);
+        }
     }
 
     public bool UpdateTileMap(Vector2Int index, int val)

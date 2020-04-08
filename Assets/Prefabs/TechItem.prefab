@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 4794010779540439035}
   - component: {fileID: 4794010779540439032}
   m_Layer: 0
-  m_Name: StoneClaw
+  m_Name: TechItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,12 +138,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.8}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 0d6731c5aad4f4e03bea1c341e977c59, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -208,10 +208,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c770d8dc272c63469e786f1eaf7715a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 19
+  techItem: {fileID: 0}
   Description: {fileID: 0}
   itemButton: {fileID: 4794010779540439035}
   createButton: {fileID: 0}
+  ErrorMessage: {fileID: 0}
   needItems:
   - NeededItemName: 2
     quantity: 3

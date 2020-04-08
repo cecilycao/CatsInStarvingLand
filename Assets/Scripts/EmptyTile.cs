@@ -20,7 +20,7 @@ public class EmptyTile : PickedUpItems, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Click..");
+        Debug.Log("Click.." + transform.position.z);
         if (occupied)
         {
             return;
@@ -48,6 +48,16 @@ public class EmptyTile : PickedUpItems, IPointerClickHandler
         {
             Debug.Log("Plant something...");
             if (m_worldManager.Plant(index, (int)m_player.currentHolded.getItemName()))
+            {
+                AudioManager.instance.PlaySound("newPlant");
+                m_player.useItemInHand();
+                occupied = true;
+            }
+        } else if (m_player.currentHolded is PlaceableItem) //Lamp, LittleSun, CatsHome
+        {
+            Debug.Log("Trying to Place sth....");
+            //for all clients, generate the item at correct position
+            if (m_worldManager.Place(index, (int)m_player.currentHolded.getItemName()))
             {
                 AudioManager.instance.PlaySound("newPlant");
                 m_player.useItemInHand();

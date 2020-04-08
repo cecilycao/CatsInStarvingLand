@@ -52,5 +52,7 @@ MonoBehaviour:
   - RpcStartWorld
   - RpcSetTime
   - RpcDestroyHoldedItem
+  - RpcPlace
+  - RpcPickUpItem
   DisableAutoOpenWizard: 1
   ShowSettings: 0

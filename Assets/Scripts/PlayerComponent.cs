@@ -55,6 +55,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
 
     public SpriteRenderer HoldedItemSprite;
     public Transform HoldedPosition;
+    public Transform HoldedLightPosition;
 
     public Transform MeleePosition;
 
@@ -171,7 +172,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         }
         else
         {
-            m_health -= 3;
+            m_health -= 1;
             if (photonView.IsMine)
             {
                 myUIManager.UpdateHunger(m_hunger);
@@ -197,7 +198,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         else
         {
             //decrease health
-            m_health -= 3;
+            m_health -= 1;
             if (photonView.IsMine)
             {
                 myUIManager.UpdateTiredness(m_tiredness);
@@ -392,7 +393,15 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
 
 
         item.transform.SetParent(transform);
-        item.transform.position = HoldedPosition.position;
+        
+        if (item.getItemName() == PickedUpItemName.LIGHT_BULB || item.getItemName() == PickedUpItemName.LAMP || item.getItemName() == PickedUpItemName.LITTLE_SUN)
+        {
+            item.transform.position = HoldedLightPosition.position;
+        } else
+        {
+            item.transform.position = HoldedPosition.position;
+        }
+        
         //}
     }
     
@@ -458,7 +467,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         GameResources.PickedUpItemName name = currentHolded.getItemName();
         myBackpack.PopItem(currentHolded);
 
-        photonView.RPC("RpcDestroyHoldedItem", RpcTarget.AllBuffered);
+        //photonView.RPC("RpcDestroyHoldedItem", RpcTarget.AllBuffered);
         
 
         myBackpack.LetItemInHandByName(name);
@@ -467,6 +476,11 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         //    photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, "", m_ID);
         //}
 
+    }
+
+    public void DestroyHoldedItem()
+    {
+        photonView.RPC("RpcDestroyHoldedItem", RpcTarget.AllBuffered);
     }
 
     [PunRPC]

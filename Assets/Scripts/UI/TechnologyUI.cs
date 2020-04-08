@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class TechnologyUI : MonoBehaviour
 {
+    private static TechnologyUI instance = null;
+    public static TechnologyUI Instance { get { return instance; } }
+
     public Button WealponUI;
     public Button ToolUI;
     public Button LightingUI;
@@ -19,6 +22,32 @@ public class TechnologyUI : MonoBehaviour
 
     public GameObject currentShowingList;
     public GameObject currentShowingDescription;
+
+    public GameObject StoneClaw;
+    public GameObject IronClaw;
+    public GameObject TechClaw;
+    public GameObject StonePickaxe;
+    public GameObject IronPickaxe;
+    public GameObject TechPickaxe;
+    public GameObject Lamp;
+    public GameObject LittleSun;
+    public GameObject SummerCloth;
+    public GameObject WinterCloth;
+    public GameObject CatsHome;
+
+    void Awake()
+    {
+        // Singleton
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+        //DontDestroyOnLoad(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()

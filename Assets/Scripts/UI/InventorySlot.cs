@@ -7,6 +7,7 @@ public class InventorySlot : MonoBehaviour
 {
     public Text ItemCountText;
     public Image ItemUIImage;
+    public Sprite DefultImage;
 
     private Inventory myManager;
 
@@ -25,7 +26,14 @@ public class InventorySlot : MonoBehaviour
         }
         ItemCountText.color = Color.black;
         Debug.Log("itemCount:" + count.ToString());
-        ItemUIImage.sprite = findImageWithItemName(ItemName);
+        if(ItemName != GameResources.PickedUpItemName.DEFAULT)
+        {
+            ItemUIImage.sprite = findImageWithItemName(ItemName);
+        } else
+        {
+            ItemUIImage.sprite = DefultImage;
+        }
+        
         return true;
     }
 

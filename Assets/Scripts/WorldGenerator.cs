@@ -174,6 +174,7 @@ public class WorldGenerator : MonoBehaviourPun
         }
     }
 
+    //Creatures are networked items
     public GameObject GenerateCreature(GameObject obj, int x, int y)
     {
         Vector3 pos = new Vector3((-totalWidth / 2.0f) + (tileSize / 2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y, 1);
@@ -183,6 +184,20 @@ public class WorldGenerator : MonoBehaviourPun
         newCreature.transform.SetParent(transform);
         newCreature.transform.position = pos;
         return newCreature;
+    }
+
+    //Items are not networked
+    public GameObject GenerateItem(GameObject obj, int x, int y)
+    {
+        Vector3 pos = new Vector3((-totalWidth / 2.0f) + (tileSize / 2.0f) + x * tileSize, (totalHeight / 2.0f) - (tileSize / 2.0f) - tileSize * y, 1);
+        //Debug.Log(pos);
+        //GameObject newCreature = Instantiate(obj);
+        GameObject newItem = Instantiate(obj);
+        newItem.transform.SetParent(transform);
+        newItem.transform.position = pos;
+        PlaceableItem placeable = newItem.GetComponent<PlaceableItem>();
+        placeable.index = new Vector2Int(x, y);
+        return newItem;
     }
 
     public void GeneratePlant(int obj, int x, int y, bool hasFruit)
@@ -236,6 +251,19 @@ public class WorldGenerator : MonoBehaviourPun
         }
         return false;
     }
+
+    public bool PlaceItemCondition(int x, int y, int obj)
+    {
+        if(obj == (int) PickedUpItemName.LAMP || obj == (int)PickedUpItemName.LITTLE_SUN)
+        {
+            return true;
+        }
+        //!!!!!!!!!!!not complete here
+        return false;
+    }
+
+
+
 
     public void FillWithTileType(int TileTypeVal, int x, int y)
     {
