@@ -63,7 +63,12 @@ public class GameResources : MonoBehaviour
         //FUNITURE
         CATERRY,
         WOOD_FENCE,
-        CHEST
+        CHEST,
+        //Keys
+        GREENLAND_KEY,
+        SANDLAND_KEY,
+        RUINLAND_KEY,
+        THE_KEY
     }
 
 

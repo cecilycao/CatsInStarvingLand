@@ -116,6 +116,13 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
         }
     }
 
+    public void OnSuccess()
+    {
+        //photonView.RPC("RpcOnPlayerNumberChange", RpcTarget.MasterClient);
+        GameManagerForNetwork.Instance.loadSuccessScene();
+    }
+    
+
     public int getCurrentDay()
     {
         return currentDay;

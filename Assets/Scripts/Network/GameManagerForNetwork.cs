@@ -13,6 +13,7 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
     public WorldManager WorldManager;
     public PlayerComponent PlayerPrefab;
     public string EndSceneName;
+    public string SuccessSceneName;
     public string MenuSceneName;
     public PlayerComponent LocalPlayer;
 
@@ -93,6 +94,19 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
     {
         AudioManager.instance.changeBg("endScene");
         SceneManager.LoadScene(EndSceneName);
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public void loadSuccessScene()
+    {
+        photonView.RPC("RpcLoadSuccessScene", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void RpcLoadSuccessScene()
+    {
+        AudioManager.instance.changeBg("endScene");
+        SceneManager.LoadScene(SuccessSceneName);
         PhotonNetwork.LeaveRoom();
     }
 

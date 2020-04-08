@@ -54,5 +54,7 @@ MonoBehaviour:
   - RpcDestroyHoldedItem
   - RpcPlace
   - RpcPickUpItem
+  - RpcHandItemBack
+  - RpcLoadSuccessScene
   DisableAutoOpenWizard: 1
   ShowSettings: 0
