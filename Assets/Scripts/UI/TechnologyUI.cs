@@ -59,7 +59,7 @@ public class TechnologyUI : MonoBehaviour
         FurnitureUI.onClick.AddListener(showFrunitureList);
     }
 
-    void closeCurrentShowingList()
+    public void closeCurrentShowingList()
     {
         if(currentShowingList != null)
         {

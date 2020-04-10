@@ -20,6 +20,7 @@ public class ETCInput : MonoBehaviour{
 
     public APInputJoystickPlugin move;
     public APInputButtonPlugin jump;
+    public Button attack;
 
     public static ETCInput instance{
 		get{
@@ -38,8 +39,18 @@ public class ETCInput : MonoBehaviour{
 			return _instance;
 		}
 	}
-	
-	private  Dictionary<string,ETCAxis> axes = new Dictionary<string,ETCAxis>();
+
+    public void Start()
+    {
+        attack.onClick.AddListener(Attack);
+    }
+
+    public void Attack()
+    {
+        GameManagerForNetwork.Instance.LocalPlayer.GetComponent<PlayerComponent>().Attack();
+    }
+
+    private  Dictionary<string,ETCAxis> axes = new Dictionary<string,ETCAxis>();
 	private  Dictionary<string, ETCBase> controls = new Dictionary<string, ETCBase>();
 	
 	private static  ETCBase control;

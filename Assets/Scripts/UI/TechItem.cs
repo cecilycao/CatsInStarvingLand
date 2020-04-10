@@ -86,6 +86,7 @@ public class TechItem : MonoBehaviour
                 }
                 newItem.SetActive(false);
                 techUI.CloseCurrentDescription();
+                techUI.closeCurrentShowingList();
             } else
             {
                 ErrorMessage.text = "Bag is Full! can not put item in bag";

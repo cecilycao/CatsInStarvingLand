@@ -115,7 +115,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
             myUIManager.UpdateTiredness(m_tiredness);
 
             InvokeRepeating("Digest", 1f, 1f);
-            InvokeRepeating("Working", 1f, 1f);
+            //InvokeRepeating("Working", 1f, 1f);
         }
         
 
@@ -183,6 +183,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         }
     }
 
+    
     void Working()
     {
         if (m_status == PlayerStatus.DEAD)
@@ -263,7 +264,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
             myUIManager.UpdateHealth(m_health);
     }
 
-    void Attack()
+    public void Attack()
     {
         if (m_status == PlayerStatus.DEAD)
         {

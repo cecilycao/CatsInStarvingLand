@@ -235,5 +235,5 @@ public class ETCButton : ETCBase, IPointerEnterHandler, IPointerDownHandler, IPo
 			ApllyState();
 		}
 	}
-	#endregion
+    #endregion
 }
