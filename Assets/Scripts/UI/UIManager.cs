@@ -15,17 +15,17 @@ public class UIManager : MonoBehaviour
     public void UpdateHealth(int healthValue)
     {
         Text HealthText = Health.GetComponentInChildren<Text>();
-        HealthText.text = "Health: " + healthValue;
+        HealthText.text = healthValue + "/100";
     }
     public void UpdateHunger(int hungerValue)
     {
         Text HungerText = Hunger.GetComponentInChildren<Text>();
-        HungerText.text = "Hunger: " + hungerValue;
+        HungerText.text = hungerValue + "/100";
     }
     public void UpdateTemperature(double temperatureValue)
     {
         Text TemperatureText = Temperature.GetComponentInChildren<Text>();
-        TemperatureText.text = "Temperature: " + temperatureValue;
+        TemperatureText.text = temperatureValue + "/38";
     }
     public void UpdateTiredness(int tirednessValue)
     {

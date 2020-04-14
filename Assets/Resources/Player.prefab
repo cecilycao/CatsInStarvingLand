@@ -1363,6 +1363,7 @@ MonoBehaviour:
   m_status: 0
   bagFull: 0
   currentHolded: {fileID: 0}
+  currentCloth: {fileID: 0}
   maxHunger: 100
   bulletObj: {fileID: 7451286104210488710, guid: 9b81301f42a8e469fa524824128d6edc,
     type: 3}

@@ -16,7 +16,9 @@ public class WorldGenerator : MonoBehaviourPun
 
     public GameObject FruitPlant;
     public GameObject LuminousPlant;
+    public GameObject FlowerPlant;
     public GameObject GrassAnimal;
+    public GameObject SandAnimal;
 
     public GameObject GreenLandZone;
     public GameObject SandLandZone;
@@ -51,8 +53,8 @@ public class WorldGenerator : MonoBehaviourPun
 
     MapGenerator m_mapGenerator;
     [HideInInspector]
-    public int[,] m_map;
-    public int[,] m_landTypeMap;
+    public int[,] m_map; // widthCount * width, widthCount * height
+    public int[,] m_landTypeMap; // widthCount, widthCount
     public PickedUpItems[,] TileMap;
 
     // Start is called before the first frame update
@@ -132,7 +134,8 @@ public class WorldGenerator : MonoBehaviourPun
                     //Fill with a tile, ground, stone .etc or emptyTile
                     FillWithTileType(m_map[x, y], x, y);
 
-                    //if the index id surface, try to fill with creature
+                    LandType type = getLandType(x, y);
+                    //if the index is surface, try to fill with creature
                     if (m_map[x, y] == 0 && PhotonNetwork.IsMasterClient)
                     {
                         if(PlantGenerationConditions(x, y))
@@ -146,7 +149,11 @@ public class WorldGenerator : MonoBehaviourPun
                                 //can generate plant here
                                 if(randIntOneKindPlant < fruitPlantsFillPercent)
                                 {
-                                    GeneratePlant((int)PickedUpItemName.FRUIT_PLANT, x, y, true);
+                                    if(type == LandType.SANDLAND)
+                                        GeneratePlant((int)PickedUpItemName.FLOWER_PLANT, x, y, true);
+
+                                    if (type == LandType.GREENLAND || type == LandType.RUINLAND)
+                                        GeneratePlant((int)PickedUpItemName.FRUIT_PLANT, x, y, true);
                                 } else if(randIntOneKindPlant < (fruitPlantsFillPercent + luminousPlantFillPercent))
                                 {
                                     GeneratePlant((int)PickedUpItemName.LIGHT_PLANT, x, y, true);
@@ -162,7 +169,17 @@ public class WorldGenerator : MonoBehaviourPun
                             if (randIntAnimal < animalFillPercent)
                             {
                                 //generate animal
-                                GenerateCreature(GrassAnimal, x, y);
+                                //if in greenland
+                                if(type == LandType.GREENLAND)
+                                    GenerateCreature(GrassAnimal, x, y);
+
+                                //if in sandland
+                                if(type == LandType.SANDLAND)
+                                    GenerateCreature(SandAnimal, x, y);
+
+                                //if in ruinland
+
+
                             }
                         }
                        
@@ -217,8 +234,15 @@ public class WorldGenerator : MonoBehaviourPun
             m_luPlant.setFruitStatus(hasFruit);
             m_luPlant.setIndex(x, y);
         }
-        
-        
+        else if (obj == (int)PickedUpItemName.FLOWER_PLANT)
+        {
+            newPlant = GenerateCreature(FlowerPlant, x, y);
+            FlowerPlant m_fPlant = newPlant.GetComponent<FlowerPlant>();
+            m_fPlant.setFruitStatus(hasFruit);
+            m_fPlant.setIndex(x, y);
+        }
+
+
     }
 
     public bool PlantGenerationConditions(int x, int y)
@@ -232,7 +256,7 @@ public class WorldGenerator : MonoBehaviourPun
         //{
         //    return false;
         //}
-        if(m_map[x, y + 1] == (int)TileType.DIRT)
+        if(m_map[x, y + 1] == (int)TileType.DIRT || m_map[x, y + 1] == (int)TileType.SAND)
         {
             return true;
         }
@@ -318,6 +342,20 @@ public class WorldGenerator : MonoBehaviourPun
             return EmptyTile;
         }
 
+    }
+
+    public LandType getLandType(int x, int y)
+    {
+        if (m_landTypeMap[x / width, y / height] == 0)
+        {
+            return LandType.GREENLAND;
+        } else if (m_landTypeMap[x / width, y / height] == 1)
+        {
+            return LandType.SANDLAND;
+        } else
+        {
+            return LandType.RUINLAND;
+        }
     }
 
     public int[,] getInitialMap() {

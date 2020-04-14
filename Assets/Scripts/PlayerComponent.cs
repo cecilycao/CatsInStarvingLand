@@ -23,6 +23,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     private bool isInvincible; //是否无敌
 
     public PickedUpItems currentHolded;
+    public Cloth currentCloth;
     //public int HoldedItemID;
 
     private int maxHealth = 100;
@@ -116,6 +117,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
 
             InvokeRepeating("Digest", 1f, 1f);
             //InvokeRepeating("Working", 1f, 1f);
+            InvokeRepeating("BodyTempCheckBasedOnTemp", 1f, 1f);
         }
         
 
@@ -148,7 +150,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
             {
                 Attack();
             }
-            BodyTempCheckBasedOnTemp();
+            //BodyTempCheckBasedOnTemp();
 
             if (m_health <= 0)
             {
@@ -166,9 +168,16 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         }
         if (m_hunger > 0)
         {
+            if(m_hunger > 90)
+            {
+                m_health++;
+            }
             m_hunger--;
-            if(photonView.IsMine)
+            if (photonView.IsMine)
+            {
                 myUIManager.UpdateHunger(m_hunger);
+                myUIManager.UpdateHealth(m_health);
+            }
         }
         else
         {
@@ -209,21 +218,40 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     }
 
     void BodyTempCheckBasedOnTemp() {
-        if (Time.time - lastTempCheck >= 1)
+        if (this.surroundingTemperature > 28)
         {
-            if (this.surroundingTemperature > 28)
-            {
-                m_temperature += 0.1;
-            }
-            else if (this.surroundingTemperature < 10)
-            {
-                m_temperature -= 0.1;
-            }
-            lastTempCheck = Time.time;
+            m_temperature += 0.1;
+        }
+        else if (this.surroundingTemperature < 10)
+        {
+            m_temperature -= 0.1;
+        }
 
-            //Debug.Log("当前环境温度:" + surroundingTemperature + "   当前体温: " + m_temperature);
-            if(photonView.IsMine)
-                myUIManager.UpdateTemperature(m_temperature);
+      
+        if(m_temperature > 39)
+        {
+            if(currentCloth != null)
+            {
+                if (currentCloth.getItemName() == PickedUpItemName.SUMMER_CLOTH)
+                {
+                    return;
+                }
+            }
+            m_health-=2;
+        } else if (m_temperature < 37)
+        {
+            if(currentCloth != null)
+            {
+                if (currentCloth.getItemName() == PickedUpItemName.WINTER_CLOTH)
+                {
+                    return;
+                }
+            }
+            m_health -= 2;
+        }
+        //Debug.Log("当前环境温度:" + surroundingTemperature + "   当前体温: " + m_temperature);
+        if (photonView.IsMine) { 
+            myUIManager.UpdateTemperature(m_temperature);
         }
 
     }
@@ -239,6 +267,19 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
             Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
         if(photonView.IsMine)
             myUIManager.UpdateHunger(m_hunger);
+    }
+
+    public void changeHealth(int amount)
+    {
+        if (m_status == PlayerStatus.DEAD)
+        {
+            return;
+        }
+        //Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
+        m_health = Mathf.Clamp(m_health + amount, 0, maxHealth);
+        Debug.Log("玩家当前饥饿值：" + m_health + "/" + maxHealth);
+        if (photonView.IsMine)
+            myUIManager.UpdateHealth(m_health);
     }
 
     public void ChangeHealth(int amount)
@@ -476,15 +517,18 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
 
         if (currentHolded.getItemName() == PickedUpItemName.DRIED_FISH)
         {
-            changeHunger(10);
+            changeHunger(20);
+            changeHealth(10);
         }
         else if (currentHolded.getItemName() == PickedUpItemName.FRUIT)
         {
             changeHunger(10);
+            changeHealth(5);
         }
         else if (currentHolded.getItemName() == PickedUpItemName.POOPOO)
         {
             changeHunger(10);
+            changeHealth(-10);
         } else if (currentHolded.getItemName() == PickedUpItemName.THE_KEY)
         {
             OnSuccess();

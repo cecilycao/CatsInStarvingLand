@@ -16,8 +16,8 @@ public class PlaceableItem : PickedUpItems, IPointerClickHandler
 
         PickedUpItems holdedItem = m_player.GetWhatsInHand();
 
-        //pick up a placeable item when  nothing in hands.
-        if (holdedItem == null)
+        //pick up a placeable
+        if (true)
         {
             photonView.RPC("RpcPickUpItem", RpcTarget.AllBuffered, m_player.m_ID);
         }

@@ -123,33 +123,48 @@ public class MapGenerator : MonoBehaviour
     {
         int[,] landTypeMap = new int[widthCount, widthCount];
 
-        int randInt = 0;
+        int glandCount = 0;
+        int slandCount = 0;
+        int rlandCount = 0;
 
-        for (int i = 0; i < widthCount; i++)
+        int randInt = 0;
+        while (slandCount == 0 || rlandCount == 0)
         {
-            for (int j = 0; j < widthCount; j++)
+            glandCount = 0;
+            slandCount = 0;
+            rlandCount = 0;
+            for (int i = 0; i < widthCount; i++)
             {
-                if(i == j && i == centerIndex - 1)
+                for (int j = 0; j < widthCount; j++)
                 {
-                    landTypeMap[i, j] = (int)LandType.GREENLAND;
-                } else
-                {
-                    randInt = Random.Range(1, 4);
-                    if(randInt == 1)
+                    if(i == j && i == centerIndex - 1)
                     {
                         landTypeMap[i, j] = (int)LandType.GREENLAND;
-                    } else if(randInt == 2)
-                    {
-                        landTypeMap[i, j] = (int)LandType.SANDLAND;
+                        glandCount++;
                     } else
                     {
-                        landTypeMap[i, j] = (int)LandType.RUINLAND;
+                        randInt = Random.Range(1, 4);
+                        if(randInt == 1)
+                        {
+                            landTypeMap[i, j] = (int)LandType.GREENLAND;
+                            glandCount++;
+                        } else if(randInt == 2)
+                        {
+                            landTypeMap[i, j] = (int)LandType.SANDLAND;
+                            slandCount++;
+                        } else
+                        {
+                            landTypeMap[i, j] = (int)LandType.RUINLAND;
+                            rlandCount++;
+                        }
                     }
-                }
 
+                }
             }
         }
-                return landTypeMap;
+        
+
+        return landTypeMap;
     }
 
 

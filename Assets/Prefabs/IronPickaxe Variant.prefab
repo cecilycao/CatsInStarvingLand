@@ -25,7 +25,7 @@ PrefabInstance:
     - target: {fileID: 2860343284562862039, guid: e45530b315b4afe46a9fa0c5ebe1a80a,
         type: 3}
       propertyPath: m_Name
-      value: IronPickaxe
+      value: IronPickaxe Variant
       objectReference: {fileID: 0}
     - target: {fileID: 3007334004532016400, guid: e45530b315b4afe46a9fa0c5ebe1a80a,
         type: 3}
@@ -42,6 +42,12 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3007334004532016400, guid: e45530b315b4afe46a9fa0c5ebe1a80a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d7dcc06465d8ff64f9200e2fdbb89f08,
+        type: 3}
     - target: {fileID: 5773905362750873619, guid: e45530b315b4afe46a9fa0c5ebe1a80a,
         type: 3}
       propertyPath: m_LocalPosition.x

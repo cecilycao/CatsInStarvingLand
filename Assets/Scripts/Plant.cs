@@ -70,27 +70,30 @@ public class Plant : PickedUpItems, IPointerClickHandler
         PlayerComponent m_player = GameManagerForNetwork.Instance.LocalPlayer.GetComponent<PlayerComponent>();
 
 		PickedUpItems holdedItem = m_player.GetWhatsInHand();
-		if (holdedItem == null)
+        if (holdedItem != null)
 		{
-			if (f_status == FruitStatus.withFruit)
-			{                                  //pick up fruit
-				pickUpFruit(m_player);
+            if (holdedItem.getItemName() == GameResources.PickedUpItemName.POOPOO)
+            {
+                photonView.RPC("Rpcfertilize", RpcTarget.AllBuffered);
+                m_player.useItemInHand();
+                return;
+            }
 
-			}
-			else if (f_status == FruitStatus.noFruit)
-			{
-				pickUpPlant(m_player);
+		} 
 
-			}
+        if (f_status == FruitStatus.withFruit)
+        {                                  //pick up fruit
+            pickUpFruit(m_player);
 
-		}
-		else if (holdedItem.getItemName() == GameResources.PickedUpItemName.POOPOO)
-		{
+        }
+        else if (f_status == FruitStatus.noFruit)
+        {
+            pickUpPlant(m_player);
 
-            photonView.RPC("Rpcfertilize", RpcTarget.AllBuffered);
-            m_player.useItemInHand();
+        }
 
-		}
+            
+        
 		
 
 	}

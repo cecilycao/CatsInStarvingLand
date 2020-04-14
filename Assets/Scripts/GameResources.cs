@@ -30,12 +30,13 @@ public class GameResources : MonoBehaviour
         SAND,
         SPARE,
         //RESOURCES
-        WOOD,
+        WOOD, // delete
         POOPOO,
-        FLOWER,
+        FLOWER,  
         BUTTERFLY,
         FRUIT_PLANT,
         LIGHT_PLANT,
+        FLOWER_PLANT,
         GRASS_ANIMAL,
         SAND_ANIMAL,
         RUINLAND_ANIMAL,
