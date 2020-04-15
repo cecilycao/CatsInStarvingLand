@@ -152,6 +152,7 @@ MonoBehaviour:
   m_player: {fileID: 0}
   Fish: {fileID: 0}
   wuping: {fileID: 4873913953231771013, guid: e7751ee60ce0499479adff51e9544200, type: 3}
+  fur: {fileID: 792770085585554619, guid: 73d427ff33c5ef041a5aa2de327c0523, type: 3}
   shit: {fileID: 6048079311400627791, guid: 6de9705a200ca4fa69b9a08cacdfc93a, type: 3}
   shitDuration: 30
   CreateShitTime: -1

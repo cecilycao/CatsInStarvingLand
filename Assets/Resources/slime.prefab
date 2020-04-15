@@ -150,7 +150,7 @@ MonoBehaviour:
   SlimeSpeed: 3
   SlimeChangeDirectionTime: 1
   isVertical: 0
-  meiqiguan: {fileID: 849637592681851989, guid: 4855d57eecd4df4438d440eff54fc70c,
+  meiqiguan: {fileID: 6048079311400627791, guid: 6de9705a200ca4fa69b9a08cacdfc93a,
     type: 3}
   nextPoopoo: {fileID: 6048079311400627791, guid: 6de9705a200ca4fa69b9a08cacdfc93a,
     type: 3}

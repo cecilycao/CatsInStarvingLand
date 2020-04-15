@@ -70,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b654b93e667324b4496ac80d89b87336, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0d6cafbf1ce43814bbd2f313aaf94192, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -151,7 +151,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9a8092fc4d52a1340b93ec0407922247, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fd14a79242e31d64c8b585f2e1541377, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -227,8 +227,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_State: 0
-  fruityPlant: {fileID: 6995354339070907366}
-  initialPlant: {fileID: 6995354339626877862}
+  fruityPlant: {fileID: 6995354339626877862}
+  initialPlant: {fileID: 6995354339070907366}
   fruit: {fileID: 5024534246165352973, guid: 426f569ea89e4e340a3cc6a044a95278, type: 3}
   index: {x: 0, y: 0}
   f_status: 0

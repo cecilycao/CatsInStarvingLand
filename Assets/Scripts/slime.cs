@@ -56,7 +56,7 @@ public class slime : MonoBehaviourPun, IPunObservable
         {
             PlayerComponent pc = other.gameObject.GetComponent<PlayerComponent>();
 
-            pc.ChangeHealth(-2);
+            pc.changeHealth(-2);
             //Destroy(this);
             Debug.Log("Slime扣血");
             

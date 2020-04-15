@@ -168,7 +168,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         }
         if (m_hunger > 0)
         {
-            if(m_hunger > 90)
+            if(m_hunger > 90 && m_health < 100)
             {
                 m_health++;
             }
@@ -181,6 +181,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         }
         else
         {
+            Debug.Log("Starving!");
             m_health -= 1;
             if (photonView.IsMine)
             {
@@ -208,6 +209,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         else
         {
             //decrease health
+            Debug.Log("Too Tired");
             m_health -= 1;
             if (photonView.IsMine)
             {
@@ -237,6 +239,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
                     return;
                 }
             }
+            Debug.Log("Too Hot!!");
             m_health-=2;
         } else if (m_temperature < 37)
         {
@@ -247,6 +250,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
                     return;
                 }
             }
+            Debug.Log("Too Cold!!");
             m_health -= 2;
         }
         //Debug.Log("当前环境温度:" + surroundingTemperature + "   当前体温: " + m_temperature);
@@ -270,19 +274,6 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     }
 
     public void changeHealth(int amount)
-    {
-        if (m_status == PlayerStatus.DEAD)
-        {
-            return;
-        }
-        //Debug.Log("玩家当前饥饿值：" + m_hunger + "/" + maxHunger);
-        m_health = Mathf.Clamp(m_health + amount, 0, maxHealth);
-        Debug.Log("玩家当前饥饿值：" + m_health + "/" + maxHealth);
-        if (photonView.IsMine)
-            myUIManager.UpdateHealth(m_health);
-    }
-
-    public void ChangeHealth(int amount)
     {
         if (m_status == PlayerStatus.DEAD)
         {
@@ -423,24 +414,36 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     //Show item in hand(inactive original item's obj, active new item's obj)
     public void HoldItemInHand(PickedUpItems item)
     {
-        if(currentHolded != null)
-            currentHolded.gameObject.SetActive(false);
+        if (item is Cloth)
+        {
+            if (currentCloth != null)
+            {
+                currentCloth.gameObject.SetActive(false);
+            }
+            item.m_State = PickedUpItems.ItemState.IN_HAND;
+            currentCloth = (Cloth) item;
+            currentCloth.gameObject.SetActive(true);
+        }
+        else
+        {
+            if (currentHolded != null)
+                currentHolded.gameObject.SetActive(false);
 
-        //if (item.m_State == PickedUpItems.ItemState.IN_BAG)
-        //{
+            //if (item.m_State == PickedUpItems.ItemState.IN_BAG)
+            //{
             //hold in hand(change UI?)
             item.m_State = PickedUpItems.ItemState.IN_HAND;
             currentHolded = item;
             currentHolded.gameObject.SetActive(true);
 
 
-        //Debug.Log("Hold Item: "+ item.getItemName());
+            //Debug.Log("Hold Item: "+ item.getItemName());
 
 
-        //string HoldedItemID = item.getItemName().ToString();
-        //Debug.Log("Hold Item: Item exist.");
-        //photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, HoldedItemID, m_ID);
-
+            //string HoldedItemID = item.getItemName().ToString();
+            //Debug.Log("Hold Item: Item exist.");
+            //photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, HoldedItemID, m_ID);
+        }
 
         item.transform.SetParent(transform);
         
@@ -532,6 +535,13 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         } else if (currentHolded.getItemName() == PickedUpItemName.THE_KEY)
         {
             OnSuccess();
+            return;
+        } else if (currentHolded is PlaceableItem)
+        {
+            Debug.Log("use an placeable item.");
+        } else
+        {
+            return;
         }
 
         // TODO

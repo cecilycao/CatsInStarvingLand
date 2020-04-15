@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SummerCloth : Cloth
+public class WinterCloth : Cloth
 {
     public override GameResources.PickedUpItemName getItemName()
     {
-        return GameResources.PickedUpItemName.SUMMER_CLOTH;
+        return GameResources.PickedUpItemName.WINTER_CLOTH;
     }
 
     public override GameObject getGameObj()

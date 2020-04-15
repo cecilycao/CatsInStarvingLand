@@ -80,4 +80,8 @@ public class Poopoo : PickedUpItems
             current_player.PickedUp(this);
         }
     }
+    public override GameObject getGameObj()
+    {
+        return gameObject;
+    }
 }

@@ -18,6 +18,7 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
 
     public GameObject Fish;
     public GameObject wuping;
+    public GameObject fur;
     public GameObject shit;
 
     //Duration between shitting
@@ -107,7 +108,7 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
             PlayerComponent pc = other.gameObject.GetComponent<PlayerComponent>();
 
             
-                pc.ChangeHealth(-1);
+                pc.changeHealth(-1);
                 //Destroy(this);
                 Debug.Log("扣血");
             
@@ -128,7 +129,16 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void RpcAnimalDrop()
     {
-        Instantiate(wuping, transform.position, transform.rotation);
+        int randInt = Random.Range(0, 2);
+        if (randInt == 0)
+        {
+            Instantiate(fur, transform.position, transform.rotation);
+        }
+        else
+        {
+            Instantiate(wuping, transform.position, transform.rotation);
+        }
+        
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
