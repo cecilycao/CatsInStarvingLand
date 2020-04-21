@@ -6700,6 +6700,24 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1297083357}
     m_Modifications:
+    - target: {fileID: 3329728699358047263, guid: 6fcd12df05180de48aa98f3e77ecaee7,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ea86e85d1234115409bec073c9fd4f28,
+        type: 3}
+    - target: {fileID: 3329728699659975774, guid: 6fcd12df05180de48aa98f3e77ecaee7,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4a75d002d94609544880aeb9dc8e8cb2,
+        type: 3}
+    - target: {fileID: 3329728699691970764, guid: 6fcd12df05180de48aa98f3e77ecaee7,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ec8be0726bd745b4c9139198d53a1c50,
+        type: 3}
     - target: {fileID: 3329728700314201038, guid: 6fcd12df05180de48aa98f3e77ecaee7,
         type: 3}
       propertyPath: m_LocalPosition.x

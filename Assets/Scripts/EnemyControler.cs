@@ -79,7 +79,7 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
         {
             lastPopo = (int)WorldManager.Instance.getCurrentSecond()+ shitDuration; 
             GameObject newShit = Instantiate(shit, transform.position, transform.rotation);
-            Debug.Log("Shit now");
+            //Debug.Log("Shit now");
         }
 
         if (PhotonNetwork.IsMasterClient)
