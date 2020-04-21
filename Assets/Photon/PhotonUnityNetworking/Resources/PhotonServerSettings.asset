@@ -56,5 +56,6 @@ MonoBehaviour:
   - RpcPickUpItem
   - RpcHandItemBack
   - RpcLoadSuccessScene
+  - RpcRemoveCloth
   DisableAutoOpenWizard: 1
   ShowSettings: 0

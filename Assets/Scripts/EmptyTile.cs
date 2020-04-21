@@ -53,13 +53,13 @@ public class EmptyTile : PickedUpItems, IPointerClickHandler
                 m_player.useItemInHand();
                 occupied = true;
             }
-        } else if (m_player.currentHolded is PlaceableItem) //Lamp, LittleSun, CatsHome
-        {
+        } else if (m_player.currentHolded is PlaceableItem) //Lamp, LittleSun
+        { 
             Debug.Log("Trying to Place sth....");
             //for all clients, generate the item at correct position
             if (m_worldManager.Place(index, (int)m_player.currentHolded.getItemName()))
             {
-                AudioManager.instance.PlaySound("newPlant");
+                AudioManager.instance.PlaySound("LightsOn");
                 m_player.useItemInHand();
                 occupied = true;
             }

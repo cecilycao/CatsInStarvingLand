@@ -112,8 +112,15 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
             EndGame = true;
 
             //load End Scene
-            GameManagerForNetwork.Instance.LoadEndScene();
+            StartCoroutine("loadEndScene");
+            
         }
+    }
+
+    private IEnumerator loadEndScene()
+    {
+        yield return new WaitForSeconds(2);
+        GameManagerForNetwork.Instance.LoadEndScene();
     }
 
     public void OnSuccess()
@@ -179,10 +186,6 @@ public class WorldManager : MonoBehaviourPun, IPunObservable
         } else if (obj == (int)PickedUpItemName.LITTLE_SUN)
         {
             m_worldGenerator.GenerateItem(TechnologyUI.Instance.LittleSun, x, y);
-        }
-        else if (obj == (int)PickedUpItemName.CATERRY)
-        {
-            m_worldGenerator.GenerateItem(TechnologyUI.Instance.CatsHome, x, y);
         }
     }
 

@@ -6,6 +6,7 @@ public class Pickaxe : PickedUpItems
 {
     public int pickRange;
     public int pickPower;
+    public float diggingTime;
 
     // Start is called before the first frame update
     void Start()

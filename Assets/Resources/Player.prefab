@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1528811529872171799
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5021119503098357966}
+  m_Layer: 8
+  m_Name: ClothPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5021119503098357966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528811529872171799}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.021, y: 0.229, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3529215988702683542}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3529215988044126103
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,6 +450,7 @@ Transform:
   - {fileID: 3529215988044126100}
   - {fileID: 7938260969415790925}
   - {fileID: 5001104500588752298}
+  - {fileID: 5021119503098357966}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1371,7 +1402,9 @@ MonoBehaviour:
   HoldedItemSprite: {fileID: 9099271637101315172}
   HoldedPosition: {fileID: 3529215988044126100}
   HoldedLightPosition: {fileID: 5001104500588752298}
+  ClothPosition: {fileID: 5021119503098357966}
   MeleePosition: {fileID: 7938260969415790925}
+  Tomb: {fileID: 5447410542941902321, guid: 9b643cc88a74a224eafbced2140bcb42, type: 3}
   myBackpack: {fileID: 0}
   myUIManager: {fileID: 0}
 --- !u!114 &747590515145160931

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_State: 0
-  pickRange: 0
+  pickRange: 6
   pickPower: 0
+  diggingTime: 0
 --- !u!1001 &985212239324195466
 PrefabInstance:
   m_ObjectHideFlags: 0

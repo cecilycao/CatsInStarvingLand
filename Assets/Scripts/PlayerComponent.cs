@@ -19,6 +19,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     public int m_ID;
     public PlayerStatus m_status;
     public bool bagFull = false;
+    
 
     private bool isInvincible; //是否无敌
 
@@ -57,8 +58,11 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     public SpriteRenderer HoldedItemSprite;
     public Transform HoldedPosition;
     public Transform HoldedLightPosition;
+    public Transform ClothPosition;
 
     public Transform MeleePosition;
+
+    public GameObject Tomb;
 
     public Inventory myBackpack;
 
@@ -74,7 +78,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         DEFAULT,
         ATTACK,
         SLEEP,
-        DEAD
+        DEAD,
+        DIGGING
     };
 
     private void Awake()
@@ -115,9 +120,9 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
             myUIManager.UpdateTemperature(m_temperature);
             myUIManager.UpdateTiredness(m_tiredness);
 
-            InvokeRepeating("Digest", 1f, 1f);
+            InvokeRepeating("Digest", 1f, 3f);
             //InvokeRepeating("Working", 1f, 1f);
-            InvokeRepeating("BodyTempCheckBasedOnTemp", 1f, 1f);
+            InvokeRepeating("BodyTempCheckBasedOnTemp", 1f, 3f);
         }
         
 
@@ -170,7 +175,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         {
             if(m_hunger > 90 && m_health < 100)
             {
-                m_health++;
+                m_health+=3;
             }
             m_hunger--;
             if (photonView.IsMine)
@@ -182,7 +187,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         else
         {
             Debug.Log("Starving!");
-            m_health -= 1;
+            m_health -= 3;
             if (photonView.IsMine)
             {
                 myUIManager.UpdateHunger(m_hunger);
@@ -220,11 +225,25 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     }
 
     void BodyTempCheckBasedOnTemp() {
-        if (this.surroundingTemperature > 28)
+        bool hasWinterCloth = false;
+        bool hasSummerCloth = false;
+        if(currentCloth != null)
+        {
+            if(currentCloth.getItemName() == PickedUpItemName.WINTER_CLOTH)
+            {
+                hasWinterCloth = true;
+            }
+            if (currentCloth.getItemName() == PickedUpItemName.SUMMER_CLOTH)
+            {
+                hasSummerCloth = true;
+            }
+        }
+
+        if (this.surroundingTemperature > 28 && !hasSummerCloth)
         {
             m_temperature += 0.1;
         }
-        else if (this.surroundingTemperature < 10)
+        else if (this.surroundingTemperature < 10 && !hasWinterCloth)
         {
             m_temperature -= 0.1;
         }
@@ -232,27 +251,23 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
       
         if(m_temperature > 39)
         {
-            if(currentCloth != null)
-            {
-                if (currentCloth.getItemName() == PickedUpItemName.SUMMER_CLOTH)
-                {
-                    return;
-                }
-            }
             Debug.Log("Too Hot!!");
-            m_health-=2;
+            m_health-=3;
+            if (hasSummerCloth)
+            {
+                m_temperature -= 0.2;
+            }
         } else if (m_temperature < 37)
         {
-            if(currentCloth != null)
-            {
-                if (currentCloth.getItemName() == PickedUpItemName.WINTER_CLOTH)
-                {
-                    return;
-                }
-            }
             Debug.Log("Too Cold!!");
-            m_health -= 2;
+            m_health -= 3;
+            if (hasWinterCloth)
+            {
+                m_temperature += 0.2;
+            }
         }
+
+
         //Debug.Log("当前环境温度:" + surroundingTemperature + "   当前体温: " + m_temperature);
         if (photonView.IsMine) { 
             myUIManager.UpdateTemperature(m_temperature);
@@ -344,12 +359,17 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         photonView.RPC("RpcOnDeath", RpcTarget.AllBuffered);
         WorldManager.Instance.OnPlayerNumberChange();
         //SceneManager.LoadScene("Menu");
+        
     }
+   
 
     [PunRPC]
     private void RpcOnDeath()
     {
         m_status = PlayerStatus.DEAD;
+        GameObject tomb = Instantiate(Tomb);
+        tomb.transform.position = transform.position;
+        gameObject.SetActive(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -360,8 +380,42 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         }
         Debug.Log("Click character");
         //ChangeValue();
-        useItemInHand();
+        if(currentHolded is TheKey)
+        {
+            OnSuccess();
+        }
+        Eat();
 
+    }
+
+    public void Eat()
+    {
+        if (currentHolded == null)
+        {
+            return;
+        }
+        
+        if (currentHolded.getItemName() == PickedUpItemName.DRIED_FISH)
+        {
+            changeHunger(20);
+            changeHealth(10);
+            useItemInHand();
+        }
+        else if (currentHolded.getItemName() == PickedUpItemName.FRUIT)
+        {
+            changeHunger(10);
+            changeHealth(5);
+            useItemInHand();
+        }
+        else if (currentHolded.getItemName() == PickedUpItemName.POOPOO)
+        {
+            changeHunger(10);
+            changeHealth(-10);
+            useItemInHand();
+        } else
+        {
+            return;
+        }
     }
    
     //this function run on client and for all players
@@ -385,8 +439,8 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
             if (myBackpack.AddNewItem(item))
             {
                 bagFull = myBackpack.ItemSpaceLeft() <= 0;
-                Debug.Log("Sucessfully put in bag: now space left " + myBackpack.ItemSpaceLeft());
-                item.gameObject.SetActive(false);
+                Debug.Log("Sucessfully put " +  item.getItemName().ToString() + " in bag: now space left " + myBackpack.ItemSpaceLeft());
+                item.gameObject.SetActive(false);                                       
             } else
             {
                 Debug.LogError("BAG FULL???????");
@@ -421,7 +475,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
                 currentCloth.gameObject.SetActive(false);
             }
             item.m_State = PickedUpItems.ItemState.IN_HAND;
-            currentCloth = (Cloth) item;
+            currentCloth = (Cloth)item;
             currentCloth.gameObject.SetActive(true);
         }
         else
@@ -446,12 +500,13 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         }
 
         item.transform.SetParent(transform);
-        
+
         if (item.getItemName() == PickedUpItemName.LIGHT_BULB || item.getItemName() == PickedUpItemName.LAMP || item.getItemName() == PickedUpItemName.LITTLE_SUN)
         {
             item.transform.position = HoldedLightPosition.position;
-        } else
-        {
+        } else if (item is Cloth) {
+            item.transform.position = ClothPosition.position;
+        } else { 
             item.transform.position = HoldedPosition.position;
         }
         
@@ -471,6 +526,22 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
             currentHolded.gameObject.SetActive(false);
             currentHolded.m_State = PickedUpItems.ItemState.IN_BAG;
             currentHolded = null;
+        }
+    }
+
+    public void RemoveCloth()
+    {
+        photonView.RPC("RpcRemoveCloth", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void RpcRemoveCloth()
+    {
+        if (currentCloth != null)
+        {
+            currentCloth.gameObject.SetActive(false);
+            currentCloth.m_State = PickedUpItems.ItemState.IN_BAG;
+            currentCloth = null;
         }
     }
 
@@ -518,32 +589,6 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
 
         currentHolded.m_State = PickedUpItems.ItemState.IN_BAG;
 
-        if (currentHolded.getItemName() == PickedUpItemName.DRIED_FISH)
-        {
-            changeHunger(20);
-            changeHealth(10);
-        }
-        else if (currentHolded.getItemName() == PickedUpItemName.FRUIT)
-        {
-            changeHunger(10);
-            changeHealth(5);
-        }
-        else if (currentHolded.getItemName() == PickedUpItemName.POOPOO)
-        {
-            changeHunger(10);
-            changeHealth(-10);
-        } else if (currentHolded.getItemName() == PickedUpItemName.THE_KEY)
-        {
-            OnSuccess();
-            return;
-        } else if (currentHolded is PlaceableItem)
-        {
-            Debug.Log("use an placeable item.");
-        } else
-        {
-            return;
-        }
-
         // TODO
 
         GameResources.PickedUpItemName name = currentHolded.getItemName();
@@ -568,6 +613,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     [PunRPC]
     public void RpcDestroyHoldedItem()
     {
+        Debug.Log("Destroy current holded item");
         Destroy(currentHolded.gameObject);
         currentHolded = null;
     }

@@ -55,6 +55,23 @@ public class Inventory : MonoBehaviour
         GameResources.PickedUpItemName tmp = GameResources.PickedUpItemName.DEFAULT;
         slotIndexToItem.TryGetValue(index, out tmp);
 
+        if(myPlayer.currentCloth != null)
+        {
+            if (myPlayer.currentCloth.getItemName() == tmp)
+            {
+                myPlayer.RemoveCloth();
+                return;
+            }
+        } else if(myPlayer.currentHolded != null)
+        {
+            if (myPlayer.currentHolded.getItemName() == tmp)
+            {
+                myPlayer.HandItemBack();
+                return;
+            }
+        }
+
+
         if (tmp != GameResources.PickedUpItemName.DEFAULT)
         {
             foreach (var el in instanceList)

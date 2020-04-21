@@ -22,6 +22,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
     public bool TriesToConnectToMaster;
     public bool TriesToConnectToRoom;
+    //public bool IsStartGame = false;
 
     public string UserName;
     public string RoomName;
@@ -59,10 +60,13 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (BtnConnectMaster != null)
-            BtnConnectMaster.SetActive(!PhotonNetwork.IsConnected && !TriesToConnectToMaster);
-        if (BtnConnectRoom != null)
-            BtnConnectRoom.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster/* && !TriesToConnectToRoom*/);
+        //if (IsStartGame)
+        //{
+            if (BtnConnectMaster != null)
+                BtnConnectMaster.SetActive(!PhotonNetwork.IsConnected && !TriesToConnectToMaster);
+            if (BtnConnectRoom != null)
+                BtnConnectRoom.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster/* && !TriesToConnectToRoom*/);
+        //}
 
     }
 

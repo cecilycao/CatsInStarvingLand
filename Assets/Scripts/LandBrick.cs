@@ -13,6 +13,7 @@ public class LandBrick : PickedUpItems, IPointerClickHandler
     //public PlayerComponent m_player;
     BoxCollider2D m_collider;
 
+    public float diggingTime = 0.5f;
     public float scaleChange = 0.5f;
     public bool isCracked = false;
     public WorldManager m_worldManager;
@@ -39,22 +40,39 @@ public class LandBrick : PickedUpItems, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        PlayerComponent m_player = m_gameManager.LocalPlayer;
         m_worldManager = FindObjectOfType<WorldManager>();
         Debug.Log("index: " + index.x + ", " + index.y);
-        if (!isCracked && checkDistance() && m_State == ItemState.DEFAULT)
+        if (m_gameManager.LocalPlayer.currentHolded is Pickaxe)
         {
-            if (true/*has pickaxe or nothing in hand */)
-            {
-                print("cracked a land brick");
-                /*new a land fragment for pick up*/
-
-                //crackALandTile();
-                //isCracked = true;
-                m_worldManager.UpdateTileMap(index, 0);
-                AudioManager.instance.PlaySound("dig");
-            }
+            Pickaxe m_pickaxe = (Pickaxe)m_gameManager.LocalPlayer.currentHolded;
+            maxDigDistance = m_pickaxe.pickRange;
+            diggingTime = m_pickaxe.diggingTime;
         }
 
+        if (!isCracked && checkDistance() && m_State == ItemState.DEFAULT)
+        {
+            if (m_player.m_status != PlayerComponent.PlayerStatus.DIGGING)
+            {
+                StartCoroutine("DigTile");
+                
+            }
+        }
+    }
+
+    private IEnumerator DigTile()
+    {
+        PlayerComponent m_player = m_gameManager.LocalPlayer;
+        m_player.m_status = PlayerComponent.PlayerStatus.DIGGING;
+        print("start cracked a land brick");
+        yield return new WaitForSeconds(diggingTime);
+        /*new a land fragment for pick up*/
+
+        //crackALandTile();
+        //isCracked = true;
+        m_worldManager.UpdateTileMap(index, 0);
+        AudioManager.instance.PlaySound("dig");
+        m_player.m_status = PlayerComponent.PlayerStatus.DEFAULT;
     }
 
     public void crackALandTile()
@@ -71,11 +89,11 @@ public class LandBrick : PickedUpItems, IPointerClickHandler
 
     private bool checkDistance()
     {
-        if(m_gameManager.LocalPlayer.currentHolded is Pickaxe)
-        {
-            Pickaxe m_pickaxe = (Pickaxe)m_gameManager.LocalPlayer.currentHolded;
-            maxDigDistance = m_pickaxe.pickRange;
-        } 
+        //if(m_gameManager.LocalPlayer.currentHolded is Pickaxe)
+        //{
+        //    Pickaxe m_pickaxe = (Pickaxe)m_gameManager.LocalPlayer.currentHolded;
+        //    maxDigDistance = m_pickaxe.pickRange;
+        //} 
         float distance = Vector2.Distance(m_gameManager.LocalPlayer.transform.position, transform.position);
         Debug.Log("max:" + maxDigDistance + "; distance: " + distance + "; allowedDistance: " + maxDigDistance * m_Size);
         if (distance > maxDigDistance * m_Size)
