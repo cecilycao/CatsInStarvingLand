@@ -329,7 +329,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     [PunRPC]
     void RpcAttack(Vector3 position)
     {
-
+        m_anim.SetTrigger("Attack");
         GameObject bullet = Instantiate(bulletObj, position, Quaternion.identity);
         Bullet Bc = bullet.GetComponent<Bullet>();
         if (Bc != null)
@@ -367,6 +367,14 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     private void RpcOnDeath()
     {
         m_status = PlayerStatus.DEAD;
+        
+        m_anim.SetBool("Death", true);
+        
+    }
+
+    public IEnumerator OnDeathBehaviour()
+    {
+        yield return new WaitForSeconds(2);
         GameObject tomb = Instantiate(Tomb);
         tomb.transform.position = transform.position;
         gameObject.SetActive(false);
@@ -503,11 +511,16 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
 
         if (item.getItemName() == PickedUpItemName.LIGHT_BULB || item.getItemName() == PickedUpItemName.LAMP || item.getItemName() == PickedUpItemName.LITTLE_SUN)
         {
-            item.transform.position = HoldedLightPosition.position;
+            item.transform.SetParent(HoldedLightPosition);
+            item.transform.position = Vector3.zero;
         } else if (item is Cloth) {
-            item.transform.position = ClothPosition.position;
-        } else { 
-            item.transform.position = HoldedPosition.position;
+            item.transform.SetParent(ClothPosition);
+            item.transform.position = Vector3.zero;
+            //item.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        } else {
+            item.transform.SetParent(HoldedPosition);
+            item.transform.position = Vector3.zero;
+            //item.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
         
         //}
