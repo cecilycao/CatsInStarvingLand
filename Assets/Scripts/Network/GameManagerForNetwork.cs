@@ -17,9 +17,12 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
     public string MenuSceneName;
     public PlayerComponent LocalPlayer;
 
+    public GameObject EscMenu;
+
     public int LocalPlayerID;
 
     
+
 
     private void Awake()
     {
@@ -66,6 +69,28 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
         
     }
 
+    public void Update()
+    {
+        if (!PhotonNetwork.IsConnected)
+        {
+            SceneManager.LoadScene("Menu");
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (EscMenu.activeSelf)
+            {
+                EscMenu.SetActive(false);
+            } else
+            {
+                EscMenu.SetActive(true);
+            }
+            
+
+        }
+    }
+
     [PunRPC]
     public void RpcStartWorld(string seed)
     {
@@ -94,7 +119,7 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
     {
         AudioManager.instance.changeBg("endScene");
         SceneManager.LoadScene(EndSceneName);
-        PhotonNetwork.LeaveRoom();
+        //PhotonNetwork.LeaveRoom();
     }
 
     public void loadSuccessScene()
@@ -107,13 +132,26 @@ public class GameManagerForNetwork : MonoBehaviourPunCallbacks
     {
         AudioManager.instance.changeBg("endScene");
         SceneManager.LoadScene(SuccessSceneName);
-        PhotonNetwork.LeaveRoom();
+        //PhotonNetwork.LeaveRoom();
     }
 
     public void ReturnToLobby()
     {
-        
+        PhotonNetwork.LeaveRoom();
         Destroy(gameObject);
         SceneManager.LoadScene(MenuSceneName);
     }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        // Application.Quit() does not work in the editor so
+        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+         Application.Quit();
+#endif
+    }
+
+
 }
