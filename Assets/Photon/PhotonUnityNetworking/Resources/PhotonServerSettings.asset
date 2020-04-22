@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 1e6b43ff-8614-490b-98b8-553d40629c86
+    AppIdRealtime: 
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
@@ -34,28 +34,27 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
-  - RpcChangeHoldItemSprite
-  - RpcUpdateTileMap
-  - Rpcfertilize
-  - RpcPickUpFruit
-  - RpcPickUpPlant
-  - slimeDeath
-  - slimeDrop
   - RpcAnimalDrop
   - RpcAttack
+  - RpcChangeHoldItemSprite
+  - RpcDestroyHoldedItem
+  - Rpcfertilize
+  - RpcHandItemBack
+  - RpcLoadEndScene
+  - RpcLoadSuccessScene
+  - RpcOnDeath
+  - RpcOnPlayerNumberChange
+  - RpcPickUpFruit
+  - RpcPickUpItem
+  - RpcPickUpPlant
+  - RpcPlace
   - RpcPlant
+  - RpcRemoveCloth
   - RpcSetFruitStatus
   - RpcSetIndex
-  - RpcOnPlayerNumberChange
-  - RpcOnDeath
-  - RpcLoadEndScene
-  - RpcStartWorld
   - RpcSetTime
-  - RpcDestroyHoldedItem
-  - RpcPlace
-  - RpcPickUpItem
-  - RpcHandItemBack
-  - RpcLoadSuccessScene
-  - RpcRemoveCloth
+  - RpcStartWorld
+  - RpcUpdateTileMap
+  - slimeDrop
   DisableAutoOpenWizard: 1
   ShowSettings: 0
