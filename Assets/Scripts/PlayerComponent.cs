@@ -507,19 +507,19 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
             //photonView.RPC("RpcChangeHoldItemSprite", RpcTarget.AllBuffered, HoldedItemID, m_ID);
         }
 
-        item.transform.SetParent(transform);
+        //item.transform.SetParent(transform);
 
         if (item.getItemName() == PickedUpItemName.LIGHT_BULB || item.getItemName() == PickedUpItemName.LAMP || item.getItemName() == PickedUpItemName.LITTLE_SUN)
         {
             item.transform.SetParent(HoldedLightPosition);
-            item.transform.position = Vector3.zero;
+            item.transform.localPosition = Vector3.zero;
         } else if (item is Cloth) {
             item.transform.SetParent(ClothPosition);
-            item.transform.position = Vector3.zero;
+            item.transform.localPosition = Vector3.zero;
             //item.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         } else {
             item.transform.SetParent(HoldedPosition);
-            item.transform.position = Vector3.zero;
+            item.transform.localPosition = Vector3.zero;
             //item.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
         
