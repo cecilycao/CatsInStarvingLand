@@ -50,6 +50,7 @@ public class Inventory : MonoBehaviour
     //Show Item at index in the hand.
     public void WhatItemAtThisIndex(int index)
     {
+
         myPlayer = GameManagerForNetwork.Instance.LocalPlayer;
 
         GameResources.PickedUpItemName tmp = GameResources.PickedUpItemName.DEFAULT;
@@ -60,17 +61,14 @@ public class Inventory : MonoBehaviour
             if (myPlayer.currentCloth.getItemName() == tmp)
             {
                 myPlayer.RemoveCloth();
-                return;
             }
         } else if(myPlayer.currentHolded != null)
         {
             if (myPlayer.currentHolded.getItemName() == tmp)
             {
                 myPlayer.HandItemBack();
-                return;
             }
         }
-
 
         if (tmp != GameResources.PickedUpItemName.DEFAULT)
         {
@@ -81,9 +79,6 @@ public class Inventory : MonoBehaviour
                 {
                     //should excute on all clients
                     myPlayer.HoldItemInHand(el);
-
-                    Debug.Log(el.getItemName());
-                    Debug.Log("CLICKED");
                 }
             }
         } else {
