@@ -1089,11 +1089,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1358449289}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.09631348, y: -377}
+  m_AnchoredPosition: {x: 8, y: -438}
   m_SizeDelta: {x: 1500, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &525014977
@@ -1275,7 +1275,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1358449289}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1332,12 +1332,12 @@ GameObject:
   m_Component:
   - component: {fileID: 789900307}
   m_Layer: 0
-  m_Name: JoinRoomScene
+  m_Name: JoinRoomScene-delete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &789900307
 Transform:
   m_ObjectHideFlags: 0
@@ -1353,7 +1353,7 @@ Transform:
   - {fileID: 1797875662}
   - {fileID: 1249270178}
   m_Father: {fileID: 1358449289}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &823295408
 GameObject:
@@ -2794,7 +2794,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1675697078}
+  - {fileID: 1414282284}
   - {fileID: 789900307}
+  - {fileID: 1882200299}
   - {fileID: 711600907}
   - {fileID: 525014976}
   m_Father: {fileID: 1659088442}
@@ -2802,8 +2804,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 16, y: -13.1}
+  m_SizeDelta: {x: 1022.7, y: 636.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1358449290
 MonoBehaviour:
@@ -3048,7 +3050,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Log In
+  m_Text: 
 --- !u!222 &1394999160
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3139,9 +3141,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1954089518}
-        m_MethodName: OnClickConnectToRoom
-        m_Mode: 1
+      - m_Target: {fileID: 1414282283}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3149,6 +3151,17 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1882200298}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1409740583
 MonoBehaviour:
@@ -3201,7 +3214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1414282284
 Transform:
   m_ObjectHideFlags: 0
@@ -3210,7 +3223,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1414282283}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.426, y: -10.390783, z: -176.49867}
+  m_LocalPosition: {x: -23, y: -12, z: -176.49867}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1409740581}
@@ -3219,8 +3232,8 @@ Transform:
   - {fileID: 2066194839}
   - {fileID: 1255687560}
   - {fileID: 1679147075}
-  m_Father: {fileID: 2068750304}
-  m_RootOrder: 0
+  m_Father: {fileID: 1358449289}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1419484275
 GameObject:
@@ -3741,7 +3754,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2068750304}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4107,12 +4120,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1675697078}
   m_Layer: 0
-  m_Name: CreateRoomScene
+  m_Name: CreateRoomScene-delete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1675697078
 Transform:
   m_ObjectHideFlags: 0
@@ -5013,7 +5026,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1882200298}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.426, y: -10.390783, z: -176.49867}
+  m_LocalPosition: {x: -23, y: -16, z: -176.49867}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2075193969}
@@ -5024,8 +5037,8 @@ Transform:
   - {fileID: 1483863533}
   - {fileID: 1430408844}
   - {fileID: 109497166}
-  m_Father: {fileID: 2068750304}
-  m_RootOrder: 1
+  m_Father: {fileID: 1358449289}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1896752256
 GameObject:
@@ -5183,7 +5196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1905423583
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5196,7 +5209,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2068750304}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5423,8 +5436,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UserNameText: {fileID: 1471509733}
-  JoinRoomNameText: {fileID: 823295410}
-  CreateRoomName: {fileID: 2040123294}
+  JoinRoomNameText: {fileID: 1711586123}
+  CreateRoomName: {fileID: 2039953989}
   WelcomeText: {fileID: 711600908}
   Message: {fileID: 525014978}
   BtnConnectMaster: {fileID: 842214343}
@@ -5896,7 +5909,7 @@ GameObject:
   - component: {fileID: 2068750306}
   - component: {fileID: 2068750305}
   m_Layer: 5
-  m_Name: ChooseRoom(new)
+  m_Name: ChooseRoom-delete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5913,8 +5926,6 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1414282284}
-  - {fileID: 1882200299}
   - {fileID: 1578167639}
   - {fileID: 1905423583}
   m_Father: {fileID: 1659088442}
@@ -6043,9 +6054,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1954089518}
-        m_MethodName: OnClickConnectToRoom
-        m_Mode: 1
+      - m_Target: {fileID: 1882200298}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6053,6 +6064,17 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1414282283}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &2075193971
 MonoBehaviour:
