@@ -42,6 +42,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     Sound[] sounds;
 
+    public string initialSound;
     public Sound currentBg;
 
     private void Awake()
@@ -64,7 +65,9 @@ public class AudioManager : MonoBehaviour
             sounds[i].SetSource(_go.AddComponent<AudioSource>());
             _go.transform.SetParent(this.transform);
         }
-        currentBg = PlaySound("greenlandbg");
+        currentBg = PlaySound(initialSound);
+
+        
         
     }
 

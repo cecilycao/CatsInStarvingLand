@@ -95,6 +95,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_State: 0
-  pickRange: 8
+  pickRange: 10
   pickPower: 0
   diggingTime: 0

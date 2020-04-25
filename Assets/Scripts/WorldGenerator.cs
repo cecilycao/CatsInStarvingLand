@@ -19,6 +19,7 @@ public class WorldGenerator : MonoBehaviourPun
     public GameObject FlowerPlant;
     public GameObject GrassAnimal;
     public GameObject SandAnimal;
+    public GameObject RuinAnimal;
 
     public GameObject GreenLandZone;
     public GameObject SandLandZone;
@@ -178,7 +179,8 @@ public class WorldGenerator : MonoBehaviourPun
                                     GenerateCreature(SandAnimal, x, y);
 
                                 //if in ruinland
-
+                                if (type == LandType.RUINLAND)
+                                    GenerateCreature(RuinAnimal, x, y);
 
                             }
                         }

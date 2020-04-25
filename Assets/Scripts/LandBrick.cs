@@ -63,7 +63,8 @@ public class LandBrick : PickedUpItems, IPointerClickHandler
     private IEnumerator DigTile()
     {
         PlayerComponent m_player = m_gameManager.LocalPlayer;
-        m_player.m_status = PlayerComponent.PlayerStatus.DIGGING;
+        m_player.StartDig();
+
         print("start cracked a land brick");
         yield return new WaitForSeconds(diggingTime);
         /*new a land fragment for pick up*/
@@ -71,8 +72,7 @@ public class LandBrick : PickedUpItems, IPointerClickHandler
         //crackALandTile();
         //isCracked = true;
         m_worldManager.UpdateTileMap(index, 0);
-        AudioManager.instance.PlaySound("dig");
-        m_player.m_status = PlayerComponent.PlayerStatus.DEFAULT;
+        m_player.EndDig();
     }
 
     public void crackALandTile()

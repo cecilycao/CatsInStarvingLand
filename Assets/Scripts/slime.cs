@@ -17,6 +17,7 @@ public class slime : MonoBehaviourPun, IPunObservable
     private int surviveTime;
     private int TotalSurviveTime;
 
+    public int SlimeDamage = 5;
     public int SlimeHealth = 3;
     public int SlimeCurHealth;
 
@@ -56,7 +57,7 @@ public class slime : MonoBehaviourPun, IPunObservable
         {
             PlayerComponent pc = other.gameObject.GetComponent<PlayerComponent>();
 
-            pc.changeHealth(-2);
+            pc.changeHealth(SlimeDamage * -1);
             //Destroy(this);
             Debug.Log("Slime扣血");
             
@@ -98,7 +99,7 @@ public class slime : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void slimeDrop(int probability)
     {
-        if (probability <= 5)
+        if (probability <= 15)
         {
             GameObject meiqi = Instantiate(meiqiguan, transform.position, transform.rotation);
         }

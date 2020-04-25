@@ -158,6 +158,7 @@ MonoBehaviour:
   CreateShitTime: -1
   animalHealth: 2
   aniCurHealth: 0
+  Damage: 1
 --- !u!114 &6866828116802567145
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,7 +19,8 @@ public class PlaceableItem : PickedUpItems, IPointerClickHandler
         //pick up a placeable
         if (true)
         {
-            photonView.RPC("RpcPickUpItem", RpcTarget.AllBuffered, m_player.m_ID);
+            //photonView.RPC("RpcPickUpItem", RpcTarget.AllBuffered, m_player.m_ID);
+            PickUpItem(m_player);
         }
     }
 
@@ -27,6 +28,13 @@ public class PlaceableItem : PickedUpItems, IPointerClickHandler
     public void RpcPickUpItem(int playerID)
     {
         PlayerComponent m_player = WorldManager.Instance.getPlayer(playerID);
+        m_player.PickedUp(this);
+        WorldManager.Instance.clearObjectAt(index.x, index.y);
+    }
+
+    public void PickUpItem(PlayerComponent m_player)
+    {
+        //PlayerComponent m_player = WorldManager.Instance.getPlayer(playerID);
         m_player.PickedUp(this);
         WorldManager.Instance.clearObjectAt(index.x, index.y);
     }

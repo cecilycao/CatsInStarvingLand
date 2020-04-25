@@ -159,6 +159,7 @@ MonoBehaviour:
   CreateShitTime: -1
   animalHealth: 2
   aniCurHealth: 0
+  Damage: 1
 --- !u!95 &9168081516210190489
 Animator:
   serializedVersion: 3

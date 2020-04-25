@@ -120,7 +120,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
             myUIManager.UpdateTemperature(m_temperature);
             myUIManager.UpdateTiredness(m_tiredness);
 
-            InvokeRepeating("Digest", 1f, 3f);
+            InvokeRepeating("Digest", 15f, 3f);
             //InvokeRepeating("Working", 1f, 1f);
             InvokeRepeating("BodyTempCheckBasedOnTemp", 1f, 3f);
         }
@@ -311,9 +311,21 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
             myUIManager.UpdateHealth(m_health);
     }
 
+    public void StartDig()
+    {
+        m_status = PlayerStatus.DIGGING;
+        m_anim.SetTrigger("Dig");
+        AudioManager.instance.PlaySound("dig");
+    }
+
+    public void EndDig()
+    {
+        m_status = PlayerStatus.DEFAULT;
+    }
+
     public void Attack()
     {
-        if (m_status == PlayerStatus.DEAD)
+        if (m_status != PlayerStatus.DEFAULT)
         {
             return;
         }
@@ -329,13 +341,28 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     [PunRPC]
     void RpcAttack(Vector3 position)
     {
+        m_status = PlayerStatus.ATTACK;
         m_anim.SetTrigger("Attack");
+        //if(currentHolded is Claw)
+        //{
+        //    Claw my_claw = currentHolded.GetComponent<Claw>();
+        //    my_claw.Attack();
+        //}
         GameObject bullet = Instantiate(bulletObj, position, Quaternion.identity);
+        SpriteRenderer BulletRenderer = bullet.GetComponent<SpriteRenderer>();
+        BulletRenderer.enabled = false;
         Bullet Bc = bullet.GetComponent<Bullet>();
         if (Bc != null)
         {
             Bc.BulletMove(lookDeriction, 300);
         }
+        StartCoroutine("attackEnd");
+    }
+
+    public IEnumerator attackEnd()
+    {
+        yield return new WaitForSeconds(1);
+        m_status = PlayerStatus.DEFAULT;
     }
 
     private void OnSuccess()

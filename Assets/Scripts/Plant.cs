@@ -65,6 +65,10 @@ public class Plant : PickedUpItems, IPointerClickHandler
 
 	public void OnPointerClick(PointerEventData eventData)
     {
+        if(m_State != ItemState.DEFAULT)
+        {
+            return;
+        }
 		Debug.Log("click a plant");
         //find local player
         PlayerComponent m_player = GameManagerForNetwork.Instance.LocalPlayer.GetComponent<PlayerComponent>();

@@ -22,6 +22,7 @@ public class Bullet : MonoBehaviour
         rbody.AddForce(moveDirection * moveForce);
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "animal")
@@ -37,7 +38,7 @@ public class Bullet : MonoBehaviour
         {
             slime sl = collision.gameObject.GetComponent<slime>();
             sl.slimeChangeHealth(-1);
-            Debug.Log("sss");
+            Debug.Log("Hit Slime");
         }
         Destroy(this.gameObject);
 

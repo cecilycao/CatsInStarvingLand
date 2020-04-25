@@ -28,6 +28,7 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
 
     public int animalHealth = 1;
     public int aniCurHealth;
+    public int Damage = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -100,18 +101,18 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
         return CreateShitTime;
     }
 
-
     void OnCollisionEnter2D(Collision2D other){
         
         if (other.gameObject.tag == "Player")
         {
             PlayerComponent pc = other.gameObject.GetComponent<PlayerComponent>();
 
-            
-                pc.changeHealth(-1);
+            if (pc.m_status == PlayerComponent.PlayerStatus.ATTACK)
+            {
+                pc.changeHealth(Damage);
                 //Destroy(this);
                 Debug.Log("扣血");
-            
+            }
         }
     }
 

@@ -25,13 +25,11 @@ public class Fruit : PickedUpItems
     // Update is called once per frame
     void Update()
     {
-        //m_player.ChangeHealth(5);
-        //m_player.changeHunger(10);
 
-        if (WorldManager.Instance.getCurrentDay() - start_time >= 5)
-        {
-            Destroy(gameObject);
-        }
+        //if (WorldManager.Instance.getCurrentDay() - start_time >= 5)
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 
 
