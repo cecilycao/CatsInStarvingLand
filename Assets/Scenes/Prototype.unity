@@ -1386,7 +1386,7 @@ MonoBehaviour:
   selectedBlocks:
   - {fileID: 217673422}
   selectedCommands:
-  - {fileID: 217673424}
+  - {fileID: 217673437}
   variables: []
   description: 
   stepPause: 0
@@ -1487,7 +1487,7 @@ MonoBehaviour:
   showAlways: 1
   showCount: 1
   extendPrevious: 0
-  fadeWhenDone: 1
+  fadeWhenDone: 0
   waitForClick: 0
   stopVoiceover: 1
   waitForVO: 0
@@ -1789,7 +1789,7 @@ MonoBehaviour:
   indentLevel: 0
   _duration:
     floatRef: {fileID: 0}
-    floatVal: 3
+    floatVal: 4
   durationOLD: 0
 --- !u!1001 &231151078
 PrefabInstance:
@@ -5895,11 +5895,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 952440631}
     m_Modifications:
+    - target: {fileID: 170290926442289632, guid: a14516dc96e82ab4f95031980b88aa9e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3543063619676677770, guid: a14516dc96e82ab4f95031980b88aa9e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -32
+      objectReference: {fileID: 0}
+    - target: {fileID: 3543063619676677770, guid: a14516dc96e82ab4f95031980b88aa9e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 3543063619676677770, guid: a14516dc96e82ab4f95031980b88aa9e,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3543063619676677770, guid: a14516dc96e82ab4f95031980b88aa9e,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 3543063619676677773, guid: a14516dc96e82ab4f95031980b88aa9e,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a048a9aa52331d94eb5be7e1f1ae4c4d,
+      objectReference: {fileID: 21300000, guid: 4e8d2ae1d5cb542149b29f866fc978e5,
         type: 3}
     - target: {fileID: 3543063620397235140, guid: a14516dc96e82ab4f95031980b88aa9e,
         type: 3}

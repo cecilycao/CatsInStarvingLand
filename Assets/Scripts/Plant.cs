@@ -76,7 +76,7 @@ public class Plant : PickedUpItems, IPointerClickHandler
 		PickedUpItems holdedItem = m_player.GetWhatsInHand();
         if (holdedItem != null)
 		{
-            if (holdedItem.getItemName() == GameResources.PickedUpItemName.POOPOO)
+            if (holdedItem.getItemName() == GameResources.PickedUpItemName.POOPOO && f_status == FruitStatus.noFruit)
             {
                 photonView.RPC("Rpcfertilize", RpcTarget.AllBuffered);
                 m_player.useItemInHand();
