@@ -300,6 +300,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
             {
                 return;
             }
+            m_anim.SetTrigger("BeenAttacked");
             isInvincible = true;
             invincibleTimer = invincibleTime;
         }

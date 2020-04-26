@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 3175595131553692011}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.45, y: 0.45, z: 0.5}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -150,10 +150,12 @@ MonoBehaviour:
   SlimeSpeed: 3
   SlimeChangeDirectionTime: 1
   isVertical: 0
+  underAttack: {r: 1, g: 0.4669811, b: 0.4669811, a: 1}
   meiqiguan: {fileID: 6048079311400627791, guid: 6de9705a200ca4fa69b9a08cacdfc93a,
     type: 3}
   nextPoopoo: {fileID: 6048079311400627791, guid: 6de9705a200ca4fa69b9a08cacdfc93a,
     type: 3}
+  SlimeDamage: 5
   SlimeHealth: 3
   SlimeCurHealth: 0
 --- !u!114 &-8905787747806971878

@@ -9,9 +9,11 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
     public float speed = 3 ;
     public float changeDirectionTime =2f;
     public bool isVertical;
+    public Color underAttack;
     private float changeTimer;
     private Rigidbody2D rbody;
     private Vector2 moveDirection;
+    private SpriteRenderer renderer;
     
     private int lastPopo=-1;
     public PlayerComponent m_player;
@@ -34,6 +36,7 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
     void Start()
     {
         rbody = GetComponent<Rigidbody2D>(); 
+        renderer = GetComponent<SpriteRenderer>();
         moveDirection = isVertical? Vector2.up: Vector2.right;
         changeTimer = changeDirectionTime;
         aniCurHealth = animalHealth;
@@ -124,7 +127,18 @@ public class EnemyControler : MonoBehaviourPun, IPunObservable
             aniCurHealth = Mathf.Clamp(aniCurHealth + amount, 0, animalHealth);
             //UiManager.instance.UpdateHealthbar(currentHealth, maxHealth);
             Debug.Log("animal" +aniCurHealth + "/" + animalHealth);
+
+            StartCoroutine("changeColor");
         }
+    }
+
+    public IEnumerator changeColor(){
+        if(underAttack == null){
+            underAttack = Color.red;
+        }
+        renderer.color = underAttack;
+        yield return new WaitForSeconds(0.5f);
+        renderer.color = Color.white;
     }
 
     [PunRPC]

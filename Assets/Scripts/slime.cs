@@ -8,9 +8,11 @@ public class slime : MonoBehaviourPun, IPunObservable
     public float SlimeSpeed = 3;
     public float SlimeChangeDirectionTime = 1f;
     public bool isVertical;
+    public Color underAttack;
     private float changeTimer;
     private Rigidbody2D rbody;
     private Vector2 moveDirection;
+    private SpriteRenderer renderer;
 
     public GameObject meiqiguan;
     public GameObject nextPoopoo;
@@ -72,7 +74,18 @@ public class slime : MonoBehaviourPun, IPunObservable
             SlimeCurHealth = Mathf.Clamp(SlimeCurHealth + amount, 0, SlimeHealth);
             //UiManager.instance.UpdateHealthbar(currentHealth, maxHealth);
             Debug.Log("animal" + SlimeCurHealth + "/" + SlimeHealth);
+
+            StartCoroutine("changeColor");
         }
+    }
+
+        public IEnumerator changeColor(){
+        if(underAttack == null){
+            underAttack = Color.red;
+        }
+        renderer.color = underAttack;
+        yield return new WaitForSeconds(0.5f);
+        renderer.color = Color.white;
     }
 
     public void checkDeath()

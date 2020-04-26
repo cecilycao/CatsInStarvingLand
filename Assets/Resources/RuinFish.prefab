@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 3964851588115392405}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.57, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -149,6 +149,7 @@ MonoBehaviour:
   speed: 3
   changeDirectionTime: 2
   isVertical: 0
+  underAttack: {r: 1, g: 0.495283, b: 0.495283, a: 1}
   m_player: {fileID: 0}
   Fish: {fileID: 0}
   wuping: {fileID: 4873913953231771013, guid: e7751ee60ce0499479adff51e9544200, type: 3}
