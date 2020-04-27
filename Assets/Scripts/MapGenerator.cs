@@ -34,6 +34,8 @@ public class MapGenerator : MonoBehaviour
     int centerEmptyWidth = 10;
     int centerEmptyHeight = 5;
 
+    int EdgeWidth = 5;
+
 
     public static MapGenerator Instance
     {
@@ -112,6 +114,19 @@ public class MapGenerator : MonoBehaviour
             }
             
         }
+
+        for (int i = 0; i < finalWidth; i++)
+        {
+            for (int j = 0; j < finalHeight; j++)
+            {
+                if(i < EdgeWidth || i > finalWidth - EdgeWidth || j < EdgeWidth || j > finalHeight - EdgeWidth)
+                {
+                    finalMap[i, j] = (int)TileType.UnCrackable;
+                }
+            }
+        }
+
+
         for (int i = 0; i < 5; i++)
         {
             SmoothMap(finalMap);
@@ -299,9 +314,10 @@ public class MapGenerator : MonoBehaviour
     {
         SurroundingInfo[,] infoMap = GetSurroundingWallCount(map, (int)TileType.DIRT, (int)TileType.STONE, (int)TileType.SAND, (int)TileType.IRON, (int)TileType.SPARE);
 
-        for (int x = 0; x < finalWidth; x++)
+        // if(i < EdgeWidth || i > finalWidth - EdgeWidth || j < EdgeWidth || j > finalHeight - EdgeWidth)
+        for (int x = EdgeWidth; x <= finalWidth - EdgeWidth; x++)
         {
-            for (int y = 0; y < finalHeight; y++)
+            for (int y = EdgeWidth; y <= finalHeight - EdgeWidth; y++)
             {
                 int neighbourWallTiles = infoMap[x,y].totalWallCount;
                 int[] list = { infoMap[x,y].R1Count, infoMap[x, y].R2Count, infoMap[x, y].R3Count, infoMap[x, y].R4Count, infoMap[x, y].R5Count };
@@ -348,23 +364,25 @@ public class MapGenerator : MonoBehaviour
     SurroundingInfo[,] GetSurroundingWallCount(int[,] map, int resource1, int resource2, int resource3, int resource4, int resource5)
     {
 
-        int mapWidth = map.GetLength(0);
-        int mapHeight = map.GetLength(1);
-        SurroundingInfo[,] info = new SurroundingInfo[mapWidth, mapHeight];
+        int mapWidth = map.GetLength(0) - EdgeWidth;
+        int mapHeight = map.GetLength(1) - EdgeWidth;
 
-        for (int gridX = 0; gridX < mapWidth; gridX++)
+
+        SurroundingInfo[,] info = new SurroundingInfo[map.GetLength(0), map.GetLength(1)];
+
+        for (int gridX = EdgeWidth; gridX <= mapWidth; gridX++)
         {
-            for (int gridY = 0; gridY < mapHeight; gridY++)
+            for (int gridY = EdgeWidth; gridY <= mapHeight; gridY++)
             {
                 for (int neighbourX = gridX - 1; neighbourX <= gridX + 1; neighbourX++)
                 {
                     for (int neighbourY = gridY - 1; neighbourY <= gridY + 1; neighbourY++)
                     {
-                        if (neighbourX >= 0 && neighbourX < mapWidth && neighbourY >= 0 && neighbourY < mapHeight)
+                        if (neighbourX >= EdgeWidth && neighbourX <= mapWidth && neighbourY >= EdgeWidth && neighbourY <= mapHeight)
                         {
                             if (neighbourX != gridX || neighbourY != gridY)
                             {
-                                if (map[neighbourX, neighbourY] != 0)
+                                if (map[neighbourX, neighbourY] != 0 && map[neighbourX, neighbourY] != (int)TileType.UnCrackable)
                                 {
                                     info[gridX, gridY].totalWallCount++;
                                     if (map[neighbourX, neighbourY] == resource1)

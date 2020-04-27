@@ -17,7 +17,8 @@ public class GameResources : MonoBehaviour
         STONE,
         SAND,
         IRON,
-        SPARE
+        SPARE,
+        UnCrackable
     }
 
     public enum PickedUpItemName

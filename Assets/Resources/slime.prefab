@@ -151,7 +151,7 @@ MonoBehaviour:
   SlimeChangeDirectionTime: 1
   isVertical: 0
   underAttack: {r: 1, g: 0.4669811, b: 0.4669811, a: 1}
-  meiqiguan: {fileID: 6048079311400627791, guid: 6de9705a200ca4fa69b9a08cacdfc93a,
+  meiqiguan: {fileID: 1687687077876873579, guid: a7a48163c5631234ea2ace4683fae718,
     type: 3}
   nextPoopoo: {fileID: 6048079311400627791, guid: 6de9705a200ca4fa69b9a08cacdfc93a,
     type: 3}
