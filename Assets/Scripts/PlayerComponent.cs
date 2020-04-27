@@ -120,7 +120,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
             myUIManager.UpdateTemperature(m_temperature);
             myUIManager.UpdateTiredness(m_tiredness);
 
-            InvokeRepeating("Digest", 15f, 3f);
+            InvokeRepeating("Digest", 30f, 4f);
             //InvokeRepeating("Working", 1f, 1f);
             InvokeRepeating("BodyTempCheckBasedOnTemp", 1f, 3f);
         }
