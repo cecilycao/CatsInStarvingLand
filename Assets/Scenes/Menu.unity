@@ -1720,7 +1720,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &582941861
 Transform:
   m_ObjectHideFlags: 0
@@ -7502,7 +7502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1954089518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7520,6 +7520,7 @@ MonoBehaviour:
   CreateRoomName: {fileID: 2039953989}
   WelcomeText: {fileID: 711600908}
   Message: {fileID: 525014978}
+  StartScene: {fileID: 582941860}
   BtnConnectMaster: {fileID: 842214343}
   BtnConnectRoom: {fileID: 1358449288}
   MainSceneName: Prototype

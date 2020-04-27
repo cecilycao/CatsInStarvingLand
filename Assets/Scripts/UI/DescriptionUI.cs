@@ -7,6 +7,7 @@ public class DescriptionUI : MonoBehaviour
 {
     public Button CreateButton;
     public Text ErrorMessage;
+    public Button CloseButton;
 
 
 }

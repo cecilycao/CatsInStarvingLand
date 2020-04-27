@@ -18,6 +18,7 @@ public class TechItem : MonoBehaviour
     public GameObject Description;
     public Button itemButton;
     public Button createButton;
+    public Button DesCloseButton;
     public Text ErrorMessage;
 
     [SerializeField]
@@ -34,7 +35,9 @@ public class TechItem : MonoBehaviour
         DescriptionUI desUI = Description.GetComponent<DescriptionUI>();
         createButton = desUI.CreateButton;
         ErrorMessage = desUI.ErrorMessage;
+        DesCloseButton = desUI.CloseButton;
         createButton.onClick.AddListener(CreateObject);
+        DesCloseButton.onClick.AddListener(CloseAll);
         m_Inventory = FindObjectOfType<Inventory>();
     }
 
@@ -55,6 +58,12 @@ public class TechItem : MonoBehaviour
     {
         ErrorMessage.gameObject.SetActive(false);
         Description.SetActive(false);
+    }
+
+    void CloseAll()
+    {
+        techUI.CloseCurrentDescription();
+        techUI.closeCurrentShowingList();
     }
 
     void CreateObject()

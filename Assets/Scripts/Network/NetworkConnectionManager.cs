@@ -16,6 +16,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     public Text WelcomeText;
     public Text Message;
 
+    public GameObject StartScene;
     public GameObject BtnConnectMaster;
     public GameObject BtnConnectRoom;
     public string MainSceneName = "Prototype";
@@ -68,6 +69,11 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
                 BtnConnectRoom.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster/* && !TriesToConnectToRoom*/);
         //}
 
+    }
+
+    public void CloseStartScene()
+    {
+        StartScene.SetActive(false);
     }
 
     //log in
