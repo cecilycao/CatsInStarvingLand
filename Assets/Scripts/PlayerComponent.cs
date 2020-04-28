@@ -36,7 +36,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     {
         get { return m_health; }
     }
-    private float invincibleTime = 2f; //无敌时间
+    private float invincibleTime = 1f; //无敌时间
     private float invincibleTimer;
 
     public int maxHunger = 100;
@@ -122,7 +122,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
 
             InvokeRepeating("Digest", 30f, 4f);
             //InvokeRepeating("Working", 1f, 1f);
-            InvokeRepeating("BodyTempCheckBasedOnTemp", 1f, 3f);
+            InvokeRepeating("BodyTempCheckBasedOnTemp", 1f, 4f);
         }
         
 
@@ -263,7 +263,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         if(m_temperature > 39)
         {
             Debug.Log("Too Hot!!");
-            m_health-=3;
+            m_health-=1;
             if (hasSummerCloth)
             {
                 m_temperature -= 0.2;
@@ -271,7 +271,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         } else if (m_temperature < 37)
         {
             Debug.Log("Too Cold!!");
-            m_health -= 3;
+            m_health -= 1;
             if (hasWinterCloth)
             {
                 m_temperature += 0.2;
@@ -490,7 +490,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
                 item.gameObject.SetActive(false);                                       
             } else
             {
-                Debug.LogError("Oops, your bug is full! Can not pick up " + name.ToString());
+                Debug.Log("Oops, your bug is full! Can not pick up " + name.ToString());
                 return false;
             }
             if (currentHolded == null)
@@ -666,9 +666,12 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
     [PunRPC]
     public void RpcDestroyHoldedItem()
     {
-        Debug.Log("Destroy current holded item");
-        Destroy(currentHolded.gameObject);
-        currentHolded = null;
+        if (currentHolded != null)
+        {
+            Debug.Log("Destroy current holded item");
+            Destroy(currentHolded.gameObject);
+            currentHolded = null;
+        }
     }
 
     //Change player's temperature based on surrounding temperature.

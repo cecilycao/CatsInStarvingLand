@@ -15,8 +15,8 @@ public class GameResources : MonoBehaviour
         EMPTY,
         DIRT,
         STONE,
-        SAND,
         IRON,
+        SAND,
         SPARE,
         UnCrackable
     }

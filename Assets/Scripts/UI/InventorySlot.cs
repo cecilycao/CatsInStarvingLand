@@ -8,6 +8,7 @@ public class InventorySlot : MonoBehaviour
     public Text ItemCountText;
     public Image ItemUIImage;
     public Sprite DefultImage;
+    public Button DiscardButton;
 
     private Inventory myManager;
 
@@ -15,6 +16,7 @@ public class InventorySlot : MonoBehaviour
     void Start()
     {
         this.myManager = FindObjectOfType<Inventory>();
+        DiscardButton.onClick.AddListener(RemoveObjects);
     }
 
     public bool updateItem(GameResources.PickedUpItemName ItemName, int count)
@@ -55,6 +57,14 @@ public class InventorySlot : MonoBehaviour
 
     private int getMySlotIndexID() {
         return this.myManager.slotGetIndexID(this.GetHashCode());
+    }
+
+    public void RemoveObjects()
+    {
+        ////Remove obj
+        //getMySlotIndexID();
+
+        //DiscardButton.gameObject.SetActive(false);
     }
 
 }

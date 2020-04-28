@@ -42,6 +42,17 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void removeCurrentHoldItem()
+    {
+        if (myPlayer.currentHolded != null)
+        {
+            GameResources.PickedUpItemName itemName = myPlayer.currentHolded.getItemName();
+            PopItem(myPlayer.currentHolded);
+            myPlayer.DestroyHoldedItem();
+            LetItemInHandByName(itemName);
+        }
+    }
+
     public int slotGetIndexID(int hashCode)
     {
         return hashID2IndexID[hashCode];
@@ -236,6 +247,14 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
+    public void PopAll(GameResources.PickedUpItemName ItemName)
+    {
+        for (int i = 0; i < HowManyDoIHave(ItemName); i++)
+        {
+            PopItem(ItemName);
+        }
+    }
+
     public bool PopItem(GameResources.PickedUpItemName ItemName)
     {
         PickedUpItems thisItem = null;
@@ -256,6 +275,8 @@ public class Inventory : MonoBehaviour
             return PopItem(thisItem);
         }
     }
+
+
 
     public bool PopItem(PickedUpItems newItem)
     {
