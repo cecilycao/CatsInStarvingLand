@@ -125,7 +125,10 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     public void OnClickCreateRoom()
     {
         if (!PhotonNetwork.IsConnected)
+        {
+            Message.text = "Not Connected, Try Again";
             return;
+        }
 
         RoomName = CreateRoomName.text;
         TriesToConnectToRoom = true;

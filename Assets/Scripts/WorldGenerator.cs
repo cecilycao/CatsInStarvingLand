@@ -12,6 +12,7 @@ public class WorldGenerator : MonoBehaviourPun
     public GameObject LandTile_SAND;
     public GameObject LandTile_IRON;
     public GameObject LandTile_SPARE;
+    public GameObject LandTile_Uncrackable;
     public GameObject LandTile_Empty;
 
     public GameObject FruitPlant;
@@ -312,11 +313,15 @@ public class WorldGenerator : MonoBehaviourPun
         else if (TileTypeVal == (int)TileType.SPARE)
         {
             TileMap[x, y] = FillWith(LandTile_SPARE, x, y);
+        } 
+        else if (TileTypeVal == (int)TileType.UnCrackable)
+        {
+            TileMap[x, y] = FillWith(LandTile_Uncrackable, x, y);
         }
         else if (TileTypeVal == 0)
         {
             TileMap[x, y] = FillWith(LandTile_Empty, x, y);
-        }
+        } 
     }
 
     PickedUpItems FillWith(GameObject obj, int x, int y)
@@ -337,11 +342,14 @@ public class WorldGenerator : MonoBehaviourPun
             //Debug.Log("index: " + x + ", " + y);
             return tile;
         }
-        else
+        else if(EmptyTile != null)
         {
             EmptyTile.index = new Vector2Int(x, y);
             //Debug.Log("index: " + x + ", " + y);
             return EmptyTile;
+        } else
+        {
+            return null;
         }
 
     }

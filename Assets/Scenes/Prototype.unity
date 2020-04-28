@@ -15214,6 +15214,8 @@ MonoBehaviour:
     type: 3}
   LandTile_SPARE: {fileID: 3632928174480780927, guid: 9227368b1f2467b469b4011bc47ad116,
     type: 3}
+  LandTile_Uncrackable: {fileID: 7041627214528918398, guid: 599c6bbeff603984ca556152a604ff6b,
+    type: 3}
   LandTile_Empty: {fileID: 2138564080893431778, guid: 5407c32753a29de43883bf848c0d0209,
     type: 3}
   FruitPlant: {fileID: 3334355724727302056, guid: 1cdcf6625c8592a44b7499e243e78e99,
