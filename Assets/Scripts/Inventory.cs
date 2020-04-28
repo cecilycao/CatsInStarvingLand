@@ -56,44 +56,58 @@ public class Inventory : MonoBehaviour
         GameResources.PickedUpItemName tmp = GameResources.PickedUpItemName.DEFAULT;
         slotIndexToItem.TryGetValue(index, out tmp);
 
-        if(myPlayer.currentCloth != null)
+        if (myPlayer.currentCloth != null)
         {
             if (myPlayer.currentCloth.getItemName() == tmp)
             {
                 myPlayer.RemoveCloth();
+                return;
             }
-        } else if(myPlayer.currentHolded != null)
+        }
+        else if (myPlayer.currentHolded != null)
         {
             if (myPlayer.currentHolded.getItemName() == tmp)
             {
                 myPlayer.HandItemBack();
+                return;
             }
         }
+
 
         if (tmp != GameResources.PickedUpItemName.DEFAULT)
         {
             foreach (var el in instanceList)
+                    {
+                        el.m_State = PickedUpItems.ItemState.IN_BAG;
+                    }
+
+            foreach (var el in instanceList)
             {
-                el.m_State = PickedUpItems.ItemState.IN_BAG;
                 if (el.getItemName() == tmp)
                 {
                     //should excute on all clients
+                    Debug.Log("GIVE");
                     myPlayer.HoldItemInHand(el);
                 }
             }
-        } else {
+        }
+        else
+        {
             myPlayer.HandItemBack();
         }
     }
 
     //Pre: nothing holded in hand
     //post: hold item with given name in hand
-    public void LetItemInHandByName(GameResources.PickedUpItemName itemName)
+    public int LetItemInHandByName(GameResources.PickedUpItemName itemName)
     {
-        if (itemToSlotIndex.ContainsKey(itemName)) {
+        if (itemToSlotIndex.ContainsKey(itemName))
+        {
             int slotIndex = itemToSlotIndex[itemName];
             WhatItemAtThisIndex(slotIndex);
+            return slotIndex;
         }
+        return -1;
     }
 
     public bool IsEmpty()
@@ -180,8 +194,6 @@ public class Inventory : MonoBehaviour
     {
 
         GameResources.PickedUpItemName itemName = newItem.getItemName();
-
-
         int weight = 1;
 
         if (weight > this.CapacityLeft())
@@ -227,18 +239,19 @@ public class Inventory : MonoBehaviour
     public bool PopItem(GameResources.PickedUpItemName ItemName)
     {
         PickedUpItems thisItem = null;
-        foreach(PickedUpItems item in instanceList)
+        foreach (PickedUpItems item in instanceList)
         {
             if (item.getItemName() == ItemName)
             {
                 thisItem = item;
             }
         }
-        if(thisItem == null)
+        if (thisItem == null)
         {
             Debug.LogError("Didn't find item in instance list");
             return false;
-        } else
+        }
+        else
         {
             return PopItem(thisItem);
         }
@@ -297,7 +310,8 @@ public class Inventory : MonoBehaviour
         if (backpack.ContainsKey(item))
         {
             return backpack[item];
-        } else
+        }
+        else
         {
             return 0;
         }

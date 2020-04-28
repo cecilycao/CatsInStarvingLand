@@ -634,6 +634,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
 
         GameResources.PickedUpItemName name = currentHolded.getItemName();
         myBackpack.PopItem(currentHolded);
+        RpcDestroyHoldedItem();
 
         //photonView.RPC("RpcDestroyHoldedItem", RpcTarget.AllBuffered);
         
