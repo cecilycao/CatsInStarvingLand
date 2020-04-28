@@ -213,8 +213,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7178894411883083763, guid: 46019633fe4c3774b8dcb514cddf7796,
-    type: 3}
+  m_Sprite: {fileID: 21300000, guid: a025cc51d739014468ff3fd68e3ddc63, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -287,8 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemCountText: {fileID: 6890554405022664791}
   ItemUIImage: {fileID: 1086811883400375737}
-  DefultImage: {fileID: 7178894411883083763, guid: 46019633fe4c3774b8dcb514cddf7796,
-    type: 3}
+  DefultImage: {fileID: 21300000, guid: a025cc51d739014468ff3fd68e3ddc63, type: 3}
 --- !u!114 &3228204536635464593
 MonoBehaviour:
   m_ObjectHideFlags: 0

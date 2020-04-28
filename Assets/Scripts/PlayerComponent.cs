@@ -246,7 +246,18 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         else if (this.surroundingTemperature < 10 && !hasWinterCloth)
         {
             m_temperature -= 0.1;
+        } else if( surroundingTemperature <= 28 && surroundingTemperature >= 10)
+        {
+            if (this.surroundingTemperature >= 10 && m_temperature < 38)
+            {
+                m_temperature += 0.1;
+            }
+            else if (this.surroundingTemperature <= 28 && m_temperature > 38)
+            {
+                m_temperature -= 0.1;
+            }
         }
+
 
       
         if(m_temperature > 39)
@@ -460,11 +471,11 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
         GameResources.PickedUpItemName name = item.getItemName();
         Debug.Log("Pick up " + name.ToString());
         Debug.Log("Bag full: " + bagFull);
-        if (currentHolded != null && bagFull)
-        {
-            Debug.Log("Oops, your bug is full! Can not pick up " + name.ToString());
-            return false;
-        }
+        //if (currentHolded != null && bagFull)
+        //{
+        //    Debug.Log("Oops, your bug is full! Can not pick up " + name.ToString());
+        //    return false;
+        //}
 
         //for self
         if (photonView.IsMine)
@@ -479,7 +490,7 @@ public class PlayerComponent : MonoBehaviourPun, IPunObservable, IPointerClickHa
                 item.gameObject.SetActive(false);                                       
             } else
             {
-                Debug.LogError("BAG FULL???????");
+                Debug.LogError("Oops, your bug is full! Can not pick up " + name.ToString());
                 return false;
             }
             if (currentHolded == null)

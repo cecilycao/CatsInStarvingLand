@@ -12,7 +12,7 @@ public class slime : MonoBehaviourPun, IPunObservable
     private float changeTimer;
     private Rigidbody2D rbody;
     private Vector2 moveDirection;
-    private SpriteRenderer renderer;
+    private SpriteRenderer m_renderer;
 
     public GameObject meiqiguan;
     public GameObject nextPoopoo;
@@ -32,6 +32,7 @@ public class slime : MonoBehaviourPun, IPunObservable
         SlimeCurHealth = SlimeHealth;
         surviveTime = (int)WorldManager.Instance.getCurrentSecond();
         TotalSurviveTime = 90;
+        m_renderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -83,9 +84,9 @@ public class slime : MonoBehaviourPun, IPunObservable
         if(underAttack == null){
             underAttack = Color.red;
         }
-        renderer.color = underAttack;
+        m_renderer.color = underAttack;
         yield return new WaitForSeconds(0.5f);
-        renderer.color = Color.white;
+        m_renderer.color = Color.white;
     }
 
     public void checkDeath()
