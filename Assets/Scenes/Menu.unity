@@ -2554,7 +2554,7 @@ MonoBehaviour:
   selectedBlocks:
   - {fileID: 887171155}
   selectedCommands:
-  - {fileID: 887171176}
+  - {fileID: 887171172}
   variables: []
   description: 
   stepPause: 0
@@ -2908,7 +2908,7 @@ MonoBehaviour:
   itemId: 19
   indentLevel: 0
   storyText: "One day, a small cat was playing beside a river. \nSuddenly, a fish
-    with feet camed out of water.\r\n"
+    with feet came out of water.\r\n"
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
